@@ -1,10 +1,10 @@
 require_relative 'merchant'
 
 class MerchantRepository
-  attr_reader :csv
+  attr_reader :file
 
-  def initialize(csv)
-    @csv = csv
+  def initialize(file)
+    @file = file
   end
 
   def merchants
@@ -12,7 +12,8 @@ class MerchantRepository
   end
 
   def build_merchants
-    @csv.map do |row|
+    parameters = { headers: true, header_converters: :symbol }
+    CSV.open(file, parameters).map do |row|
       info = {
         id: row[:id].to_i,
         name: row[:name]

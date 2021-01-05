@@ -1,25 +1,25 @@
-require 'minitest/pride'
-require 'minitest/autorun'
+require './test/test_helper'
 require 'csv'
 require './lib/merchant_repository'
+require 'pry'
 
 class MerchantRepositoryTest < Minitest::Test
-  def test_it_exists
-    parameters = { headers: true, header_converters: :symbol }
-    file = CSV.open './data/test_merchant.csv', parameters
-    repo = MerchantRepository.new(file)
+  def setup
+    file = './data/test_merchant.csv'
+    @repo = MerchantRepository.new(file)
+  end
 
-    assert_instance_of MerchantRepository, repo
+  def test_it_exists
+    assert_instance_of MerchantRepository, @repo
   end
 
   def test_build_merchants
-    parameters = { headers: true, header_converters: :symbol }
-    file = CSV.open './data/test_merchant.csv', parameters
-    repo = MerchantRepository.new(file)
-    repo.build_merchants
+    @repo.build_merchants
+    assert_equal 2, @repo.merchants.count
+  end
 
-    repo.merchants.all? do |merchant|
-      merchant.Class == MerchantRepository
-    end
+  def test_merchants
+    @repo.build_merchants
+    assert_equal 2, @repo.merchants.count
   end
 end
