@@ -20,10 +20,14 @@ class MerchantRepository
       add_merchant(info)
     end
   end
-  
-private
+
+  private
+
   def parameters
-    parameters = { headers: true, header_converters: :symbol }
+    {
+      headers: true,
+      header_converters: :symbol
+    }
   end
 
   def add_merchant(info)
