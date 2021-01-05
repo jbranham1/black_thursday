@@ -16,9 +16,10 @@ class MerchantRepositoryTest < Minitest::Test
     parameters = { headers: true, header_converters: :symbol }
     file = CSV.open './data/test_merchant.csv', parameters
     repo = MerchantRepository.new(file)
-    merchant1 = Merchant.new(id: 12_334_105, name: 'Shopin1901')
-    merchant2 = Merchant.new(id: 12_334_112, name: 'Candisart')
+    repo.build_merchants
 
-    assert_equal [merchant1, merchant2], repo.build_merchants
+    repo.merchants.all? do |merchant|
+      merchant.Class == MerchantRepository
+    end
   end
 end
