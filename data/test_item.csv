@@ -1,0 +1,2 @@
+id,name,description,unit_price,merchant_id,created_at,updated_at
+1,"Pencil","You can use it to write things.",10.99,2,2021-01-01 08:00:00 UTC,2021-01-02 08:00:00 UTC

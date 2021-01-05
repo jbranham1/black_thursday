@@ -2,4 +2,7 @@
 require 'simplecov'
 require 'minitest/autorun'
 require 'minitest/pride'
-SimpleCov.start
+
+SimpleCov.start do
+  add_filter '/test/'
+end
