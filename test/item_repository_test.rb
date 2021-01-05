@@ -1,4 +1,3 @@
-require './test/test_helper'
 require 'minitest/autorun'
 require 'minitest/pride'
 require 'csv'
@@ -7,21 +6,23 @@ require './lib/item_repository'
 
 class ItemRepositoryTest < Minitest::Test
   def setup
-    @file = CSV.open './data/test_item.csv', headers: true, header_converters: :symbol
+    file = './data/test_item.csv'
+    @repo = ItemRepository.new(file)
   end
 
   def test_it_exists
-    repo = ItemRepository.new(@file)
-
-    assert_instance_of ItemRepository, repo
+    assert_instance_of ItemRepository, @repo
   end
 
   def test_build_items
-    repo = ItemRepository.new(@file)
-    repo.build_items
+    @repo.build_items
 
-    repo.items.all? do |item|
-      assert_instance_of ItemRepository, item
-    end
+    assert_equal 1, @repo.items.count
+  end
+
+  def test_items
+    @repo.build_items
+
+    assert_equal 1, @repo.items.count
   end
 end
