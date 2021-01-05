@@ -30,7 +30,7 @@ class ItemRepository
   end
 
   private
-  
+
   def parameters
     { headers: true, header_converters: :symbol }
   end
