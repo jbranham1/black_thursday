@@ -2,7 +2,6 @@ require './test/test_helper'
 require 'bigdecimal'
 require './lib/item'
 
-
 class ItemTest < Minitest::Test
   def setup
     @pencil = Item.new(
