@@ -20,10 +20,4 @@ class ItemRepositoryTest < Minitest::Test
 
     assert_equal 1, @repo.items.count
   end
-
-  def test_items
-    @repo.build_items
-
-    assert_equal 1, @repo.items.count
-  end
 end
