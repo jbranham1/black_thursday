@@ -18,10 +18,9 @@ class SalesEngineTest < Minitest::Test
       :items     => "./data/items.csv",
       :merchants => "./data/merchants.csv",
     }
-    items = ""
-    merchants = ""
+    
     sales_engine = SalesEngine.from_csv(files)
-    assert_equal items, sales_engine.items
-    assert_equal merchants, sales_engine.merchants
+    assert_instance_of ItemRepository, sales_engine.items
+    assert_instance_of MerchantRepository, sales_engine.merchants
   end
 end
