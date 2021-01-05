@@ -12,13 +12,21 @@ class MerchantRepository
   end
 
   def build_merchants
-    parameters = { headers: true, header_converters: :symbol }
     CSV.open(file, parameters).map do |row|
       info = {
         id: row[:id].to_i,
         name: row[:name]
       }
-      Merchant.new(info)
+      add_merchant(info)
     end
+  end
+  
+private
+  def parameters
+    parameters = { headers: true, header_converters: :symbol }
+  end
+
+  def add_merchant(info)
+    Merchant.new(info)
   end
 end

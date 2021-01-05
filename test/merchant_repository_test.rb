@@ -1,7 +1,6 @@
 require './test/test_helper'
 require 'csv'
 require './lib/merchant_repository'
-require 'pry'
 
 class MerchantRepositoryTest < Minitest::Test
   def setup
@@ -14,11 +13,6 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_build_merchants
-    @repo.build_merchants
-    assert_equal 2, @repo.merchants.count
-  end
-
-  def test_merchants
     @repo.build_merchants
     assert_equal 2, @repo.merchants.count
   end
