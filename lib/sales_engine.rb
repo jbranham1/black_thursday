@@ -1,4 +1,6 @@
-require_relative "MerchantRepository"
+require './lib/merchant_repository'
+require './lib/item_repository'
+
 class SalesEngine
   attr_reader :merchants,
               :items
@@ -13,7 +15,6 @@ class SalesEngine
   end
 
   def load_file(file_name, repository)
-    @file = CSV.open file_name, headers: true, header_converters: :symbol
-    repository.new(@file)
+    repository.new(file_name)
   end
 end
