@@ -1,6 +1,6 @@
 require_relative 'item'
 
-class ItemRepository < Item
+class ItemRepository
   attr_reader :file
 
   def initialize(file)
