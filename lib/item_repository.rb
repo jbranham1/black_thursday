@@ -12,18 +12,26 @@ class ItemRepository
   end
 
   def build_items
-    parameters = { headers: true, header_converters: :symbol }
     CSV.open(@file, parameters).map do |row|
-      info = {
-        id: row[:id].to_i,
-        name: row[:name],
-        description: row[:description],
-        unit_price: BigDecimal(row[:unit_price], 4),
-        created_at: Time.parse(row[:created_at]),
-        updated_at: Time.parse(row[:updated_at]),
-        merchant_id: row[:merchant_id].to_i
-      }
-      Item.new(info)
+      Item.new(get_info(row))
     end
+  end
+
+  def get_info(row)
+    {
+      id: row[:id].to_i,
+      name: row[:name],
+      description: row[:description],
+      unit_price: BigDecimal(row[:unit_price], 4),
+      created_at: Time.parse(row[:created_at]),
+      updated_at: Time.parse(row[:updated_at]),
+      merchant_id: row[:merchant_id].to_i
+    }
+  end
+
+  private
+  
+  def parameters
+    { headers: true, header_converters: :symbol }
   end
 end
