@@ -1,6 +1,4 @@
 require './test/test_helper'
-require 'minitest/autorun'
-require 'minitest/pride'
 require 'csv'
 require 'bigdecimal'
 require './lib/item_repository'
