@@ -53,4 +53,19 @@ class ItemRepositoryTest < Minitest::Test
   def test_can_find_nothing_when_searching_by_description_substring
     assert_equal [], @repo.find_all_with_description("doo-doo")
   end
+
+  def test_can_find_by_price
+    actual_returned_items = @repo.find_all_by_price(BigDecimal(10.99, 4))
+
+    sorted_actual_ids = actual_returned_items.map do |item|
+      item.id
+    end.sort
+    expected_ids = [1]
+
+    assert_equal expected_ids, sorted_actual_ids
+  end
+
+  def test_can_find_nothing_when_searching_by_price
+    assert_equal [], @repo.find_all_by_price(BigDecimal(0, 4))
+  end
 end

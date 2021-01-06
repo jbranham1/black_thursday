@@ -29,6 +29,12 @@ class ItemRepository
     end
   end
 
+  def find_all_by_price(price)
+    all.select do |item|
+      item.unit_price == price
+    end
+  end
+
   def build_items
     CSV.open(@file, parameters).map do |row|
       Item.new(get_info(row))
