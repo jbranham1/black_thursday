@@ -127,14 +127,11 @@ class ItemRepositoryTest < Minitest::Test
       unit_price: BigDecimal(9.99, 4)
     }
 
-    # Get the updated item
     item_to_update = @repo.find_by_id(id)
     original_updated_at = item_to_update.updated_at
 
-    # Modify the item
     @repo.update(id, new_values)
 
-    # Compare new item with expected
     assert_equal new_values[:name], item_to_update.name
     assert_equal new_values[:description], item_to_update.description
     assert_equal new_values[:unit_price], item_to_update.unit_price

@@ -35,18 +35,15 @@ class ItemTest < Minitest::Test
 
   def test_can_update_certain_attributes
     new_values = {
-      name: "Colored Pencil",
-      description: "For when you want a pencil but need pretty colors.",
+      name: 'Colored Pencil',
+      description: 'For when you want a pencil but need pretty colors.',
       unit_price: BigDecimal(9.99, 4)
     }
 
-    # Get original updated_at_time
     original_updated_at = @pencil.updated_at
 
-    # Modify the item
     @pencil.update(new_values)
 
-    # Compare new item with expected
     assert_equal new_values[:name], @pencil.name
     assert_equal new_values[:description], @pencil.description
     assert_equal new_values[:unit_price], @pencil.unit_price
