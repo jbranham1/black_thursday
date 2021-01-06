@@ -4,8 +4,8 @@ require './lib/merchant_repository'
 
 class MerchantRepositoryTest < Minitest::Test
   def setup
-    file = './data/test_merchant.csv'
-    @repo = MerchantRepository.new(file)
+    filepath = './data/test_merchant.csv'
+    @repo = MerchantRepository.new(filepath)
   end
 
   def sorted_actual_ids(merchants)
