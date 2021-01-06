@@ -10,6 +10,12 @@ class ItemRepositoryTest < Minitest::Test
     @repo.build_items
   end
 
+  def sorted_actual_ids(items)
+    items.map do |item|
+      item.id
+    end.sort
+  end
+
   def test_it_exists
     assert_instance_of ItemRepository, @repo
   end
@@ -40,14 +46,9 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_can_find_all_with_description_substring
-    actual_returned_items = @repo.find_all_with_description("write")
-
-    sorted_actual_ids = actual_returned_items.map do |item|
-      item.id
-    end.sort
     expected_ids = [1, 2]
 
-    assert_equal expected_ids, sorted_actual_ids
+    assert_equal expected_ids, sorted_actual_ids(@repo.find_all_with_description("write"))
   end
 
   def test_can_find_nothing_when_searching_with_description_substring
@@ -55,14 +56,9 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_can_find_all_by_price
-    actual_returned_items = @repo.find_all_by_price(BigDecimal(10.99, 4))
-
-    sorted_actual_ids = actual_returned_items.map do |item|
-      item.id
-    end.sort
     expected_ids = [1]
 
-    assert_equal expected_ids, sorted_actual_ids
+    assert_equal expected_ids, sorted_actual_ids(@repo.find_all_by_price(BigDecimal(10.99, 4)))
   end
 
   def test_can_find_nothing_when_searching_all_by_price
@@ -71,14 +67,9 @@ class ItemRepositoryTest < Minitest::Test
 
   def test_can_find_all_by_price_range
     range = (9.99..29.99)
-    actual_returned_items = @repo.find_all_by_price_in_range(range)
-
-    sorted_actual_ids = actual_returned_items.map do |item|
-      item.id
-    end.sort
     expected_ids = [1, 2]
 
-    assert_equal expected_ids, sorted_actual_ids
+    assert_equal expected_ids, sorted_actual_ids(@repo.find_all_by_price_in_range(range))
   end
 
   def test_can_find_nothing_when_searching_all_by_price_range
@@ -86,14 +77,9 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_can_find_all_by_merchant_id
-    actual_returned_items = @repo.find_all_by_merchant_id(2)
-
-    sorted_actual_ids = actual_returned_items.map do |item|
-      item.id
-    end.sort
     expected_ids = [1, 2]
 
-    assert_equal expected_ids, sorted_actual_ids
+    assert_equal expected_ids, sorted_actual_ids(@repo.find_all_by_merchant_id(2))
   end
 
   def test_can_find_nothing_when_searching_all_by_merchant_id
