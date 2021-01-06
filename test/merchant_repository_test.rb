@@ -8,6 +8,12 @@ class MerchantRepositoryTest < Minitest::Test
     @repo = MerchantRepository.new(file)
   end
 
+  def sorted_actual_ids(merchants)
+    merchants.map do |merchant|
+      merchant.id
+    end.sort
+  end
+
   def test_it_exists
     assert_instance_of MerchantRepository, @repo
   end
@@ -35,5 +41,21 @@ class MerchantRepositoryTest < Minitest::Test
 
     assert_equal 'Shopin1901', merchant.name
     assert_nil @repo.find_by_name('Potato')
+  end
+
+  def test_can_find_all_by_name
+    expected_ids = [12334105]
+
+    assert_equal expected_ids, sorted_actual_ids(@repo.find_all_by_name("Shopin1901"))
+  end
+
+  def test_can_find_nothing_when_searching_by_name
+    assert_equal [], @repo.find_all_by_name("doo-doo")
+  end
+
+  def test_create_merchant
+    attributes = { id: 5, name: 'Turing School' }
+
+    assert_instance_of Merchant, @repo.create(attributes)
   end
 end

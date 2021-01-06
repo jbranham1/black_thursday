@@ -23,14 +23,24 @@ class MerchantRepository
     end
   end
 
+  def find_all_by_name(name)
+    all.select do |record|
+      record.name.casecmp?(name)
+    end
+  end
+
   def build_merchants
     CSV.open(file, parameters).map do |row|
       info = {
         id: row[:id].to_i,
         name: row[:name]
       }
-      add_merchant(info)
+      create(info)
     end
+  end
+
+  def create(info)
+    Merchant.new(info)
   end
 
   private
@@ -40,9 +50,5 @@ class MerchantRepository
       headers: true,
       header_converters: :symbol
     }
-  end
-
-  def add_merchant(info)
-    Merchant.new(info)
   end
 end
