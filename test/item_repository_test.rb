@@ -60,7 +60,8 @@ class ItemRepositoryTest < Minitest::Test
   def test_can_find_all_with_description_substring
     expected_ids = [1, 2]
 
-    assert_equal expected_ids, sorted_actual_ids(@repo.find_all_with_description('write'))
+    actual_returned_items = @repo.find_all_with_description('write')
+    assert_equal expected_ids, sorted_actual_ids(actual_returned_items)
   end
 
   def test_can_find_nothing_when_searching_with_description_substring
@@ -70,7 +71,8 @@ class ItemRepositoryTest < Minitest::Test
   def test_can_find_all_by_price
     expected_ids = [1]
 
-    assert_equal expected_ids, sorted_actual_ids(@repo.find_all_by_price(BigDecimal(10.99, 4)))
+    actual_returned_items = @repo.find_all_by_price(BigDecimal(10.99, 4))
+    assert_equal expected_ids, sorted_actual_ids(actual_returned_items)
   end
 
   def test_can_find_nothing_when_searching_all_by_price
@@ -92,7 +94,8 @@ class ItemRepositoryTest < Minitest::Test
   def test_can_find_all_by_merchant_id
     expected_ids = [1, 2]
 
-    assert_equal expected_ids, sorted_actual_ids(@repo.find_all_by_merchant_id(2))
+    actual_returned_items = @repo.find_all_by_merchant_id(2)
+    assert_equal expected_ids, sorted_actual_ids(actual_returned_items)
   end
 
   def test_can_find_nothing_when_searching_all_by_merchant_id
