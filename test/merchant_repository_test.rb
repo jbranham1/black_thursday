@@ -44,7 +44,7 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_can_find_all_by_name
-    expected_ids = [12334105]
+    expected_ids = [12_334_105]
 
     assert_equal expected_ids, sorted_actual_ids(@repo.find_all_by_name("Shopin1901"))
   end
@@ -60,18 +60,17 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_can_update_merchant
-    merchant =  @repo.find_by_id(12334105)
+    merchant = @repo.find_by_id(12_334_105)
     attributes = { name: 'Turing School Updated' }
-    @repo.update(12334105, attributes)
+    @repo.update(12_334_105, attributes)
 
     assert_equal 'Turing School Updated', merchant.name
   end
 
   def test_can_delete_merchant
-    merchant =  @repo.find_by_id(12334105)
-    @repo.delete(12334105)
+    @repo.delete(12_334_105)
 
     assert_equal 1, @repo.all.count
-    assert_nil @repo.find_by_id(12334105)
+    assert_nil @repo.find_by_id(12_334_105)
   end
 end
