@@ -7,8 +7,14 @@ class MerchantRepository
     @file = file
   end
 
-  def merchants
+  def all
     @merchants ||= build_merchants
+  end
+
+  def find_by_id(id)
+    all.find do |record|
+      record.id == id
+    end
   end
 
   def build_merchants
