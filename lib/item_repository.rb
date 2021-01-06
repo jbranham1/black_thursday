@@ -35,6 +35,12 @@ class ItemRepository
     end
   end
 
+  def find_all_by_price_in_range(range)
+    all.select do |item|
+      range.include?(item.unit_price)
+    end
+  end
+
   def build_items
     CSV.open(@file, parameters).map do |row|
       Item.new(get_info(row))
