@@ -7,7 +7,7 @@ class ItemRepository
     @file = file
   end
 
-  def items
+  def all
     @items ||= build_items
   end
 
@@ -16,6 +16,8 @@ class ItemRepository
       Item.new(get_info(row))
     end
   end
+
+  private
 
   def get_info(row)
     {
@@ -28,8 +30,6 @@ class ItemRepository
       merchant_id: row[:merchant_id].to_i
     }
   end
-
-  private
 
   def parameters
     { headers: true, header_converters: :symbol }
