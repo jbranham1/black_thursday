@@ -11,9 +11,7 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def sorted_actual_ids(items)
-    items.map do |item|
-      item.id
-    end.sort
+    items.map(&:id).sort
   end
 
   def test_it_exists
@@ -42,13 +40,13 @@ class ItemRepositoryTest < Minitest::Test
     all_items = @repo.all
 
     assert_instance_of Array, all_items
-    assert_equal true, all_items.all? { |item| item.is_a? Item }
+    assert_equal true, (all_items.all? { |item| item.is_a? Item })
   end
 
   def test_can_find_by_id
     pencil = @repo.find_by_id(1)
 
-    assert_equal 1 , pencil.id
+    assert_equal 1, pencil.id
     assert_nil @repo.find_by_id(99)
   end
 
@@ -62,11 +60,11 @@ class ItemRepositoryTest < Minitest::Test
   def test_can_find_all_with_description_substring
     expected_ids = [1, 2]
 
-    assert_equal expected_ids, sorted_actual_ids(@repo.find_all_with_description("write"))
+    assert_equal expected_ids, sorted_actual_ids(@repo.find_all_with_description('write'))
   end
 
   def test_can_find_nothing_when_searching_with_description_substring
-    assert_equal [], @repo.find_all_with_description("doo-doo")
+    assert_equal [], @repo.find_all_with_description('doo-doo')
   end
 
   def test_can_find_all_by_price
@@ -83,7 +81,8 @@ class ItemRepositoryTest < Minitest::Test
     range = (9.99..29.99)
     expected_ids = [1, 2]
 
-    assert_equal expected_ids, sorted_actual_ids(@repo.find_all_by_price_in_range(range))
+    actual_returned_items = @repo.find_all_by_price_in_range(range)
+    assert_equal expected_ids, sorted_actual_ids(actual_returned_items)
   end
 
   def test_can_find_nothing_when_searching_all_by_price_range
@@ -120,8 +119,8 @@ class ItemRepositoryTest < Minitest::Test
   def test_can_update_an_item
     id = 2
     new_values = {
-      name: "Colored Pencil",
-      description: "For when you want a pencil but need pretty colors.",
+      name: 'Colored Pencil',
+      description: 'For when you want a pencil but need pretty colors.',
       unit_price: BigDecimal(9.99, 4)
     }
 
