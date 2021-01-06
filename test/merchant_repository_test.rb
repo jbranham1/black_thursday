@@ -9,9 +9,7 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def sorted_actual_ids(merchants)
-    merchants.map do |merchant|
-      merchant.id
-    end.sort
+    merchants.map(&:id).sort
   end
 
   def test_it_exists
@@ -26,13 +24,13 @@ class MerchantRepositoryTest < Minitest::Test
     all_merchants = @repo.all
 
     assert_instance_of Array, all_merchants
-    assert_equal true, all_merchants.all? { |merchant| merchant.is_a? Merchant }
+    assert_equal true, all_merchants.all? { |merchant| merchant.is_a?(Merchant) }
   end
 
   def test_can_find_by_id
-    merchant = @repo.find_by_id(12334105)
+    merchant = @repo.find_by_id(12_334_105)
 
-    assert_equal 12334105, merchant.id
+    assert_equal 12_334_105, merchant.id
     assert_nil @repo.find_by_id(99)
   end
 
@@ -45,12 +43,13 @@ class MerchantRepositoryTest < Minitest::Test
 
   def test_can_find_all_by_name
     expected_ids = [12_334_105]
+    actual = @repo.find_all_by_name('Shopin1901')
 
-    assert_equal expected_ids, sorted_actual_ids(@repo.find_all_by_name("Shopin1901"))
+    assert_equal expected_ids, sorted_actual_ids(actual)
   end
 
   def test_can_find_nothing_when_searching_by_name
-    assert_equal [], @repo.find_all_by_name("doo-doo")
+    assert_equal [], @repo.find_all_by_name('doo-doo')
   end
 
   def test_create_merchant
