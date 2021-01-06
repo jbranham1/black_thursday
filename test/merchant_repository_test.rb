@@ -58,4 +58,12 @@ class MerchantRepositoryTest < Minitest::Test
 
     assert_instance_of Merchant, @repo.create(attributes)
   end
+
+  def test_can_update_merchant
+    merchant =  @repo.find_by_id(12334105)
+    attributes = { name: 'Turing School Updated' }
+    @repo.update(12334105, attributes)
+
+    assert_equal 'Turing School Updated', merchant.name
+  end
 end
