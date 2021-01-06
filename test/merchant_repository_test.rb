@@ -66,4 +66,12 @@ class MerchantRepositoryTest < Minitest::Test
 
     assert_equal 'Turing School Updated', merchant.name
   end
+
+  def test_can_delete_merchant
+    merchant =  @repo.find_by_id(12334105)
+    @repo.delete(12334105)
+
+    assert_equal 1, @repo.all.count
+    assert_nil @repo.find_by_id(12334105)
+  end
 end
