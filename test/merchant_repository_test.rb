@@ -24,7 +24,9 @@ class MerchantRepositoryTest < Minitest::Test
     all_merchants = @repo.all
 
     assert_instance_of Array, all_merchants
-    assert_equal true, all_merchants.all? { |merchant| merchant.is_a?(Merchant) }
+    assert_equal true, all_merchants.all? do |merchant|
+      merchant.is_a?(Merchant)
+    end
   end
 
   def test_can_find_by_id
