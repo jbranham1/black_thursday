@@ -17,6 +17,12 @@ class MerchantRepository
     end
   end
 
+  def find_by_name(name)
+    all.find do |record|
+      record.name.casecmp?(name)
+    end
+  end
+
   def build_merchants
     CSV.open(file, parameters).map do |row|
       info = {

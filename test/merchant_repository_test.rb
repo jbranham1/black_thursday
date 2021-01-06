@@ -29,4 +29,11 @@ class MerchantRepositoryTest < Minitest::Test
     assert_equal 12334105, merchant.id
     assert_nil @repo.find_by_id(99)
   end
+
+  def test_can_find_by_name
+    merchant = @repo.find_by_name('Shopin1901')
+
+    assert_equal 'Shopin1901', merchant.name
+    assert_nil @repo.find_by_name('Potato')
+  end
 end
