@@ -11,6 +11,24 @@ class ItemRepository
     @items ||= build_items
   end
 
+  def find_by_id(id)
+    all.find do |item|
+      item.id == id
+    end
+  end
+
+  def find_by_name(name)
+    all.find do |item|
+      item.name.casecmp?(name)
+    end
+  end
+
+  def find_all_with_description(description)
+    all.select do |item|
+      item.description.match?(/#{Regexp.escape(description)}/i)
+    end
+  end
+
   def build_items
     CSV.open(@file, parameters).map do |row|
       Item.new(get_info(row))
