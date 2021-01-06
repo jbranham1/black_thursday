@@ -1,6 +1,6 @@
 require './test/test_helper'
 require 'bigdecimal'
-require 'item'
+require './lib/item'
 
 class ItemTest < Minitest::Test
   def setup

@@ -1,7 +1,7 @@
 require './test/test_helper'
 require 'csv'
 require 'bigdecimal'
-require 'item_repository'
+require './lib/item_repository'
 
 class ItemRepositoryTest < Minitest::Test
   def setup
