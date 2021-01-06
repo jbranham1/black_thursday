@@ -2,14 +2,15 @@ require_relative 'merchant'
 require 'csv'
 
 class MerchantRepository
-  attr_reader :file
+  # attr_reader :file
 
-  def initialize(file)
-    @file = file
+  def initialize(filepath)
+    @merchants = build_merchants(filepath)
+    # @file = file
   end
 
   def all
-    @merchants ||= build_merchants
+    @merchants # ||= build_merchants
   end
 
   def find_by_id(id)
@@ -30,18 +31,19 @@ class MerchantRepository
     end
   end
 
-  def build_merchants
-    CSV.open(file, parameters).map do |row|
-      info = {
-        id: row[:id].to_i,
-        name: row[:name]
-      }
-      create(info)
+  def build_merchants(filepath)
+    CSV.open(filepath, parameters).map do |row|
+      merchant_from(get_info(row))
     end
   end
 
-  def create(info)
-    Merchant.new(info)
+  def merchant_from(attributes)
+    Merchant.new(attributes)
+  end
+
+  def create(attributes)
+    attributes[:id] = max_merchant_id + 1
+    @merchants << merchant_from(attributes)
   end
 
   def update(id, attributes)
@@ -53,6 +55,17 @@ class MerchantRepository
   end
 
   private
+
+  def max_merchant_id
+    all.max_by(&:id).id
+  end
+
+  def get_info(row)
+    {
+      id: row[:id].to_i,
+      name: row[:name]
+    }
+  end
 
   def parameters
     {

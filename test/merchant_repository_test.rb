@@ -55,9 +55,12 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_create_merchant
-    attributes = { id: 5, name: 'Turing School' }
+    attributes = { name: 'Turing School' }
+    @repo.create(attributes)
 
-    assert_instance_of Merchant, @repo.create(attributes)
+    assert_instance_of Merchant, @repo.all.last
+    assert_equal 3, @repo.all.count
+    assert_equal 12_334_113, @repo.all.last.id
   end
 
   def test_can_update_merchant
