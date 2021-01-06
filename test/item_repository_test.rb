@@ -16,7 +16,7 @@ class ItemRepositoryTest < Minitest::Test
   def test_build_items
     @repo.build_items
 
-    assert_equal 1, @repo.all.count
+    assert_equal 2, @repo.all.count
   end
 
   def test_can_return_all_items
