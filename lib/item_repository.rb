@@ -41,6 +41,12 @@ class ItemRepository
     end
   end
 
+  def find_all_by_merchant_id(merchant_id)
+    all.select do |item|
+      item.merchant_id == merchant_id
+    end
+  end
+
   def build_items
     CSV.open(@file, parameters).map do |row|
       Item.new(get_info(row))
