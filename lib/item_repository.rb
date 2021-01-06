@@ -49,8 +49,12 @@ class ItemRepository
 
   def build_items
     CSV.open(@file, parameters).map do |row|
-      Item.new(get_info(row))
+      create(get_info(row))
     end
+  end
+
+  def create(attributes)
+    Item.new(attributes)
   end
 
   private

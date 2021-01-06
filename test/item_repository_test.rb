@@ -85,4 +85,18 @@ class ItemRepositoryTest < Minitest::Test
   def test_can_find_nothing_when_searching_all_by_merchant_id
     assert_equal [], @repo.find_all_by_merchant_id(0)
   end
+
+  def test_create_item
+    attributes = {
+      id: 1,
+      name: 'Pencil',
+      description: 'You can use it to write things.',
+      unit_price: BigDecimal(10.99, 4),
+      created_at: Time.now,
+      updated_at: Time.now,
+      merchant_id: 2
+    }
+
+    assert_instance_of Item, @repo.create(attributes)
+  end
 end
