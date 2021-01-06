@@ -9,8 +9,8 @@ class ItemTest < Minitest::Test
       name: 'Pencil',
       description: 'You can use it to write things.',
       unit_price: BigDecimal(10.99, 4),
-      created_at: Time.now,
-      updated_at: Time.now,
+      created_at: Time.new(2021, 1, 1, 8, 0, 0),
+      updated_at: Time.new(2021, 1, 1, 8, 0, 0),
       merchant_id: 2
     )
   end
@@ -31,5 +31,25 @@ class ItemTest < Minitest::Test
 
   def test_can_convert_price_to_float
     assert_equal 10.99, @pencil.unit_price_to_dollars
+  end
+
+  def test_can_update_certain_attributes
+    new_values = {
+      name: "Colored Pencil",
+      description: "For when you want a pencil but need pretty colors.",
+      unit_price: BigDecimal(9.99, 4)
+    }
+
+    # Get original updated_at_time
+    original_updated_at = @pencil.updated_at
+
+    # Modify the item
+    @pencil.update(new_values)
+
+    # Compare new item with expected
+    assert_equal new_values[:name], @pencil.name
+    assert_equal new_values[:description], @pencil.description
+    assert_equal new_values[:unit_price], @pencil.unit_price
+    assert_equal false, (original_updated_at == @pencil.updated_at)
   end
 end

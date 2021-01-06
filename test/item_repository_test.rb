@@ -5,9 +5,9 @@ require './lib/item_repository'
 
 class ItemRepositoryTest < Minitest::Test
   def setup
-    file = './data/test_item.csv'
-    @repo = ItemRepository.new(file)
-    @repo.build_items
+    filepath = './data/test_item.csv'
+    @repo = ItemRepository.new(filepath)
+    # @repo.build_items
   end
 
   def sorted_actual_ids(items)
@@ -22,6 +22,20 @@ class ItemRepositoryTest < Minitest::Test
 
   def test_build_items
     assert_equal 2, @repo.all.count
+  end
+
+  def test_item_from
+    attributes = {
+      id: 1,
+      name: 'Pencil',
+      description: 'You can use it to write things.',
+      unit_price: BigDecimal(10.99, 4),
+      created_at: Time.now,
+      updated_at: Time.now,
+      merchant_id: 2
+    }
+
+    assert_instance_of Item, @repo.item_from(attributes)
   end
 
   def test_can_return_all_items
@@ -88,7 +102,6 @@ class ItemRepositoryTest < Minitest::Test
 
   def test_create_item
     attributes = {
-      id: 1,
       name: 'Pencil',
       description: 'You can use it to write things.',
       unit_price: BigDecimal(10.99, 4),
@@ -97,6 +110,39 @@ class ItemRepositoryTest < Minitest::Test
       merchant_id: 2
     }
 
-    assert_instance_of Item, @repo.create(attributes)
+    @repo.create(attributes)
+
+    assert_equal 3, @repo.all.count
+    assert_instance_of Item, @repo.all.last
+    assert_equal 3, @repo.all.last.id
+  end
+
+  def test_can_update_an_item
+    id = 2
+    new_values = {
+      name: "Colored Pencil",
+      description: "For when you want a pencil but need pretty colors.",
+      unit_price: BigDecimal(9.99, 4)
+    }
+
+    # Get the updated item
+    item_to_update = @repo.find_by_id(id)
+    original_updated_at = item_to_update.updated_at
+
+    # Modify the item
+    @repo.update(id, new_values)
+
+    # Compare new item with expected
+    assert_equal new_values[:name], item_to_update.name
+    assert_equal new_values[:description], item_to_update.description
+    assert_equal new_values[:unit_price], item_to_update.unit_price
+    assert_equal false, (original_updated_at == item_to_update.updated_at)
+  end
+
+  def test_can_delete_an_item
+    @repo.delete(2)
+
+    assert_equal 1, @repo.all.count
+    assert_nil @repo.find_by_id(2)
   end
 end

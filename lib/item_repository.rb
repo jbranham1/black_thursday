@@ -1,14 +1,12 @@
 require_relative 'item'
 
 class ItemRepository
-  attr_reader :file
-
-  def initialize(file)
-    @file = file
+  def initialize(filepath)
+    @items = build_items(filepath)
   end
 
   def all
-    @items ||= build_items
+    @items
   end
 
   def find_by_id(id)
@@ -47,17 +45,35 @@ class ItemRepository
     end
   end
 
-  def build_items
-    CSV.open(@file, parameters).map do |row|
-      create(get_info(row))
+  def build_items(filepath)
+    CSV.open(filepath, parameters).map do |row|
+      item_from(get_info(row))
     end
   end
 
-  def create(attributes)
+  def item_from(attributes)
     Item.new(attributes)
   end
 
+  def create(attributes)
+    attributes[:id] = max_item_id + 1
+
+    @items << item_from(attributes)
+  end
+
+  def update(id, attributes)
+    find_by_id(id).update(attributes)
+  end
+
+  def delete(id)
+    all.delete(find_by_id(id))
+  end
+
   private
+
+  def max_item_id
+    all.max_by(&:id).id
+  end
 
   def get_info(row)
     {
