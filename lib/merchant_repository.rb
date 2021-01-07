@@ -2,15 +2,12 @@ require_relative 'merchant'
 require 'csv'
 
 class MerchantRepository
-  # attr_reader :file
-
   def initialize(filepath)
     @merchants = build_merchants(filepath)
-    # @file = file
   end
 
   def all
-    @merchants # ||= build_merchants
+    @merchants
   end
 
   def find_by_id(id)
@@ -27,7 +24,7 @@ class MerchantRepository
 
   def find_all_by_name(name)
     all.select do |record|
-      record.name.casecmp?(name)
+      record.name.match?(/(#{Regexp.escape(name)})/i)
     end
   end
 
@@ -47,7 +44,7 @@ class MerchantRepository
   end
 
   def update(id, attributes)
-    find_by_id(id).update(attributes)
+    find_by_id(id)&.update(attributes)
   end
 
   def delete(id)
