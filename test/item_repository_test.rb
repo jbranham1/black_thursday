@@ -12,8 +12,6 @@ class ItemRepositoryTest < Minitest::Test
 
   def sorted_actual_ids(items)
     items.map(&:id).sort
-<<<<<<< HEAD
-=======
   end
 
   def attributes
@@ -34,7 +32,6 @@ class ItemRepositoryTest < Minitest::Test
       description: 'For when you want a pencil but need pretty colors.',
       unit_price: BigDecimal(9.99, 4)
     }
->>>>>>> main
   end
 
   def test_it_exists
@@ -84,7 +81,7 @@ class ItemRepositoryTest < Minitest::Test
   def test_can_find_all_by_price
     expected_ids = [1]
 
-    actual_returned_items = @repo.find_all_by_price(BigDecimal(10.99, 4))
+    actual_returned_items = @repo.find_all_by_price(10.99)
     assert_equal expected_ids, sorted_actual_ids(actual_returned_items)
   end
 
@@ -93,7 +90,7 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_can_find_all_by_price_range
-    range = (9.99..29.99)
+    range = (9.99..39.99)
     expected_ids = [1, 2]
 
     actual_returned_items = @repo.find_all_by_price_in_range(range)
