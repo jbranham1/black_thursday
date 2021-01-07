@@ -14,6 +14,18 @@ class ItemRepositoryTest < Minitest::Test
     items.map(&:id).sort
   end
 
+  def attributes
+    {
+      id: 1,
+      name: 'Pencil',
+      description: 'You can use it to write things.',
+      unit_price: BigDecimal(10.99, 4),
+      created_at: Time.now,
+      updated_at: Time.now,
+      merchant_id: 2
+    }
+  end
+
   def test_it_exists
     assert_instance_of ItemRepository, @repo
   end
@@ -23,16 +35,6 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_item_from
-    attributes = {
-      id: 1,
-      name: 'Pencil',
-      description: 'You can use it to write things.',
-      unit_price: BigDecimal(10.99, 4),
-      created_at: Time.now,
-      updated_at: Time.now,
-      merchant_id: 2
-    }
-
     assert_instance_of Item, @repo.item_from(attributes)
   end
 
@@ -103,15 +105,6 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_create_item
-    attributes = {
-      name: 'Pencil',
-      description: 'You can use it to write things.',
-      unit_price: BigDecimal(10.99, 4),
-      created_at: Time.now,
-      updated_at: Time.now,
-      merchant_id: 2
-    }
-
     @repo.create(attributes)
 
     assert_equal 3, @repo.all.count
