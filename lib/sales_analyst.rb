@@ -5,9 +5,8 @@ class SalesAnalyst
   end
 
   def average_items_per_merchant
-    # TODO refactor to use items_by_merchant hash
-    total_items = merchants.sum do |merchant|
-      @item_repo.find_all_by_merchant_id(merchant.id).length
+    total_items = items_by_merchant.values.sum do |items|
+      items.length
     end
 
     (total_items.to_f / merchants.length).round(2)
@@ -15,9 +14,8 @@ class SalesAnalyst
 
   def average_items_per_merchant_standard_deviation
     mean = average_items_per_merchant
-    # TODO refactor to use items_by_merchant hash
-    items_per_merchant = merchants.map do |merchant|
-      @item_repo.find_all_by_merchant_id(merchant.id).length
+    items_per_merchant = items_by_merchant.values.map do |items|
+      items.length
     end
 
     # Take the difference between each number and the mean and square it
