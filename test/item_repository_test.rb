@@ -26,6 +26,14 @@ class ItemRepositoryTest < Minitest::Test
     }
   end
 
+  def new_values
+    {
+      name: 'Colored Pencil',
+      description: 'For when you want a pencil but need pretty colors.',
+      unit_price: BigDecimal(9.99, 4)
+    }
+  end
+
   def test_it_exists
     assert_instance_of ItemRepository, @repo
   end
@@ -114,11 +122,6 @@ class ItemRepositoryTest < Minitest::Test
 
   def test_can_update_an_item
     id = 2
-    new_values = {
-      name: 'Colored Pencil',
-      description: 'For when you want a pencil but need pretty colors.',
-      unit_price: BigDecimal(9.99, 4)
-    }
 
     item_to_update = @repo.find_by_id(id)
     original_updated_at = item_to_update.updated_at
