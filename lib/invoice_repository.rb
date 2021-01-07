@@ -58,7 +58,7 @@ class InvoiceRepository
   def update(id, attributes)
     find_by_id(id)&.update(attributes)
   end
-  
+
   def delete(id)
     all.delete(find_by_id(id))
   end

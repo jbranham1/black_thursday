@@ -19,7 +19,7 @@ class InvoiceRepositoryTest < Minitest::Test
       merchant_id: 3,
       status: 'status',
       created_at: Time.now,
-      updated_at: Time.now,
+      updated_at: Time.now
     }
   end
 
@@ -50,7 +50,7 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_can_find_all_by_customer_id
-    expected_ids = [1,2]
+    expected_ids = [1, 2]
 
     actual_returned_records = @repo.find_all_by_customer_id(1)
     assert_equal expected_ids, sorted_actual_ids(actual_returned_records)
