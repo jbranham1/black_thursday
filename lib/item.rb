@@ -22,7 +22,7 @@ class Item
     !attributes[:description].nil? && @description = attributes[:description]
 
     !attributes[:unit_price].nil? &&
-    @unit_price = BigDecimal(attributes[:unit_price])
+      @unit_price = BigDecimal(attributes[:unit_price])
     @updated_at = Time.now
   end
 
