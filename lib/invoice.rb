@@ -14,4 +14,9 @@ class Invoice
     @created_at = info[:created_at]
     @updated_at = info[:updated_at]
   end
+
+  def update(attributes)
+    attributes[:status] && @status = attributes[:status]
+    @updated_at = Time.now
+  end
 end
