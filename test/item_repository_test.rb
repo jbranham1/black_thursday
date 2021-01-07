@@ -121,12 +121,9 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_can_update_an_item
-    id = 2
-
-    item_to_update = @repo.find_by_id(id)
+    item_to_update = @repo.find_by_id(2)
     original_updated_at = item_to_update.updated_at
-
-    @repo.update(id, new_values)
+    @repo.update(2, new_values)
 
     assert_equal new_values[:name], item_to_update.name
     assert_equal new_values[:description], item_to_update.description
