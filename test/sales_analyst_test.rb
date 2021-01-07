@@ -23,4 +23,18 @@ class SalesAnalystTest < Minitest::Test
   def test_average_items_per_merchant_standard_deviation
     assert_equal 3.26, @analyst.average_items_per_merchant_standard_deviation
   end
+
+  def test_merchants_with_high_item_count
+    result = @analyst.merchants_with_high_item_count
+
+    assert_instance_of Array, result
+    assert_equal true, (result.all? { |object| object.is_a? Merchant })
+  end
+
+  def test_can_group_items_by_merchant
+    result = @analyst.items_by_merchant
+
+    assert_equal true, (result.keys.all? { |object| object.is_a? Merchant })
+    assert_equal true, (result.values.all? { |object| object.is_a? Array })
+  end
 end

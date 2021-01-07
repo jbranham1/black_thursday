@@ -5,6 +5,7 @@ class SalesAnalyst
   end
 
   def average_items_per_merchant
+    # TODO refactor to use items_by_merchant hash
     total_items = merchants.sum do |merchant|
       @item_repo.find_all_by_merchant_id(merchant.id).length
     end
@@ -14,6 +15,7 @@ class SalesAnalyst
 
   def average_items_per_merchant_standard_deviation
     mean = average_items_per_merchant
+    # TODO refactor to use items_by_merchant hash
     items_per_merchant = merchants.map do |merchant|
       @item_repo.find_all_by_merchant_id(merchant.id).length
     end
@@ -31,6 +33,22 @@ class SalesAnalyst
 
     # Take the square root of this result
     Math.sqrt(step3).round(2)
+  end
+
+  def merchants_with_high_item_count
+    mean = average_items_per_merchant
+    std_dev = average_items_per_merchant_standard_deviation
+    high_item_count = mean + std_dev
+
+    items_by_merchant.map do |merchant, items|
+      merchant if items.length.to_f > high_item_count
+    end.compact
+  end
+
+  def items_by_merchant
+    merchants.each_with_object({}) do |merchant, items_by_merchant|
+      items_by_merchant[merchant] = @item_repo.find_all_by_merchant_id(merchant.id)
+    end
   end
 
   private
