@@ -6,6 +6,12 @@ class MerchantRepository
     @merchants = build_merchants(filepath)
   end
 
+  # :nocov:
+  def inspect
+    "#<\#{self.class} \#{@merchants.size} rows>"
+  end
+  # :nocov:
+
   def all
     @merchants
   end
