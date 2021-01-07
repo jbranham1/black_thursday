@@ -1,6 +1,6 @@
 require_relative 'invoice'
 require 'csv'
-
+require 'time'
 class InvoiceRepository
   def initialize(filepath)
     @records = build_records(filepath)
@@ -70,12 +70,16 @@ class InvoiceRepository
   end
 
   def get_info(row)
+    d = DateTime.parse(row[:created_at])
+
+    t = Time.now
+    dt = DateTime.new(d.year, d.month, d.day, d.hour, d.min, d.sec, t.zone)
     {
       id: row[:id].to_i,
       customer_id: row[:customer_id].to_i,
       merchant_id: row[:merchant_id].to_i,
-      status: row[:status],
-      created_at: row[:created_at],
+      status: row[:status].to_sym,
+      created_at: Time.parse(dt.strftime("%F %T.%L%L%L %z")),
       updated_at: row[:updated_at]
     }
   end

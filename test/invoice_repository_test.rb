@@ -17,7 +17,7 @@ class InvoiceRepositoryTest < Minitest::Test
       id: 1,
       customer_id: 2,
       merchant_id: 3,
-      status: 'status',
+      status: :pending,
       created_at: Time.now,
       updated_at: Time.now
     }
@@ -74,12 +74,12 @@ class InvoiceRepositoryTest < Minitest::Test
   def test_can_find_all_by_status
     expected_ids = [1]
 
-    actual_returned_records = @repo.find_all_by_status('pending')
+    actual_returned_records = @repo.find_all_by_status(:pending)
     assert_equal expected_ids, sorted_actual_ids(actual_returned_records)
   end
 
   def test_can_find_nothing_when_searching_all_by_status
-    assert_equal [], @repo.find_all_by_merchant_id('test')
+    assert_equal [], @repo.find_all_by_status(:test)
   end
 
   def test_create_invoice
