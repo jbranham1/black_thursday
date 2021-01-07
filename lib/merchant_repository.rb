@@ -1,14 +1,16 @@
 require_relative 'merchant'
-require_relative 'repo_helper'
+require_relative 'base_repository'
 require 'csv'
 
-class MerchantRepository
-  include RepoHelper
+class MerchantRepository < BaseRepository
   attr_reader :all
 
-  def initialize(filepath)
-    @all = build_merchants(filepath)
+  def record_class
+    Merchant
   end
+  # def initialize(filepath)
+  #   @all = build_merchants(filepath)
+  # end
 
   # def all
   #   @all
@@ -32,20 +34,20 @@ class MerchantRepository
     end
   end
 
-  def build_merchants(filepath)
+  def build_records(filepath)
     CSV.open(filepath, parameters).map do |row|
-      merchant_from(get_info(row))
+      record_from(get_info(row))
     end
   end
 
-  def merchant_from(attributes)
-    Merchant.new(attributes)
-  end
+  # def merchant_from(attributes)
+  #   Merchant.new(attributes)
+  # end
 
-  def create(attributes)
-    attributes[:id] = max_id + 1
-    @all << merchant_from(attributes)
-  end
+  # def create(attributes)
+  #   attributes[:id] = max_id + 1
+  #   @all << merchant_from(attributes)
+  # end
 
   # def update(id, attributes)
   #   find_by_id(id)&.update(attributes)

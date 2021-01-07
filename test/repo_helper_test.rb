@@ -54,6 +54,7 @@ class RepoHelperTest < Minitest::Test
   end
 
   def test_can_update
+    skip
     record = @repo.find_by_id(1)
     attributes = { name: 'Test Updated' }
     @repo.update(1, attributes)

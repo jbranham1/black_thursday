@@ -1,14 +1,17 @@
 require_relative 'item'
-require_relative 'repo_helper'
+require_relative 'base_repository'
 require 'csv'
 require 'bigdecimal'
 
-class ItemRepository
-  include RepoHelper
+class ItemRepository < BaseRepository
   attr_reader :all
 
-  def initialize(filepath)
-    @all = build_items(filepath)
+  # def initialize(filepath)
+  #   @all = build_items(filepath)
+  # end
+
+  def record_class
+    Item
   end
 
   # def all
@@ -51,21 +54,21 @@ class ItemRepository
     end
   end
 
-  def build_items(filepath)
+  def build_records(filepath)
     CSV.open(filepath, parameters).map do |row|
-      item_from(get_info(row))
+      record_from(get_info(row))
     end
   end
 
-  def item_from(attributes)
-    Item.new(attributes)
-  end
+  # def record_from(attributes)
+  #   Item.new(attributes)
+  # end
 
-  def create(attributes)
-    attributes[:id] = max_id + 1
-
-    @all << item_from(attributes)
-  end
+  # def create(attributes)
+  #   attributes[:id] = max_id + 1
+  #
+  #   @all << record_from(attributes)
+  # end
 
   # def update(id, attributes)
   #   find_by_id(id).update(attributes)

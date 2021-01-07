@@ -1,6 +1,6 @@
 class BaseRepository
-  def initialize(filepath, repo)
-
+  def initialize(filepath)
+    @all = build_records(filepath)
   end
 
   def all
@@ -17,6 +17,16 @@ class BaseRepository
     all.find do |record|
       record.name.casecmp?(name)
     end
+  end
+
+  def create(attributes)
+    attributes[:id] = max_id + 1
+
+    @all << record_from(attributes)
+  end
+
+  def record_from(attributes)
+    record_class.new(attributes)
   end
 
   def update(id, attributes)

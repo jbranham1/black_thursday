@@ -18,7 +18,6 @@ class ItemRepositoryTest < Minitest::Test
       id: 1,
       name: 'Pencil',
       description: 'You can use it to write things.',
-      unit_price: BigDecimal(10.99, 4),
       created_at: Time.now,
       updated_at: Time.now,
       merchant_id: 2
@@ -41,8 +40,8 @@ class ItemRepositoryTest < Minitest::Test
     assert_equal 2, @repo.all.count
   end
 
-  def test_item_from
-    assert_instance_of Item, @repo.item_from(attributes)
+  def test_record_from
+    assert_instance_of Item, @repo.record_from(attributes)
   end
 
   def test_can_return_all_items
