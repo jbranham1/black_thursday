@@ -8,7 +8,7 @@ class ItemDouble
   end
 
   def name
-    "Test"
+    'Test'
   end
 
   def update
@@ -39,7 +39,6 @@ class RepoHelperTest < Minitest::Test
   end
 
   def test_it_exists
-    @repo = MockRepository.new
     assert_instance_of MockRepository, @repo
   end
 
@@ -49,8 +48,8 @@ class RepoHelperTest < Minitest::Test
   end
 
   def test_can_find_by_name
-    assert_equal "Test", @repo.find_by_name("Test").name
-    assert_nil  @repo.find_by_name("Potato")
+    assert_equal 'Test', @repo.find_by_name('Test').name
+    assert_nil  @repo.find_by_name('Potato')
   end
 
   def test_can_update
