@@ -6,6 +6,10 @@ class MerchantRepository
     @merchants = build_merchants(filepath)
   end
 
+  def inspect
+    "#<\#{self.class} \#{@merchants.size} rows>"
+  end
+
   def all
     @merchants
   end

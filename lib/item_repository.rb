@@ -9,6 +9,10 @@ class ItemRepository
     @file = file
   end
 
+  def inspect
+    "#<\#{self.class} \#{@items.size} rows>"
+  end
+
   def items
     @items ||= build_items
   end
