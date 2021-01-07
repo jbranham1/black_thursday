@@ -1,48 +1,52 @@
 require_relative 'item'
+require_relative 'repo_helper'
 require 'csv'
 require 'bigdecimal'
 
 class ItemRepository
+  include RepoHelper
+  attr_reader :all
+
   def initialize(filepath)
-    @items = build_items(filepath)
+    @all = build_items(filepath)
   end
 
-  def all
-    @items
-  end
-
-  def find_by_id(id)
-    all.find do |item|
-      item.id == id
-    end
-  end
-
-  def find_by_name(name)
-    all.find do |item|
-      item.name.casecmp?(name)
-    end
-  end
+  # def all
+  #   @all
+  # end
+  #
+  # def find_by_id(id)
+  #   all.find do |item|
+  #     item.id == id
+  #   end
+  # end
+  #
+  # def find_by_name(name)
+  #   all.find do |item|
+  #     item.name.casecmp?(name)
+  #   end
+  # end
 
   def find_all_with_description(description)
-    all.select do |item|
-      item.description.match?(/#{Regexp.escape(description)}/i)
+    @all.select do |item|
+      item.description.match?(/(#{Regexp.escape(description)})/i)
     end
   end
 
   def find_all_by_price(price)
-    all.select do |item|
+    @all.select do |item|
       item.unit_price == price
     end
   end
 
   def find_all_by_price_in_range(range)
-    all.select do |item|
+    @all.select do |item|
       range.include?(item.unit_price)
     end
   end
 
   def find_all_by_merchant_id(merchant_id)
-    all.select do |item|
+    @all.select do |item|
       item.merchant_id == merchant_id
     end
   end
@@ -58,24 +62,24 @@ class ItemRepository
   end
 
   def create(attributes)
-    attributes[:id] = max_item_id + 1
+    attributes[:id] = max_id + 1
 
-    @items << item_from(attributes)
+    @all << item_from(attributes)
   end
 
-  def update(id, attributes)
-    find_by_id(id).update(attributes)
-  end
+  # def update(id, attributes)
+  #   find_by_id(id).update(attributes)
+  # end
 
-  def delete(id)
-    all.delete(find_by_id(id))
-  end
+  # def delete(id)
+  #   @all.delete(find_by_id(id))
+  # end
 
   private
 
-  def max_item_id
-    all.max_by(&:id).id
-  end
+  # def max_item_id
+  #   @all.max_by(&:id).id
+  # end
 
   def get_info(row)
     {
@@ -89,7 +93,7 @@ class ItemRepository
     }
   end
 
-  def parameters
-    { headers: true, header_converters: :symbol }
-  end
+  # def parameters
+  #   { headers: true, header_converters: :symbol }
+  # end
 end

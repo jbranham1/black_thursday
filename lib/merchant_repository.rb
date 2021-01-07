@@ -1,29 +1,33 @@
 require_relative 'merchant'
+require_relative 'repo_helper'
 require 'csv'
 
 class MerchantRepository
+  include RepoHelper
+  attr_reader :all
+
   def initialize(filepath)
-    @merchants = build_merchants(filepath)
+    @all = build_merchants(filepath)
   end
 
-  def all
-    @merchants
-  end
+  # def all
+  #   @all
+  # end
+  #
+  # def find_by_id(id)
+  #   all.find do |record|
+  #     record.id == id
+  #   end
+  # end
 
-  def find_by_id(id)
-    all.find do |record|
-      record.id == id
-    end
-  end
-
-  def find_by_name(name)
-    all.find do |record|
-      record.name.casecmp?(name)
-    end
-  end
+  # def find_by_name(name)
+  #   all.find do |record|
+  #     record.name.casecmp?(name)
+  #   end
+  # end
 
   def find_all_by_name(name)
-    all.select do |record|
+    @all.select do |record|
       record.name.match?(/(#{Regexp.escape(name)})/i)
     end
   end
@@ -39,23 +43,23 @@ class MerchantRepository
   end
 
   def create(attributes)
-    attributes[:id] = max_merchant_id + 1
-    @merchants << merchant_from(attributes)
+    attributes[:id] = max_id + 1
+    @all << merchant_from(attributes)
   end
 
-  def update(id, attributes)
-    find_by_id(id)&.update(attributes)
-  end
+  # def update(id, attributes)
+  #   find_by_id(id)&.update(attributes)
+  # end
 
-  def delete(id)
-    all.delete(find_by_id(id))
-  end
+  # def delete(id)
+  #   @all.delete(find_by_id(id))
+  # end
 
   private
 
-  def max_merchant_id
-    all.max_by(&:id).id
-  end
+  # def max_merchant_id
+  #   @all.max_by(&:id).id
+  # end
 
   def get_info(row)
     {
@@ -64,10 +68,10 @@ class MerchantRepository
     }
   end
 
-  def parameters
-    {
-      headers: true,
-      header_converters: :symbol
-    }
-  end
+  # def parameters
+  #   {
+  #     headers: true,
+  #     header_converters: :symbol
+  #   }
+  # end
 end

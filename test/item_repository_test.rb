@@ -7,7 +7,6 @@ class ItemRepositoryTest < Minitest::Test
   def setup
     filepath = './data/test_item.csv'
     @repo = ItemRepository.new(filepath)
-    # @repo.build_items
   end
 
   def sorted_actual_ids(items)
