@@ -12,6 +12,29 @@ class ItemRepositoryTest < Minitest::Test
 
   def sorted_actual_ids(items)
     items.map(&:id).sort
+<<<<<<< HEAD
+=======
+  end
+
+  def attributes
+    {
+      id: 1,
+      name: 'Pencil',
+      description: 'You can use it to write things.',
+      unit_price: BigDecimal(10.99, 4),
+      created_at: Time.now,
+      updated_at: Time.now,
+      merchant_id: 2
+    }
+  end
+
+  def new_values
+    {
+      name: 'Colored Pencil',
+      description: 'For when you want a pencil but need pretty colors.',
+      unit_price: BigDecimal(9.99, 4)
+    }
+>>>>>>> main
   end
 
   def test_it_exists
@@ -23,16 +46,6 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_item_from
-    attributes = {
-      id: 1,
-      name: 'Pencil',
-      description: 'You can use it to write things.',
-      unit_price: BigDecimal(10.99, 4),
-      created_at: Time.now,
-      updated_at: Time.now,
-      merchant_id: 2
-    }
-
     assert_instance_of Item, @repo.item_from(attributes)
   end
 
@@ -103,15 +116,6 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_create_item
-    attributes = {
-      name: 'Pencil',
-      description: 'You can use it to write things.',
-      unit_price: BigDecimal(10.99, 4),
-      created_at: Time.now,
-      updated_at: Time.now,
-      merchant_id: 2
-    }
-
     @repo.create(attributes)
 
     assert_equal 3, @repo.all.count
@@ -120,17 +124,9 @@ class ItemRepositoryTest < Minitest::Test
   end
 
   def test_can_update_an_item
-    id = 2
-    new_values = {
-      name: 'Colored Pencil',
-      description: 'For when you want a pencil but need pretty colors.',
-      unit_price: BigDecimal(9.99, 4)
-    }
-
-    item_to_update = @repo.find_by_id(id)
+    item_to_update = @repo.find_by_id(2)
     original_updated_at = item_to_update.updated_at
-
-    @repo.update(id, new_values)
+    @repo.update(2, new_values)
 
     assert_equal new_values[:name], item_to_update.name
     assert_equal new_values[:description], item_to_update.description

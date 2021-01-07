@@ -41,7 +41,6 @@ class ItemTest < Minitest::Test
     }
 
     original_updated_at = @pencil.updated_at
-
     @pencil.update(new_values)
 
     assert_equal new_values[:name], @pencil.name
