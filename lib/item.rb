@@ -17,6 +17,13 @@ class Item
     @merchant_id = info[:merchant_id]
   end
 
+  def update(attributes)
+    @name = attributes[:name]
+    @description = attributes[:description]
+    @unit_price = attributes[:unit_price]
+    @updated_at = Time.now
+  end
+
   def unit_price_to_dollars
     @unit_price.to_f
   end
