@@ -37,4 +37,8 @@ class SalesAnalystTest < Minitest::Test
     assert_equal true, (result.keys.all? { |object| object.is_a? Merchant })
     assert_equal true, (result.values.all? { |object| object.is_a? Array })
   end
+
+  def test_can_find_average_price_for_merchant
+    assert_instance_of BigDecimal, @analyst.average_item_price_for_merchant(12334159)
+  end
 end

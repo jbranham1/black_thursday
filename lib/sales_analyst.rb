@@ -49,9 +49,21 @@ class SalesAnalyst
     end
   end
 
+  def average_item_price_for_merchant(merchant_id)
+    items_for(merchant_with_id(merchant_id)).sum(&:unit_price)
+  end
+
   private
 
   def merchants
     @merchant_repo.all
+  end
+
+  def merchant_with_id(id)
+    @merchant_repo.find_by_id(id)
+  end
+
+  def items_for(merchant)
+    items_by_merchant[merchant]
   end
 end
