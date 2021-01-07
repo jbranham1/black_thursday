@@ -20,6 +20,12 @@ class MerchantRepository
   #   end
   # end
 
+  # :nocov:
+  def inspect
+    "#<\#{self.class} \#{@all.size} rows>"
+  end
+  # :nocov:
+
   # def find_by_name(name)
   #   all.find do |record|
   #     record.name.casecmp?(name)

@@ -2,6 +2,7 @@ require_relative 'item'
 require_relative 'repo_helper'
 require 'csv'
 require 'bigdecimal'
+require 'time'
 
 class ItemRepository
   include RepoHelper
@@ -10,6 +11,12 @@ class ItemRepository
   def initialize(filepath)
     @all = build_items(filepath)
   end
+
+  # :nocov:
+  def inspect
+    "#<\#{self.class} \#{@all.size} rows>"
+  end
+  # :nocov:
 
   # def all
   #   @all
@@ -41,7 +48,7 @@ class ItemRepository
 
   def find_all_by_price_in_range(range)
     @all.select do |item|
-      range.include?(item.unit_price)
+      range.include?(item.unit_price_to_dollars)
     end
   end
 
@@ -68,9 +75,9 @@ class ItemRepository
   end
 
   # def update(id, attributes)
-  #   find_by_id(id).update(attributes)
+  #   find_by_id(id)&.update(attributes)
   # end
-
+  
   # def delete(id)
   #   @all.delete(find_by_id(id))
   # end
