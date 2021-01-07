@@ -18,10 +18,10 @@ class Item
   end
 
   def update(attributes)
-    @name = attributes[:name] if !attributes[:name].nil?
-    @description = attributes[:description] if !attributes[:description].nil?
+    !attributes[:name].nil? && @name = attributes[:name]
+    !attributes[:description].nil? && @description = attributes[:description]
 
-    @unit_price = BigDecimal(attributes[:unit_price]) if !attributes[:unit_price].nil?
+    !attributes[:unit_price].nil? && @unit_price = BigDecimal(attributes[:unit_price])
     @updated_at = Time.now
   end
 

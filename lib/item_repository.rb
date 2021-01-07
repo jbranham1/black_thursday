@@ -6,8 +6,7 @@ require 'time'
 class ItemRepository
   def initialize(filepath)
     @items = build_items(filepath)
-  end
-  
+  end  
   # :nocov:
   def inspect
     "#<\#{self.class} \#{@items.size} rows>"
