@@ -9,10 +9,14 @@ class SalesAnalystTest < Minitest::Test
       merchants: './data/merchants.csv'
     }
     sales_engine = SalesEngine.new(files)
-    @sales_analyst = sales_engine.analyst
+    @analyst = sales_engine.analyst
   end
 
   def test_it_exists
-    assert_instance_of SalesAnalyst, @sales_analyst
+    assert_instance_of SalesAnalyst, @analyst
+  end
+
+  def test_average_items_per_merchant
+    assert_equal 2.88, @analyst.average_items_per_merchant
   end
 end
