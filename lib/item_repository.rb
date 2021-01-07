@@ -2,6 +2,7 @@ require_relative 'item'
 require_relative 'base_repository'
 require 'csv'
 require 'bigdecimal'
+require 'time'
 
 class ItemRepository < BaseRepository
   attr_reader :all
@@ -13,6 +14,12 @@ class ItemRepository < BaseRepository
   def record_class
     Item
   end
+
+  # :nocov:
+  def inspect
+    "#<\#{self.class} \#{@all.size} rows>"
+  end
+  # :nocov:
 
   # def all
   #   @all
@@ -44,7 +51,7 @@ class ItemRepository < BaseRepository
 
   def find_all_by_price_in_range(range)
     @all.select do |item|
-      range.include?(item.unit_price)
+      range.include?(item.unit_price_to_dollars)
     end
   end
 
@@ -71,9 +78,9 @@ class ItemRepository < BaseRepository
   # end
 
   # def update(id, attributes)
-  #   find_by_id(id).update(attributes)
+  #   find_by_id(id)&.update(attributes)
   # end
-
+  
   # def delete(id)
   #   @all.delete(find_by_id(id))
   # end

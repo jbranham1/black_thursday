@@ -1,7 +1,5 @@
 module RepoHelper
-  def all
-    @all
-  end
+  attr_reader :all
 
   def find_by_id(id)
     all.find do |record|
