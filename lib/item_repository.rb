@@ -89,7 +89,7 @@ class ItemRepository
       id: row[:id].to_i,
       name: row[:name],
       description: row[:description],
-      unit_price: BigDecimal(row[:unit_price], 4),
+      unit_price: BigDecimal(row[:unit_price].to_f / 100, 6),
       created_at: Time.parse(row[:created_at]),
       updated_at: Time.parse(row[:updated_at]),
       merchant_id: row[:merchant_id].to_i
