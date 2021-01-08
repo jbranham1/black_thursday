@@ -19,7 +19,7 @@ class SalesEngine
   end
 
   def load_file(file_name, repository)
-    repository.new(file_name)
+    repository.new(file_name, self)
   end
 
   def analyst

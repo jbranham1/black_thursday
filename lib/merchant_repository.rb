@@ -2,8 +2,11 @@ require_relative 'merchant'
 require 'csv'
 
 class MerchantRepository
-  def initialize(filepath)
+  attr_reader :engine
+
+  def initialize(filepath, engine)
     @merchants = build_merchants(filepath)
+    @engine = engine
   end
 
   # :nocov:
@@ -41,7 +44,7 @@ class MerchantRepository
   end
 
   def merchant_from(attributes)
-    Merchant.new(attributes)
+    Merchant.new(attributes, self)
   end
 
   def create(attributes)
@@ -55,6 +58,10 @@ class MerchantRepository
 
   def delete(id)
     all.delete(find_by_id(id))
+  end
+
+  def items_by_merchant_id(id)
+    @engine.items.find_all_by_merchant_id(id)
   end
 
   private
