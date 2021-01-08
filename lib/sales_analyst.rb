@@ -5,9 +5,7 @@ class SalesAnalyst
   end
 
   def average_items_per_merchant
-    total_items = items_by_merchant.values.sum do |items|
-      items.length
-    end
+    total_items = items_by_merchant.values.sum(&:length)
 
     (total_items.to_f / merchants.length).round(2)
   end
@@ -32,8 +30,8 @@ class SalesAnalyst
   end
 
   def items_by_merchant
-    merchants.each_with_object({}) do |merchant, items_by_merchant|
-      items_by_merchant[merchant] = @item_repo.find_all_by_merchant_id(merchant.id)
+    merchants.each_with_object({}) do |merchant, hash|
+      hash[merchant] = items_for_merchant_id(merchant.id)
     end
   end
 
@@ -42,7 +40,7 @@ class SalesAnalyst
   end
 
   def golden_items
-    # TODO implement
+    # TODO: implement
   end
 
   private
@@ -59,6 +57,9 @@ class SalesAnalyst
     items_by_merchant[merchant]
   end
 
+  def items_for_merchant_id(merchant_id)
+    @item_repo.find_all_by_merchant_id(merchant_id)
+  end
   # === MATH METHODS ===
   def standard_deviation(set, mean)
     # Take the difference between each number and the mean and square it
