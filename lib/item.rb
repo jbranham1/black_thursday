@@ -22,7 +22,6 @@ class Item
   def update(attributes)
     attributes[:name] && @name = attributes[:name]
     attributes[:description] && @description = attributes[:description]
-
     attributes[:unit_price] && @unit_price = attributes[:unit_price]
     @updated_at = Time.now
   end
