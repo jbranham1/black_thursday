@@ -60,6 +60,7 @@ class SalesAnalyst
   def items_for_merchant_id(merchant_id)
     @item_repo.find_all_by_merchant_id(merchant_id)
   end
+
   # === MATH METHODS ===
   def standard_deviation(set, mean)
     # Take the difference between each number and the mean and square it
