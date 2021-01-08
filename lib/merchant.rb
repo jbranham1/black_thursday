@@ -12,4 +12,8 @@ class Merchant
   def update(attributes)
     @name = attributes[:name]
   end
+
+  def items
+    @items ||= @repository.items_by_merchant_id(@id)
+  end
 end

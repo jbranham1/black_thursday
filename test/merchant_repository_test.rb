@@ -1,6 +1,7 @@
 require './test/test_helper'
 require 'csv'
 require './lib/merchant_repository'
+require './lib/item_repository'
 
 class MerchantRepositoryTest < Minitest::Test
   def setup
@@ -81,5 +82,11 @@ class MerchantRepositoryTest < Minitest::Test
 
     assert_equal 1, @repo.all.count
     assert_nil @repo.find_by_id(12_334_105)
+  end
+
+  def test_items_by_merchant_id
+    skip
+    @engine.stubs(:items).returns(ItemRepository)
+    assert_equal [], @repo.engine.items_by_merchant_id(1)
   end
 end

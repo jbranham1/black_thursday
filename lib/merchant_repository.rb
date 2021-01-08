@@ -60,6 +60,10 @@ class MerchantRepository
     all.delete(find_by_id(id))
   end
 
+  def items_by_merchant_id(id)
+    @engine.items.find_all_by_merchant_id(id)
+  end
+
   private
 
   def max_merchant_id
