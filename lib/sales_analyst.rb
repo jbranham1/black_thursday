@@ -18,19 +18,7 @@ class SalesAnalyst
       items.length
     end
 
-    # Take the difference between each number and the mean and square it
-    step1 = items_per_merchant.map do |num|
-      (num - mean)**2
-    end
-
-    # Sum these square differences together
-    step2 = step1.reduce(:+)
-
-    # Divide the sum by the number of elements minus 1
-    step3 = step2 / (step1.length - 1)
-
-    # Take the square root of this result
-    Math.sqrt(step3).round(2)
+    standard_deviation(items_per_merchant, mean)
   end
 
   def merchants_with_high_item_count
@@ -65,5 +53,22 @@ class SalesAnalyst
 
   def items_for(merchant)
     items_by_merchant[merchant]
+  end
+
+  # === MATH METHODS ===
+  def standard_deviation(set, mean)
+    # Take the difference between each number and the mean and square it
+    step1 = set.map do |num|
+      (num - mean)**2
+    end
+
+    # Sum these square differences together
+    step2 = step1.reduce(:+)
+
+    # Divide the sum by the number of elements minus 1
+    step3 = step2 / (step1.length - 1)
+
+    # Take the square root of this result
+    Math.sqrt(step3).round(2)
   end
 end
