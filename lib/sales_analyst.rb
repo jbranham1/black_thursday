@@ -41,6 +41,10 @@ class SalesAnalyst
     items_for(merchant_with_id(merchant_id)).sum(&:unit_price)
   end
 
+  def golden_items
+    # TODO implement
+  end
+
   private
 
   def merchants
