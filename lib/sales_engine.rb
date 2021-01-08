@@ -1,5 +1,6 @@
 require_relative 'merchant_repository'
 require_relative 'item_repository'
+require_relative 'sales_analyst'
 
 class SalesEngine
   attr_reader :merchants,
@@ -16,5 +17,9 @@ class SalesEngine
 
   def load_file(file_name, repository)
     repository.new(file_name)
+  end
+
+  def analyst
+    SalesAnalyst.new(@merchants, @items)
   end
 end
