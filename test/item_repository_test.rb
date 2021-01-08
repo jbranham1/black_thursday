@@ -6,8 +6,8 @@ require './lib/item_repository'
 class ItemRepositoryTest < Minitest::Test
   def setup
     filepath = './data/test_item.csv'
-    @repo = ItemRepository.new(filepath)
-    # @repo.build_items
+    @engine = mock
+    @repo = ItemRepository.new(filepath, @engine)
   end
 
   def sorted_actual_ids(items)
@@ -36,6 +36,10 @@ class ItemRepositoryTest < Minitest::Test
 
   def test_it_exists
     assert_instance_of ItemRepository, @repo
+  end
+
+  def test_it_has_readable_attributes
+    assert_equal @engine, @repo.engine
   end
 
   def test_build_items

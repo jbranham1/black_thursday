@@ -5,7 +5,8 @@ require './lib/merchant_repository'
 class MerchantRepositoryTest < Minitest::Test
   def setup
     filepath = './data/test_merchant.csv'
-    @repo = MerchantRepository.new(filepath)
+    @engine = mock
+    @repo = MerchantRepository.new(filepath, @engine)
   end
 
   def sorted_actual_ids(merchants)
@@ -14,6 +15,10 @@ class MerchantRepositoryTest < Minitest::Test
 
   def test_it_exists
     assert_instance_of MerchantRepository, @repo
+  end
+
+  def test_it_has_readable_attributes
+    assert_equal @engine, @repo.engine
   end
 
   def test_build_merchants

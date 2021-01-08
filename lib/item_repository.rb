@@ -4,8 +4,11 @@ require 'bigdecimal'
 require 'time'
 
 class ItemRepository
-  def initialize(filepath)
+  attr_reader :engine
+
+  def initialize(filepath, engine)
     @items = build_items(filepath)
+    @engine = engine
   end
 
   # :nocov:
@@ -61,7 +64,7 @@ class ItemRepository
   end
 
   def item_from(attributes)
-    Item.new(attributes)
+    Item.new(attributes, self)
   end
 
   def create(attributes)
