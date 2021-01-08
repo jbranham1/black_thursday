@@ -12,9 +12,7 @@ class SalesAnalyst
 
   def average_items_per_merchant_standard_deviation
     mean = average_items_per_merchant
-    items_per_merchant = items_by_merchant.values.map do |items|
-      items.length
-    end
+    items_per_merchant = items_by_merchant.values.map(&:length)
 
     standard_deviation(items_per_merchant, mean)
   end
