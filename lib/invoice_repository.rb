@@ -70,18 +70,21 @@ class InvoiceRepository
   end
 
   def get_info(row)
-    d = DateTime.parse(row[:created_at])
-
-    t = Time.now
-    dt = DateTime.new(d.year, d.month, d.day, d.hour, d.min, d.sec, t.zone)
-    {
+  {
       id: row[:id].to_i,
       customer_id: row[:customer_id].to_i,
       merchant_id: row[:merchant_id].to_i,
       status: row[:status].to_sym,
-      created_at: Time.parse(dt.strftime("%F %T.%L%L%L %z")),
-      updated_at: row[:updated_at]
+      created_at: convert_to_long_time(row[:created_at]),
+      updated_at: convert_to_long_time(row[:updated_at])
     }
+  end
+
+  def convert_to_long_time(date)
+    d = DateTime.parse(date)
+    t = Time.now
+    dt = DateTime.new(d.year, d.month, d.day, d.hour, d.min, d.sec, t.zone)
+    Time.parse(dt.strftime("%F %T.%L%L%L %z"))
   end
 
   def parameters

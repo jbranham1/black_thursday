@@ -1,3 +1,5 @@
+require 'time'
+
 class Invoice
   attr_reader :id,
               :customer_id,
@@ -16,11 +18,14 @@ class Invoice
   end
 
   def update(attributes)
-    d = Date.now
+    attributes[:status] && @status = attributes[:status]
+    @updated_at = convert_to_long_time
+  end
+
+  def convert_to_long_time
+    d = DateTime.now
     t = Time.now
     dt = DateTime.new(d.year, d.month, d.day, d.hour, d.min, d.sec, t.zone)
-    attributes[:status] && @status = attributes[:status]
-    @updated_at = Time.parse(dt.strftime("%F %T.%L%L%L %z"))
-    #Time.parse(Time.now.strftime("%F %T.%L%L%L %z"))
+    Time.parse(dt.strftime("%F %T.%L%L%L %z"))
   end
 end
