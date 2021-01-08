@@ -1,6 +1,7 @@
 require_relative 'invoice'
 require 'csv'
 require 'time'
+
 class InvoiceRepository
   def initialize(filepath)
     @records = build_records(filepath)
@@ -70,7 +71,7 @@ class InvoiceRepository
   end
 
   def get_info(row)
-  {
+    {
       id: row[:id].to_i,
       customer_id: row[:customer_id].to_i,
       merchant_id: row[:merchant_id].to_i,
@@ -81,10 +82,8 @@ class InvoiceRepository
   end
 
   def convert_to_long_time(date)
-    d = DateTime.parse(date)
-    t = Time.now
-    dt = DateTime.new(d.year, d.month, d.day, d.hour, d.min, d.sec, t.zone)
-    Time.parse(dt.strftime("%F %T.%L%L%L %z"))
+    d = Time.parse(date)
+    Time.parse(d.strftime('%F %T.%L%L%L %z'))
   end
 
   def parameters

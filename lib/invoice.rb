@@ -23,9 +23,7 @@ class Invoice
   end
 
   def convert_to_long_time
-    d = DateTime.now
-    t = Time.now
-    dt = DateTime.new(d.year, d.month, d.day, d.hour, d.min, d.sec, t.zone)
-    Time.parse(dt.strftime("%F %T.%L%L%L %z"))
+    d = Time.now
+    Time.parse(d.strftime('%F %T.%L%L%L %z'))
   end
 end
