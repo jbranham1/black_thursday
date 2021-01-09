@@ -16,4 +16,8 @@ class Merchant
   def items
     @items ||= @repository.items_by_merchant_id(@id)
   end
+
+  def invoices
+    @invoices ||= @repository.invoices_by_merchant_id(@id)
+  end
 end

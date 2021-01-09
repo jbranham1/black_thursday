@@ -64,6 +64,10 @@ class MerchantRepository
     @engine.items.find_all_by_merchant_id(id)
   end
 
+  def invoices_by_merchant_id(id)
+    @engine.invoices.find_all_by_merchant_id(id)
+  end
+
   private
 
   def max_merchant_id

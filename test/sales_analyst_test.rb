@@ -6,7 +6,8 @@ class SalesAnalystTest < Minitest::Test
   def setup
     files = {
       items: './data/items.csv',
-      merchants: './data/merchants.csv'
+      merchants: './data/merchants.csv',
+      invoices: './data/invoices.csv'
     }
     sales_engine = SalesEngine.new(files)
     @analyst = sales_engine.analyst
@@ -50,5 +51,29 @@ class SalesAnalystTest < Minitest::Test
 
     assert_instance_of Array, @result
     assert_equal true, (result.all? { |object| object.is_a? Item })
+  end
+
+  def test_can_find_average_invoices_per_merchant
+    assert_equal 10.49, @analyst.average_invoices_per_merchant
+  end
+
+  def test_can_find_average_invoices_per_merchant_with_standard_deviation
+    assert_equal 3.29, @analyst.average_invoices_per_merchant_standard_deviation
+  end
+
+  def test_can_find_top_merchants_by_invoice_count
+    skip
+  end
+
+  def test_can_find_bottom_merchants_by_invoice_count
+    skip
+  end
+
+  def test_can_find_top_days_by_invoice_count
+    skip
+  end
+
+  def test_can_get_percentage_of_invoice_status
+    skip
   end
 end

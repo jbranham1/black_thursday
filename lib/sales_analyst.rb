@@ -1,12 +1,12 @@
 class SalesAnalyst
-  def initialize(merchant_repo, item_repo)
+  def initialize(merchant_repo, item_repo, invoice_repo)
     @merchant_repo = merchant_repo
     @item_repo = item_repo
+    @invoice_repo = invoice_repo
   end
 
   def average_items_per_merchant
     total_items = items_by_merchant.values.sum(&:length)
-
     (total_items.to_f / merchants.length).round(2)
   end
 
@@ -41,10 +41,44 @@ class SalesAnalyst
     # TODO: implement
   end
 
+  def average_invoices_per_merchant
+    total_invoices = invoices_by_merchant.sum(&:length)
+    ((total_invoices.to_f / invoices.length) * 100).round(2)
+    #
+  end
+
+  def invoices_by_merchant
+    merchants.each_with_object({}) do |merchant, hash|
+      hash[merchant] = @invoice_repo.find_all_by_merchant_id(merchant.id)
+    end
+  end
+
+  def average_invoices_per_merchant_standard_deviation
+    items_per_merchant = invoices_by_merchant.values.map(&:length)
+
+    standard_deviation(items_per_merchant, average_items_per_merchant)
+  end
+
+  def top_merchants_by_invoice_count
+  end
+
+  def bottom_merchants_by_invoice_count
+  end
+
+  def top_days_by_invoice_count
+  end
+
+  def invoice_status(status)
+  end
+
   private
 
   def merchants
     @merchant_repo.all
+  end
+
+  def invoices
+    @invoice_repo.all
   end
 
   def merchant_with_id(id)
