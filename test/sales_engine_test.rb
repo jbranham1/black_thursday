@@ -28,6 +28,6 @@ class SalesEngineTest < Minitest::Test
     result = @engine.items_by_merchant_id(merchant_id)
 
     assert_instance_of Array, result
-    assert_equal true, result.all? { |object| object.is_a? Item }
+    assert_equal true, (result.all? { |object| object.is_a? Item })
   end
 end

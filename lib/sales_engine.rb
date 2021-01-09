@@ -24,8 +24,8 @@ class SalesEngine
 
   def analyst
     SalesAnalyst.new(@merchant_repository,
-                      @item_repository,
-                      @invoice_repository)
+                     @item_repository,
+                     @invoice_repository)
   end
 
   def items_by_merchant_id(merchant_id)

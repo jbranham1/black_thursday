@@ -10,17 +10,19 @@ class MerchantTest < Minitest::Test
   end
 
   def create_item
-    Item.new(
-      {
-        id: 1,
-        name: 'Pencil',
-        description: 'You can use it to write things.',
-        unit_price: BigDecimal(1099, 4),
-        created_at: Time.new(2021, 1, 1, 8, 0, 0),
-        updated_at: Time.new(2021, 1, 1, 8, 0, 0),
-        merchant_id: 2
-      }, mock
-    )
+    Item.new(item_data, mock)
+  end
+
+  def item_data
+    {
+      id: 1,
+      name: 'Pencil',
+      description: 'You can use it to write things.',
+      unit_price: BigDecimal(1099, 4),
+      created_at: Time.new(2021, 1, 1, 8, 0, 0),
+      updated_at: Time.new(2021, 1, 1, 8, 0, 0),
+      merchant_id: 2
+    }
   end
 
   def test_it_exists
