@@ -31,7 +31,7 @@ class SalesEngineTest < Minitest::Test
     assert_equal true, (result.all? { |object| object.is_a? Item })
   end
 
-  def test_can_find_items_by_merchant_id
+  def test_can_find_invoices_by_merchant_id
     merchant_id = 12_334_159
 
     result = @engine.invoices_by_merchant_id(merchant_id)

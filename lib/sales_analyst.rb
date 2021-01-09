@@ -45,7 +45,6 @@ class SalesAnalyst
   def average_invoices_per_merchant
     total_invoices = invoices_by_merchant.sum(&:length)
     ((total_invoices.to_f / invoices.length) * 100).round(2)
-    #
   end
 
   def invoices_by_merchant
