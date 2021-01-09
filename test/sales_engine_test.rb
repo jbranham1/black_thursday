@@ -13,9 +13,9 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_is_created_from_csv_files
-    assert_instance_of ItemRepository, @engine.item_repository
-    assert_instance_of MerchantRepository, @engine.merchant_repository
-    assert_instance_of InvoiceRepository, @engine.invoice_repository
+    assert_instance_of ItemRepository, @engine.items
+    assert_instance_of MerchantRepository, @engine.merchants
+    assert_instance_of InvoiceRepository, @engine.invoices
   end
 
   def test_can_create_a_sales_analyst
