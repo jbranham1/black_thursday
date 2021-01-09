@@ -14,6 +14,10 @@ class MerchantRepositoryTest < Minitest::Test
     Item.new(item_data, mock)
   end
 
+  def create_invoice
+    Invoice.new(invoice_data, mock)
+  end
+
   def item_data
     {
       id: 1,
@@ -23,6 +27,17 @@ class MerchantRepositoryTest < Minitest::Test
       created_at: Time.new(2021, 1, 1, 8, 0, 0),
       updated_at: Time.new(2021, 1, 1, 8, 0, 0),
       merchant_id: 2
+    }
+  end
+
+  def invoice_data
+    {
+      id: 1,
+      customer_id: 2,
+      merchant_id: 3,
+      status: 'pending',
+      created_at: Time.new(2021, 1, 1, 8, 0, 0),
+      updated_at: Time.new(2021, 1, 1, 8, 0, 0)
     }
   end
 
@@ -109,5 +124,16 @@ class MerchantRepositoryTest < Minitest::Test
       .returns([item])
 
     assert_equal [item], @repo.items_by_merchant_id(merchant_id)
+  end
+
+  def test_invoices_by_merchant_id
+    invoice = create_invoice
+    merchant_id = 12_335_938
+    @engine
+      .expects(:invoices_by_merchant_id)
+      .with(merchant_id)
+      .returns([invoice])
+
+    assert_equal [invoice], @repo.invoices_by_merchant_id(merchant_id)
   end
 end

@@ -22,13 +22,19 @@ class SalesEngine
     repository.new(file_name, self)
   end
 
-  def analyst
-    SalesAnalyst.new(@merchants,
-                     @items,
-                     @invoices)
-  end
-
   def items_by_merchant_id(merchant_id)
     @items.find_all_by_merchant_id(merchant_id)
+  end
+
+  def invoices_by_merchant_id(merchant_id)
+    @invoices.find_all_by_merchant_id(merchant_id)
+  end
+
+  def invoice_count_by_status(status)
+    @invoices.find_all_by_status(status).count
+  end
+
+  def analyst
+    SalesAnalyst.new(self)
   end
 end
