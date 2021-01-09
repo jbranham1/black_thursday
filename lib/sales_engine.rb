@@ -23,6 +23,12 @@ class SalesEngine
   end
 
   def analyst
-    SalesAnalyst.new(@merchants, @items)
+    SalesAnalyst.new(@merchants,
+                     @items,
+                     @invoices)
+  end
+
+  def items_by_merchant_id(merchant_id)
+    @items.find_all_by_merchant_id(merchant_id)
   end
 end

@@ -3,8 +3,11 @@ require 'csv'
 require 'time'
 
 class InvoiceRepository
-  def initialize(filepath)
+  attr_reader :engine
+
+  def initialize(filepath, engine)
     @records = build_records(filepath)
+    @engine = engine
   end
 
   # :nocov:
@@ -24,7 +27,7 @@ class InvoiceRepository
   end
 
   def invoice_from(attributes)
-    Invoice.new(attributes)
+    Invoice.new(attributes, self)
   end
 
   def find_by_id(id)
@@ -76,14 +79,9 @@ class InvoiceRepository
       customer_id: row[:customer_id].to_i,
       merchant_id: row[:merchant_id].to_i,
       status: row[:status].to_sym,
-      created_at: convert_to_long_time(row[:created_at]),
-      updated_at: convert_to_long_time(row[:updated_at])
+      created_at: Time.parse(row[:created_at]),
+      updated_at: Time.parse(row[:updated_at])
     }
-  end
-
-  def convert_to_long_time(date)
-    d = Time.parse(date)
-    Time.parse(d.strftime('%F %T.%L%L%L %z'))
   end
 
   def parameters

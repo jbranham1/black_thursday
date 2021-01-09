@@ -3,13 +3,16 @@ require './lib/invoice'
 
 class InvoiceTest < Minitest::Test
   def setup
+    @repository = mock
     @invoice = Invoice.new(
-      id: 1,
-      customer_id: 2,
-      merchant_id: 3,
-      status: 'pending',
-      created_at: Time.new(2021, 1, 1, 8, 0, 0),
-      updated_at: Time.new(2021, 1, 1, 8, 0, 0)
+      {
+        id: 1,
+        customer_id: 2,
+        merchant_id: 3,
+        status: 'pending',
+        created_at: Time.new(2021, 1, 1, 8, 0, 0),
+        updated_at: Time.new(2021, 1, 1, 8, 0, 0)
+      }, @repository
     )
   end
 
@@ -24,6 +27,7 @@ class InvoiceTest < Minitest::Test
     assert_equal 'pending', @invoice.status
     assert_instance_of Time, @invoice.created_at
     assert_instance_of Time, @invoice.updated_at
+    assert_equal @repository, @invoice.repository
   end
 
   def test_can_update_certain_attributes
