@@ -7,7 +7,6 @@ class MerchantTest < Minitest::Test
   def setup
     @repository = mock
     @merchant = Merchant.new({ id: 5, name: 'Turing School' }, @repository)
-    @sample_item = create_item
   end
 
   def create_item
@@ -41,8 +40,9 @@ class MerchantTest < Minitest::Test
   end
 
   def test_can_retrieve_items
-    @repository.stubs(:items_by_merchant_id).with(@merchant.id).returns([@sample_item])
+    sample_item = create_item
+    @repository.stubs(:items_by_merchant_id).with(@merchant.id).returns([sample_item])
 
-    assert_equal [@sample_item], @merchant.items
+    assert_equal [sample_item], @merchant.items
   end
 end
