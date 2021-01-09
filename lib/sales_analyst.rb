@@ -1,8 +1,9 @@
 class SalesAnalyst
-  def initialize(merchant_repo, item_repo, invoice_repo)
-    @merchant_repo = merchant_repo
-    @item_repo = item_repo
-    @invoice_repo = invoice_repo
+  def initialize(engine)
+    @engine = engine
+    @merchant_repo = engine.merchants
+    @item_repo = engine.items
+    @invoice_repo = engine.invoices
   end
 
   def average_items_per_merchant
@@ -29,7 +30,7 @@ class SalesAnalyst
 
   def items_by_merchant
     merchants.each_with_object({}) do |merchant, hash|
-      hash[merchant] = items_for_merchant_id(merchant.id)
+      hash[merchant] = @engine.items_by_merchant_id(merchant.id)
     end
   end
 
@@ -49,26 +50,36 @@ class SalesAnalyst
 
   def invoices_by_merchant
     merchants.each_with_object({}) do |merchant, hash|
-      hash[merchant] = @invoice_repo.find_all_by_merchant_id(merchant.id)
+      hash[merchant] = @engine.invoices_by_merchant_id(merchant.id)
     end
   end
 
   def average_invoices_per_merchant_standard_deviation
-    items_per_merchant = invoices_by_merchant.values.map(&:length)
+    invoices_per_merchant = invoices_by_merchant.values.map(&:length)
 
-    standard_deviation(items_per_merchant, average_items_per_merchant)
+    standard_deviation(invoices_per_merchant, average_invoices_per_merchant)
   end
 
   def top_merchants_by_invoice_count
+    std_dev = average_invoices_per_merchant_standard_deviation
+    high_invoice_count = average_invoices_per_merchant + std_dev
+
+    invoices_by_merchant.map do |merchant, invoice|
+      merchant if invoice.length.to_f > high_invoice_count
+    end.compact
   end
 
   def bottom_merchants_by_invoice_count
+    # TODO: implement
   end
 
   def top_days_by_invoice_count
+    # TODO: implement
   end
 
   def invoice_status(status)
+    invoice_count = @engine.invoice_count_by_status(status)
+    ((invoice_count.to_f / invoices.count) * 100).round(2)
   end
 
   private
@@ -87,10 +98,6 @@ class SalesAnalyst
 
   def items_for(merchant)
     items_by_merchant[merchant]
-  end
-
-  def items_for_merchant_id(merchant_id)
-    @item_repo.find_all_by_merchant_id(merchant_id)
   end
 
   # === MATH METHODS ===

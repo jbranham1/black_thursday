@@ -30,4 +30,17 @@ class SalesEngineTest < Minitest::Test
     assert_instance_of Array, result
     assert_equal true, (result.all? { |object| object.is_a? Item })
   end
+
+  def test_can_find_items_by_merchant_id
+    merchant_id = 12_334_159
+
+    result = @engine.invoices_by_merchant_id(merchant_id)
+
+    assert_instance_of Array, result
+    assert_equal true, (result.all? { |object| object.is_a? Invoice })
+  end
+
+  def test_invoice_count_by_status
+    assert_equal 1473, @engine.invoice_count_by_status(:pending)
+  end
 end

@@ -65,7 +65,7 @@ class MerchantRepository
   end
 
   def invoices_by_merchant_id(id)
-    @engine.invoices.find_all_by_merchant_id(id)
+    @engine.invoices_by_merchant_id(id)
   end
 
   private

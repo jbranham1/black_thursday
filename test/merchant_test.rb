@@ -2,6 +2,7 @@ require './test/test_helper'
 require 'bigdecimal'
 require './lib/merchant'
 require './lib/item'
+require './lib/invoice'
 
 class MerchantTest < Minitest::Test
   def setup
@@ -13,6 +14,10 @@ class MerchantTest < Minitest::Test
     Item.new(item_data, mock)
   end
 
+  def create_invoice
+    Invoice.new(invoice_data, mock)
+  end
+
   def item_data
     {
       id: 1,
@@ -22,6 +27,17 @@ class MerchantTest < Minitest::Test
       created_at: Time.new(2021, 1, 1, 8, 0, 0),
       updated_at: Time.new(2021, 1, 1, 8, 0, 0),
       merchant_id: 2
+    }
+  end
+
+  def invoice_data
+    {
+      id: 1,
+      customer_id: 2,
+      merchant_id: 3,
+      status: 'pending',
+      created_at: Time.new(2021, 1, 1, 8, 0, 0),
+      updated_at: Time.new(2021, 1, 1, 8, 0, 0)
     }
   end
 
@@ -49,5 +65,15 @@ class MerchantTest < Minitest::Test
       .returns([item])
 
     assert_equal [item], @merchant.items
+  end
+
+  def test_can_retrieve_invoices
+    invoice = create_invoice
+    @repository
+      .expects(:invoices_by_merchant_id)
+      .with(@merchant.id)
+      .returns([invoice])
+
+    assert_equal [invoice], @merchant.invoices
   end
 end
