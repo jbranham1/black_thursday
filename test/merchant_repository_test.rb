@@ -10,6 +10,20 @@ class MerchantRepositoryTest < Minitest::Test
     @repo = MerchantRepository.new(filepath, @engine)
   end
 
+  def create_item
+    Item.new(
+      {
+        id: 1,
+        name: 'Pencil',
+        description: 'You can use it to write things.',
+        unit_price: BigDecimal(1099, 4),
+        created_at: Time.new(2021, 1, 1, 8, 0, 0),
+        updated_at: Time.new(2021, 1, 1, 8, 0, 0),
+        merchant_id: 2
+      }, mock
+    )
+  end
+
   def sorted_actual_ids(merchants)
     merchants.map(&:id).sort
   end
@@ -85,8 +99,13 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_items_by_merchant_id
-    skip
-    @engine.stubs(:items).returns(ItemRepository)
-    assert_equal [], @repo.engine.items_by_merchant_id(1)
+    item = create_item
+    merchant_id = 1
+    @engine
+      .expects(:items_by_merchant_id)
+      .with(merchant_id)
+      .returns([item])
+
+    assert_equal [item], @repo.items_by_merchant_id(merchant_id)
   end
 end

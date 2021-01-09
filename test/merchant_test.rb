@@ -40,9 +40,12 @@ class MerchantTest < Minitest::Test
   end
 
   def test_can_retrieve_items
-    sample_item = create_item
-    @repository.stubs(:items_by_merchant_id).with(@merchant.id).returns([sample_item])
+    item = create_item
+    @repository
+      .expects(:items_by_merchant_id)
+      .with(@merchant.id)
+      .returns([item])
 
-    assert_equal [sample_item], @merchant.items
+    assert_equal [item], @merchant.items
   end
 end
