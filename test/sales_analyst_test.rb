@@ -6,7 +6,8 @@ class SalesAnalystTest < Minitest::Test
   def setup
     files = {
       items: './data/items.csv',
-      merchants: './data/merchants.csv'
+      merchants: './data/merchants.csv',
+      invoices: './data/invoices.csv'
     }
     sales_engine = SalesEngine.new(files)
     @analyst = sales_engine.analyst

@@ -4,14 +4,14 @@ require_relative 'invoice_repository'
 require_relative 'sales_analyst'
 
 class SalesEngine
-  attr_reader :merchant_repository,
-              :item_repository,
-              :invoice_repository
+  attr_reader :merchants,
+              :items,
+              :invoices
 
   def initialize(files)
-    @merchant_repository = load_file(files[:merchants], MerchantRepository)
-    @item_repository = load_file(files[:items], ItemRepository)
-    @invoice_repository = load_file(files[:invoices], InvoiceRepository)
+    @merchants = load_file(files[:merchants], MerchantRepository)
+    @items = load_file(files[:items], ItemRepository)
+    @invoices = load_file(files[:invoices], InvoiceRepository)
   end
 
   def self.from_csv(files)
@@ -23,12 +23,12 @@ class SalesEngine
   end
 
   def analyst
-    SalesAnalyst.new(@merchant_repository,
-                     @item_repository,
-                     @invoice_repository)
+    SalesAnalyst.new(@merchants,
+                     @items,
+                     @invoices)
   end
 
   def items_by_merchant_id(merchant_id)
-    @item_repository.find_all_by_merchant_id(merchant_id)
+    @items.find_all_by_merchant_id(merchant_id)
   end
 end
