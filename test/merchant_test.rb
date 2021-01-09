@@ -1,10 +1,28 @@
 require './test/test_helper'
+require 'bigdecimal'
 require './lib/merchant'
+require './lib/item'
 
 class MerchantTest < Minitest::Test
   def setup
     @repository = mock
     @merchant = Merchant.new({ id: 5, name: 'Turing School' }, @repository)
+  end
+
+  def create_item
+    Item.new(item_data, mock)
+  end
+
+  def item_data
+    {
+      id: 1,
+      name: 'Pencil',
+      description: 'You can use it to write things.',
+      unit_price: BigDecimal(1099, 4),
+      created_at: Time.new(2021, 1, 1, 8, 0, 0),
+      updated_at: Time.new(2021, 1, 1, 8, 0, 0),
+      merchant_id: 2
+    }
   end
 
   def test_it_exists
@@ -21,5 +39,15 @@ class MerchantTest < Minitest::Test
     @merchant.update(name: 'Turing School Updated')
 
     assert_equal 'Turing School Updated', @merchant.name
+  end
+
+  def test_can_retrieve_items
+    item = create_item
+    @repository
+      .expects(:items_by_merchant_id)
+      .with(@merchant.id)
+      .returns([item])
+
+    assert_equal [item], @merchant.items
   end
 end
