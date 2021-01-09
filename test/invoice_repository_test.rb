@@ -5,7 +5,8 @@ require './lib/invoice_repository'
 class InvoiceRepositoryTest < Minitest::Test
   def setup
     filepath = './data/test_invoice.csv'
-    @repo = InvoiceRepository.new(filepath)
+    @engine = mock
+    @repo = InvoiceRepository.new(filepath, @engine)
   end
 
   def sorted_actual_ids(records)
@@ -25,6 +26,10 @@ class InvoiceRepositoryTest < Minitest::Test
 
   def test_it_exists
     assert_instance_of InvoiceRepository, @repo
+  end
+
+  def test_it_has_readable_attributes
+    assert_equal @engine, @repo.engine
   end
 
   def test_build_invoices
