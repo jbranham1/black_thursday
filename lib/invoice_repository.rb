@@ -3,8 +3,11 @@ require 'csv'
 require 'time'
 
 class InvoiceRepository
-  def initialize(filepath)
+  attr_reader :engine
+
+  def initialize(filepath, engine)
     @records = build_records(filepath)
+    @engine = engine
   end
 
   # :nocov:

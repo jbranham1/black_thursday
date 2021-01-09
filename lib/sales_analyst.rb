@@ -1,7 +1,8 @@
 class SalesAnalyst
-  def initialize(merchant_repo, item_repo)
+  def initialize(merchant_repo, item_repo, invoice_repo)
     @merchant_repo = merchant_repo
     @item_repo = item_repo
+    @invoice_repo = invoice_repo
   end
 
   def average_items_per_merchant
