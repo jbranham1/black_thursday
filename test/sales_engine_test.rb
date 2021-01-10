@@ -7,6 +7,7 @@ class SalesEngineTest < Minitest::Test
       items: './data/items.csv',
       merchants: './data/merchants.csv',
       invoices: './data/invoices.csv',
+      invoice_items: './data/invoice_items.csv',
       transactions: './data/transactions.csv'
     }
 
@@ -17,6 +18,7 @@ class SalesEngineTest < Minitest::Test
     assert_instance_of ItemRepository, @engine.items
     assert_instance_of MerchantRepository, @engine.merchants
     assert_instance_of InvoiceRepository, @engine.invoices
+    assert_instance_of InvoiceRepository, @engine.invoice_items
     assert_instance_of TransactionRepository, @engine.transactions
   end
 
