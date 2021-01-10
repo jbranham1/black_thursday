@@ -40,7 +40,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_can_find_average_price_for_merchant
-    result = @analyst.average_item_price_for_merchant(12_334_159)
+    result = @analyst.average_item_price_for_merchant(12_334_105)
 
     assert_instance_of BigDecimal, result
   end
