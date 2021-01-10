@@ -76,8 +76,23 @@ class SalesAnalyst
     end.compact
   end
 
+  def average_invoices_per_day
+    (@engine.invoices_by_day.values.sum(&:count)/ 7).round(2)
+  end
+
+  def average_invoices_per_day_standard_deviation
+    invoices_per_day = @engine.invoices_by_day.values.sum(&:count)
+
+    standard_deviation(invoices_per_day, average_invoices_per_day)
+  end
+
   def top_days_by_invoice_count
-    # TODO: implement
+    std_dev = average_invoices_per_day_standard_deviation
+    count = average_invoices_per_day + std_dev
+
+    @engine.invoices_by_day.map do |day, invoice|
+      day if invoice.length.to_f < count
+    end.compact
   end
 
   def invoice_status(status)
