@@ -88,13 +88,9 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_can_group_by_day
-    #hash = {"Saturday"=>[#<Invoice:0xXXXXXX @id=1, @customer_id=1, @merchant_id=12335938, @status=:pending, @created_at=2009-02-07 00:00:00 -0600, @updated_at=2014-03-15 00:00:00 -0500, @repository=#<#{self.class} #{@records.size} rows>>], 
-    #{}"Friday"=>[#<Invoice:0xXXXXXX @id=2, @customer_id=1, @merchant_id=12334753, @status=:shipped, @created_at=2012-11-23 00:00:00 -0600, @updated_at=2013-04-14 00:00:00 -0500, @repository=#<#{self.class} #{@records.size} rows>>]}
     assert_equal Hash, @repo.group_by_day.class
-  end
-
-  def test_can_find_nothing_when_searching_all_by_status
-    assert_equal [], @repo.find_all_by_status(:test)
+    assert_equal 2, @repo.group_by_day.count
+    assert_equal ["Saturday","Friday"], @repo.group_by_day.keys
   end
 
   def test_create_invoice

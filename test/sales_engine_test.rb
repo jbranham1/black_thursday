@@ -45,6 +45,7 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_invoices_by_day
-    assert_equal Hash, @engine.invoice_count_by_day.class
+    assert_equal Hash, @engine.invoices_by_day.class
+    assert_equal 7, @engine.invoices_by_day.count
   end
 end

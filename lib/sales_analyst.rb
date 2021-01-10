@@ -71,8 +71,8 @@ class SalesAnalyst
     std_dev = average_invoices_per_merchant_standard_deviation
     low_invoice_count = average_invoices_per_merchant - (std_dev * 2)
 
-    invoices_by_merchant.map do |merchant, invoice|
-      merchant if invoice.length.to_f < low_invoice_count
+    invoices_by_merchant.map do |merchant, invoices|
+      merchant if invoices.length.to_f < low_invoice_count
     end.compact
   end
 
@@ -81,7 +81,7 @@ class SalesAnalyst
   end
 
   def average_invoices_per_day_standard_deviation
-    invoices_per_day = @engine.invoices_by_day.values.sum(&:count)
+    invoices_per_day = @engine.invoices_by_day.values.map(&:count)
 
     standard_deviation(invoices_per_day, average_invoices_per_day)
   end
@@ -90,8 +90,8 @@ class SalesAnalyst
     std_dev = average_invoices_per_day_standard_deviation
     count = average_invoices_per_day + std_dev
 
-    @engine.invoices_by_day.map do |day, invoice|
-      day if invoice.length.to_f < count
+    @engine.invoices_by_day.map do |day, invoices|
+      day if invoices.length.to_f > count
     end.compact
   end
 

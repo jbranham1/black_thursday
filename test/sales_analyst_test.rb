@@ -77,8 +77,18 @@ class SalesAnalystTest < Minitest::Test
     assert_equal 4, result.length
   end
 
+  def test_average_invoices_per_day
+    assert_equal 712, @analyst.average_invoices_per_day
+  end
+
+  def test_average_invoices_per_day_standard_deviation
+    assert_equal 18.06, @analyst.average_invoices_per_day_standard_deviation
+  end
+
   def test_top_days_by_invoice_count
-    skip
+    result = @analyst.top_days_by_invoice_count
+    assert_equal ["Wednesday"], result
+    assert_equal 1, result.length
   end
 
   def test_percentage_of_invoice_status
