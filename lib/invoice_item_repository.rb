@@ -74,10 +74,14 @@ class InvoiceItemRepository
       item_id: row[:item_id].to_i,
       invoice_id: row[:invoice_id].to_i,
       quantity: row[:quantity].to_i,
-      unit_price: BigDecimal(row[:unit_price].to_f / 100, 6),
+      unit_price: convert_unit_price(row[:unit_price]),
       created_at: Time.parse(row[:created_at]),
       updated_at: Time.parse(row[:updated_at])
     }
+  end
+
+  def convert_unit_price(unit_price)
+    BigDecimal(unit_price.to_f / 100, 6)
   end
 
   def parameters

@@ -18,8 +18,7 @@ class InvoiceItemTest < Minitest::Test
         unit_price: BigDecimal(1099, 4),
         created_at: Time.now,
         updated_at: Time.now
-      }, @repository
-    )
+      }, @repository)
   end
 
   def test_it_exists
