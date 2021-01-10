@@ -106,7 +106,7 @@ class TransactionRepositoryTest < Minitest::Test
     assert_equal '0110', transaction_to_update.credit_card_expiration_date
     assert_equal 'fail', transaction_to_update.result
     assert_equal false,
-      (original_updated_at == transaction_to_update.updated_at)
+    (original_updated_at == transaction_to_update.updated_at)
   end
 
   def test_can_delete_transaction
