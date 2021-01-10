@@ -56,7 +56,7 @@ class InvoiceRepository
 
   def group_by_day
     all.group_by do |record|
-      record.created_at.strftime("%A")
+      record.created_at.strftime('%A')
     end
   end
 

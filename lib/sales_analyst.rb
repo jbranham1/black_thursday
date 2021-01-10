@@ -43,7 +43,7 @@ class SalesAnalyst
   end
 
   def average_invoices_per_merchant
-    (invoices_by_merchant.values.sum(&:count)/ merchants.count.to_f).round(2)
+    (invoices_by_merchant.values.sum(&:count) / merchants.count.to_f).round(2)
   end
 
   def invoices_by_merchant

@@ -90,7 +90,7 @@ class InvoiceRepositoryTest < Minitest::Test
   def test_can_group_by_day
     assert_equal Hash, @repo.group_by_day.class
     assert_equal 2, @repo.group_by_day.count
-    assert_equal ['Saturday', 'Friday'], @repo.group_by_day.keys
+    assert_equal %w(Saturday Friday), @repo.group_by_day.keys
   end
 
   def test_create_invoice
