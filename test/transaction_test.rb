@@ -17,6 +17,14 @@ class TransactionTest < Minitest::Test
     )
   end
 
+  def new_values
+    {
+      credit_card_number: '2',
+      credit_card_expiration_date: '0110',
+      result: 'fail'
+    }
+  end
+
   def test_it_exists
     assert_instance_of Transaction, @transaction
   end
@@ -33,12 +41,6 @@ class TransactionTest < Minitest::Test
   end
 
   def test_can_update_certain_attributes
-    new_values = {
-      credit_card_number: '2',
-      credit_card_expiration_date: '0110',
-      result: 'fail'
-    }
-
     original_updated_at = @transaction.updated_at
     @transaction.update(new_values)
 
