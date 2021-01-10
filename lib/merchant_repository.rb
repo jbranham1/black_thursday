@@ -68,10 +68,14 @@ class MerchantRepository
     @engine.invoices_by_merchant_id(id)
   end
 
+  def merchant_ids
+    @merchant_ids ||= all.map(&:id).sort
+  end
+
   private
 
   def max_merchant_id
-    all.max_by(&:id).id
+    @max_merchant_id ||= all.max_by(&:id).id
   end
 
   def get_info(row)

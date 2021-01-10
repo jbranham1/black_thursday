@@ -1,7 +1,9 @@
 require './test/test_helper'
 require 'csv'
+require 'bigdecimal'
 require './lib/merchant_repository'
-require './lib/item_repository'
+require './lib/item'
+require './lib/invoice'
 
 class MerchantRepositoryTest < Minitest::Test
   def setup
@@ -135,5 +137,11 @@ class MerchantRepositoryTest < Minitest::Test
       .returns([invoice])
 
     assert_equal [invoice], @repo.invoices_by_merchant_id(merchant_id)
+  end
+
+  def test_can_return_merchant_ids
+    expected = [12_334_105, 12_334_112].sort
+
+    assert_equal expected, @repo.merchant_ids
   end
 end
