@@ -15,13 +15,13 @@ class TransactionRepositoryTest < Minitest::Test
 
   def attributes
     {
-      :id => 1,
-      :transaction_id => 2,
-      :credit_card_number => "4242424242424242",
-      :credit_card_expiration_date => "0220",
-      :result => "success",
-      :created_at => Time.now,
-      :updated_at => Time.now
+      id: 1,
+      transaction_id: 2,
+      credit_card_number: '4242424242424242',
+      credit_card_expiration_date: '0220',
+      result: 'success',
+      created_at: Time.now,
+      updated_at: Time.now
     }
   end
 
@@ -29,7 +29,7 @@ class TransactionRepositoryTest < Minitest::Test
     {
       credit_card_number: '0101010101',
       credit_card_expiration_date: '0110',
-      result: "fail"
+      result: 'fail'
     }
   end
 
@@ -71,13 +71,13 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_can_find_all_by_credit_card_number
-    number = "4068631943231473"
+    number = '4068631943231473'
     actual_returned_records = @repo.find_all_by_credit_card_number(number)
     assert_equal [1], sorted_actual_ids(actual_returned_records)
   end
 
   def test_can_find_nothing_when_searching_all_by_credit_card_number
-    assert_equal [], @repo.find_all_by_credit_card_number("1")
+    assert_equal [], @repo.find_all_by_credit_card_number('1')
   end
 
   def test_can_find_all_by_result
