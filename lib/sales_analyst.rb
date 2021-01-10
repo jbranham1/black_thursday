@@ -77,7 +77,7 @@ class SalesAnalyst
   end
 
   def average_invoices_per_day
-    (@engine.invoices_by_day.values.sum(&:count)/ 7).round(2)
+    (@engine.invoices_by_day.values.sum(&:count) / 7).round(2)
   end
 
   def average_invoices_per_day_standard_deviation
