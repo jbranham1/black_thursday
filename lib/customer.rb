@@ -14,4 +14,10 @@ class Customer
     @updated_at = info[:updated_at]
     @repository = repository
   end
+
+  def update(attributes)
+    attributes[:first_name] && @first_name = attributes[:first_name]
+    attributes[:last_name] && @last_name = attributes[:last_name]
+    @updated_at = Time.now
+  end
 end
