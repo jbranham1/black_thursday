@@ -28,14 +28,25 @@ class SalesAnalyst
     end.compact
   end
 
+  def average_item_price_for_merchant(merchant_id)
+    # TODO: Memoize a method `average_item_price` on Merchant?
+    # And make this method fwd that msg to MerchantRepo which fwds to Merchant?
+    items_for(merchant_with_id(merchant_id)).sum(&:unit_price)
+  end
+
+  def average_average_price_per_merchant
+    # TODO: MUST optimize this, it's very slow.
+    average_prices = merchant_ids.map do |id|
+      average_item_price_for_merchant(id)
+    end
+
+    sum(average_prices)
+  end
+
   def items_by_merchant
     merchants.each_with_object({}) do |merchant, hash|
       hash[merchant] = @engine.items_by_merchant_id(merchant.id)
     end
-  end
-
-  def average_item_price_for_merchant(merchant_id)
-    items_for(merchant_with_id(merchant_id)).sum(&:unit_price)
   end
 
   def golden_items
@@ -83,6 +94,10 @@ class SalesAnalyst
 
   private
 
+  def merchant_ids
+    @merchant_repo.merchant_ids
+  end
+
   def merchants
     @merchant_repo.all
   end
@@ -107,12 +122,16 @@ class SalesAnalyst
     end
 
     # Sum these square differences together
-    step2 = step1.reduce(:+)
+    step2 = sum(step1)
 
     # Divide the sum by the number of elements minus 1
     step3 = step2 / (step1.length - 1)
 
     # Take the square root of this result
     Math.sqrt(step3).round(2)
+  end
+
+  def sum(set)
+    set.reduce(:+)
   end
 end

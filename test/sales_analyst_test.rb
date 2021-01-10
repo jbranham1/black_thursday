@@ -45,6 +45,12 @@ class SalesAnalystTest < Minitest::Test
     assert_instance_of BigDecimal, result
   end
 
+  def test_average_average_price_per_merchant
+    result = @analyst.average_average_price_per_merchant
+
+    assert_instance_of BigDecimal, result
+  end
+
   def test_can_find_golden_items
     skip
     @result = @analyst.golden_items
