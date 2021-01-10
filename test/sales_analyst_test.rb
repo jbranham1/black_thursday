@@ -40,16 +40,21 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_can_find_average_price_for_merchant
-    result = @analyst.average_item_price_for_merchant(12_334_159)
+    result = @analyst.average_item_price_for_merchant(12_334_105)
+
+    assert_instance_of BigDecimal, result
+  end
+
+  def test_average_average_price_per_merchant
+    result = @analyst.average_average_price_per_merchant
 
     assert_instance_of BigDecimal, result
   end
 
   def test_can_find_golden_items
-    skip
-    @result = @analyst.golden_items
+    result = @analyst.golden_items
 
-    assert_instance_of Array, @result
+    assert_instance_of Array, result
     assert_equal true, (result.all? { |object| object.is_a? Item })
   end
 

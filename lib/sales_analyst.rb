@@ -28,18 +28,40 @@ class SalesAnalyst
     end.compact
   end
 
+  def average_item_price_for_merchant(merchant_id)
+    # TODO: Memoize a method `average_item_price` on Merchant?
+    # And make this method fwd that msg to MerchantRepo which fwds to Merchant?
+    item_prices = items_for(merchant_with_id(merchant_id)).map(&:unit_price)
+    average(item_prices, 2)
+  end
+
+  def average_average_price_per_merchant
+    # TODO: MUST optimize this, it's very slow.
+    average_prices = merchant_ids.map do |id|
+      average_item_price_for_merchant(id)
+    end
+
+    average(average_prices, 2)
+  end
+
   def items_by_merchant
     merchants.each_with_object({}) do |merchant, hash|
       hash[merchant] = @engine.items_by_merchant_id(merchant.id)
     end
   end
 
-  def average_item_price_for_merchant(merchant_id)
-    items_for(merchant_with_id(merchant_id)).sum(&:unit_price)
-  end
-
   def golden_items
-    # TODO: implement
+    # Find the average item price
+    item_prices = items.map(&:unit_price)
+    average_item_price = average(item_prices, 2)
+
+    # Find standard deviation in item prices
+    item_price_std_dev = standard_deviation(item_prices, average_item_price)
+
+    # Cycle thru items, pulling out the ones 2 std dev's above the average
+    items.select do |item|
+      item.unit_price >= average_item_price + (item_price_std_dev * 2)
+    end
   end
 
   def average_invoices_per_merchant
@@ -102,8 +124,16 @@ class SalesAnalyst
 
   private
 
+  def merchant_ids
+    @merchant_repo.merchant_ids
+  end
+
   def merchants
     @merchant_repo.all
+  end
+
+  def items
+    @item_repo.all
   end
 
   def invoices
@@ -126,12 +156,20 @@ class SalesAnalyst
     end
 
     # Sum these square differences together
-    step2 = step1.reduce(:+)
+    step2 = sum(step1)
 
     # Divide the sum by the number of elements minus 1
     step3 = step2 / (step1.length - 1)
 
     # Take the square root of this result
     Math.sqrt(step3).round(2)
+  end
+
+  def average(set, round_precision)
+    (sum(set) / set.length).round(round_precision)
+  end
+
+  def sum(set)
+    set.reduce(:+)
   end
 end

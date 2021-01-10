@@ -28,7 +28,14 @@ class SalesEngineTest < Minitest::Test
     result = @engine.items_by_merchant_id(merchant_id)
 
     assert_instance_of Array, result
+    assert_equal false, result.empty?
     assert_equal true, (result.all? { |object| object.is_a? Item })
+  end
+
+  def test_merchant_can_have_no_items
+    result = @engine.items_by_merchant_id(-1)
+
+    assert_equal true, result.empty?
   end
 
   def test_can_find_invoices_by_merchant_id
@@ -37,7 +44,14 @@ class SalesEngineTest < Minitest::Test
     result = @engine.invoices_by_merchant_id(merchant_id)
 
     assert_instance_of Array, result
+    assert_equal false, result.empty?
     assert_equal true, (result.all? { |object| object.is_a? Invoice })
+  end
+
+  def test_merchant_can_have_no_invoices
+    result = @engine.items_by_merchant_id(-1)
+
+    assert_equal true, result.empty?
   end
 
   def test_invoice_count_by_status
