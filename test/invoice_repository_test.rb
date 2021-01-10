@@ -87,6 +87,12 @@ class InvoiceRepositoryTest < Minitest::Test
     assert_equal [], @repo.find_all_by_status(:test)
   end
 
+  def test_can_group_by_day
+    assert_equal Hash, @repo.group_by_day.class
+    assert_equal 2, @repo.group_by_day.count
+    assert_equal %w[Saturday Friday], @repo.group_by_day.keys
+  end
+
   def test_create_invoice
     @repo.create(attributes)
 

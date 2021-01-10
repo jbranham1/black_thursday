@@ -54,6 +54,12 @@ class InvoiceRepository
     end
   end
 
+  def group_by_day
+    all.group_by do |record|
+      record.created_at.strftime('%A')
+    end
+  end
+
   def create(attributes)
     attributes[:id] = max_invoice_id + 1
     @records << invoice_from(attributes)

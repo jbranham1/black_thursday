@@ -34,6 +34,10 @@ class SalesEngine
     @invoices.find_all_by_status(status).count
   end
 
+  def invoices_by_day
+    @invoices.group_by_day
+  end
+
   def analyst
     SalesAnalyst.new(self)
   end

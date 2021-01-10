@@ -43,4 +43,9 @@ class SalesEngineTest < Minitest::Test
   def test_invoice_count_by_status
     assert_equal 1473, @engine.invoice_count_by_status(:pending)
   end
+
+  def test_invoices_by_day
+    assert_equal Hash, @engine.invoices_by_day.class
+    assert_equal 7, @engine.invoices_by_day.count
+  end
 end

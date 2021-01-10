@@ -43,8 +43,7 @@ class SalesAnalyst
   end
 
   def average_invoices_per_merchant
-    total_invoices = invoices_by_merchant.sum(&:length)
-    ((total_invoices.to_f / invoices.length) * 100).round(2)
+    (invoices_by_merchant.values.sum(&:count) / merchants.count.to_f).round(2)
   end
 
   def invoices_by_merchant
@@ -61,7 +60,7 @@ class SalesAnalyst
 
   def top_merchants_by_invoice_count
     std_dev = average_invoices_per_merchant_standard_deviation
-    high_invoice_count = average_invoices_per_merchant + std_dev
+    high_invoice_count = average_invoices_per_merchant + (std_dev * 2)
 
     invoices_by_merchant.map do |merchant, invoice|
       merchant if invoice.length.to_f > high_invoice_count
@@ -69,11 +68,31 @@ class SalesAnalyst
   end
 
   def bottom_merchants_by_invoice_count
-    # TODO: implement
+    std_dev = average_invoices_per_merchant_standard_deviation
+    low_invoice_count = average_invoices_per_merchant - (std_dev * 2)
+
+    invoices_by_merchant.map do |merchant, invoices|
+      merchant if invoices.length.to_f < low_invoice_count
+    end.compact
+  end
+
+  def average_invoices_per_day
+    (@engine.invoices_by_day.values.sum(&:count) / 7).round(2)
+  end
+
+  def average_invoices_per_day_standard_deviation
+    invoices_per_day = @engine.invoices_by_day.values.map(&:count)
+
+    standard_deviation(invoices_per_day, average_invoices_per_day)
   end
 
   def top_days_by_invoice_count
-    # TODO: implement
+    std_dev = average_invoices_per_day_standard_deviation
+    count = average_invoices_per_day + std_dev
+
+    @engine.invoices_by_day.map do |day, invoices|
+      day if invoices.length.to_f > count
+    end.compact
   end
 
   def invoice_status(status)
