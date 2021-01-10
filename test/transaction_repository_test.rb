@@ -101,12 +101,12 @@ class TransactionRepositoryTest < Minitest::Test
     transaction_to_update = @repo.find_by_id(1)
     original_updated_at = transaction_to_update.updated_at
     @repo.update(1, new_values)
-
+    updated_time = transaction_to_update.updated_at
+    
     assert_equal '0101010101', transaction_to_update.credit_card_number
     assert_equal '0110', transaction_to_update.credit_card_expiration_date
     assert_equal 'fail', transaction_to_update.result
-    assert_equal false,
-    (original_updated_at == transaction_to_update.updated_at)
+    assert_equal false, (original_updated_at == updated_time)
   end
 
   def test_can_delete_transaction
