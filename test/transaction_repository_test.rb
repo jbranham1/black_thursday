@@ -102,7 +102,7 @@ class TransactionRepositoryTest < Minitest::Test
     original_updated_at = transaction_to_update.updated_at
     @repo.update(1, new_values)
     updated_time = transaction_to_update.updated_at
-    
+
     assert_equal '0101010101', transaction_to_update.credit_card_number
     assert_equal '0110', transaction_to_update.credit_card_expiration_date
     assert_equal 'fail', transaction_to_update.result
