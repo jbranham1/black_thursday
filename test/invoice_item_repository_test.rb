@@ -95,7 +95,8 @@ class InvoiceItemRepositoryTest < Minitest::Test
 
     assert_equal 2, invoice_item_to_update.quantity
     assert_equal BigDecimal(1299, 4), invoice_item_to_update.unit_price
-    assert_equal false, (original_updated_at == invoice_item_to_update.updated_at)
+    assert_equal false, (original_updated_at ==
+      invoice_item_to_update.updated_at)
   end
 
   def test_can_delete_invoice
