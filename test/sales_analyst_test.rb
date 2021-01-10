@@ -52,10 +52,9 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_can_find_golden_items
-    skip
-    @result = @analyst.golden_items
+    result = @analyst.golden_items
 
-    assert_instance_of Array, @result
+    assert_instance_of Array, result
     assert_equal true, (result.all? { |object| object.is_a? Item })
   end
 

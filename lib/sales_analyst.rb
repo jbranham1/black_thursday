@@ -51,7 +51,17 @@ class SalesAnalyst
   end
 
   def golden_items
-    # TODO: implement
+    # Find the average item price
+    item_prices = items.map(&:unit_price)
+    average_item_price = average(item_prices, 2)
+
+    # Find standard deviation in item prices
+    item_price_std_dev = standard_deviation(item_prices, average_item_price)
+
+    # Cycle thru items, pulling out the ones 2 std dev's above the average
+    items.select do |item|
+      item.unit_price >= average_item_price + (item_price_std_dev * 2)
+    end
   end
 
   def average_invoices_per_merchant
@@ -101,6 +111,10 @@ class SalesAnalyst
 
   def merchants
     @merchant_repo.all
+  end
+
+  def items
+    @item_repo.all
   end
 
   def invoices
