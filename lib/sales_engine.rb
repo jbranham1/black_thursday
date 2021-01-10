@@ -3,6 +3,7 @@ require_relative 'item_repository'
 require_relative 'invoice_repository'
 require_relative 'invoice_item_repository'
 require_relative 'transaction_repository'
+require_relative 'customer_repository'
 require_relative 'sales_analyst'
 
 class SalesEngine
@@ -10,7 +11,8 @@ class SalesEngine
               :items,
               :invoices,
               :invoice_items,
-              :transactions
+              :transactions,
+              :customers
 
   def initialize(files)
     @merchants = load_file(files[:merchants], MerchantRepository)
@@ -18,6 +20,7 @@ class SalesEngine
     @invoices = load_file(files[:invoices], InvoiceRepository)
     @invoice_items = load_file(files[:invoice_items], InvoiceItemRepository)
     @transactions = load_file(files[:transactions], TransactionRepository)
+    @customers = load_file(files[:customers], CustomerRepository)
   end
 
   def self.from_csv(files)
