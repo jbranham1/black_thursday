@@ -6,7 +6,8 @@ class SalesEngineTest < Minitest::Test
     files = {
       items: './data/items.csv',
       merchants: './data/merchants.csv',
-      invoices: './data/invoices.csv'
+      invoices: './data/invoices.csv',
+      transactions: './data/transactions.csv'
     }
 
     @engine = SalesEngine.from_csv(files)
@@ -16,6 +17,7 @@ class SalesEngineTest < Minitest::Test
     assert_instance_of ItemRepository, @engine.items
     assert_instance_of MerchantRepository, @engine.merchants
     assert_instance_of InvoiceRepository, @engine.invoices
+    assert_instance_of TransactionRepository, @engine.transactions
   end
 
   def test_can_create_a_sales_analyst
