@@ -5,11 +5,7 @@ require 'bigdecimal'
 class InvoiceItemTest < Minitest::Test
   def setup
     @repository = mock
-    @invoice_item = invoice_item
-  end
-
-  def invoice_item
-    InvoiceItem.new(
+    @invoice_item = InvoiceItem.new(
       {
         id: 6,
         item_id: 7,
@@ -18,7 +14,8 @@ class InvoiceItemTest < Minitest::Test
         unit_price: BigDecimal(1099, 4),
         created_at: Time.now,
         updated_at: Time.now
-      }, @repository)
+      }, @repository
+    )
   end
 
   def test_it_exists
