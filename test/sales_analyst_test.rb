@@ -112,6 +112,6 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_invoice_total
-    assert_equal 21067.77, @analyst.invoice_total(1)
+    assert_equal 21_067.77, @analyst.invoice_total(1)
   end
 end
