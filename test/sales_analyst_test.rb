@@ -102,4 +102,12 @@ class SalesAnalystTest < Minitest::Test
   def test_percentage_of_invoice_status
     assert_equal 29.55, @analyst.invoice_status(:pending)
   end
+
+  def test_invoice_paid_in_full
+    assert_equal true, @analyst.invoice_paid_in_full?(2179)
+  end
+
+  def test_invoice_not_paid_in_full
+    assert_equal false, @analyst.invoice_paid_in_full?(1752)
+  end
 end
