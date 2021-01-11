@@ -110,4 +110,8 @@ class SalesAnalystTest < Minitest::Test
   def test_invoice_not_paid_in_full
     assert_equal false, @analyst.invoice_paid_in_full?(1752)
   end
+
+  def test_invoice_total
+    assert_equal 21067.77, @analyst.invoice_total(1)
+  end
 end

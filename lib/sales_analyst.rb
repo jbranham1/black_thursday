@@ -4,6 +4,7 @@ class SalesAnalyst
     @merchant_repo = engine.merchants
     @item_repo = engine.items
     @invoice_repo = engine.invoices
+    @invoice_item_repo = engine.invoice_items
     @transaction_repo = engine.transactions
   end
 
@@ -125,6 +126,10 @@ class SalesAnalyst
 
   def invoice_paid_in_full?(invoice_id)
     @transaction_repo.paid_in_full?(invoice_id)
+  end
+
+  def invoice_total(invoice_id)
+    @invoice_item_repo.invoice_total(invoice_id) if invoice_paid_in_full?(invoice_id)
   end
 
   private
