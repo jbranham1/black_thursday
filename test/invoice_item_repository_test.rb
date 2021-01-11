@@ -105,4 +105,12 @@ class InvoiceItemRepositoryTest < Minitest::Test
     assert_equal 1, @repo.all.count
     assert_nil @repo.find_by_id(1)
   end
+
+  def test_invoice_total
+    assert_equal 2780.91, @repo.invoice_total(1)
+  end
+
+  def test_invoice_total_with_no_invoices
+    assert_equal 0, @repo.invoice_total(-1)
+  end
 end
