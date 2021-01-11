@@ -42,7 +42,7 @@ class TransactionRepositoryTest < Minitest::Test
   end
 
   def test_build_transactions
-    assert_equal 2, @repo.all.count
+    assert_equal 3, @repo.all.count
   end
 
   def test_transaction_from
@@ -92,9 +92,9 @@ class TransactionRepositoryTest < Minitest::Test
   def test_create_transaction
     @repo.create(attributes)
 
-    assert_equal 3, @repo.all.count
+    assert_equal 4, @repo.all.count
     assert_instance_of Transaction, @repo.all.last
-    assert_equal 3, @repo.all.last.id
+    assert_equal 4, @repo.all.last.id
   end
 
   def test_can_update_an_transaction
@@ -112,7 +112,19 @@ class TransactionRepositoryTest < Minitest::Test
   def test_can_delete_transaction
     @repo.delete(1)
 
-    assert_equal 1, @repo.all.count
+    assert_equal 2, @repo.all.count
     assert_nil @repo.find_by_id(1)
+  end
+
+  def test_is_paid_in_full
+    assert_equal true, @repo.paid_in_full?(2179)
+  end
+
+  def test_is_not_paid_in_full
+    assert_equal false, @repo.paid_in_full?(12)
+  end
+
+  def test_paid_in_full_when_no_transactions_for_invoice_id
+    assert_equal false, @repo.paid_in_full?(-1)
   end
 end

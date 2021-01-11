@@ -4,6 +4,8 @@ class SalesAnalyst
     @merchant_repo = engine.merchants
     @item_repo = engine.items
     @invoice_repo = engine.invoices
+    @invoice_item_repo = engine.invoice_items
+    @transaction_repo = engine.transactions
   end
 
   def average_items_per_merchant
@@ -122,7 +124,19 @@ class SalesAnalyst
     ((invoice_count.to_f / invoices.count) * 100).round(2)
   end
 
+  def invoice_paid_in_full?(invoice_id)
+    @transaction_repo.paid_in_full?(invoice_id)
+  end
+
+  def invoice_total(invoice_id)
+    calculate_invoice_total(invoice_id) if invoice_paid_in_full?(invoice_id)
+  end
+
   private
+
+  def calculate_invoice_total(invoice_id)
+    @invoice_item_repo.invoice_total(invoice_id)
+  end
 
   def merchant_ids
     @merchant_repo.merchant_ids
