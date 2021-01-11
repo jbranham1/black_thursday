@@ -129,12 +129,14 @@ class SalesAnalyst
   end
 
   def invoice_total(invoice_id)
-    if invoice_paid_in_full?(invoice_id)
-      @invoice_item_repo.invoice_total(invoice_id)
-    end
+    calculate_invoice_total(invoice_id) if invoice_paid_in_full?(invoice_id)
   end
 
   private
+
+  def calculate_invoice_total(invoice_id)
+    @invoice_item_repo.invoice_total(invoice_id)
+  end
 
   def merchant_ids
     @merchant_repo.merchant_ids
