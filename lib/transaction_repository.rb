@@ -67,6 +67,14 @@ class TransactionRepository
     all.delete(find_by_id(id))
   end
 
+  def paid_in_full?(invoice_id)
+    transactions = find_all_by_invoice_id(invoice_id)
+    return false if transactions.empty?
+    transactions.all? do |transaction|
+      transaction.result == :success
+    end
+  end
+
   private
 
   def max_id
