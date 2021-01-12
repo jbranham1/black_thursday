@@ -22,8 +22,8 @@ class Merchant
   end
 
   def pending_invoices
-    invoices.select do |invoice|
-      !invoice.paid_in_full?
+    invoices.reject do |invoice|
+      invoice.paid_in_full?
     end
   end
 end

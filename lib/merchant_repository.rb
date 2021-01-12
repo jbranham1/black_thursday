@@ -79,8 +79,8 @@ class MerchantRepository
   end
 
   def merchants_with_pending_invoices
-    all.select do |merchant|
-      merchant.pending_invoices.length > 0
+    all.reject do |merchant|
+      merchant.pending_invoices.empty?
     end
   end
 
