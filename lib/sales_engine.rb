@@ -66,4 +66,12 @@ class SalesEngine
   def merchants_with_ids(ids)
     @merchants.merchants_with_ids(ids)
   end
+
+  def transactions_for_invoice(invoice_id)
+    @transactions.find_all_by_invoice_id(invoice_id)
+  end
+
+  def merchants_with_pending_invoices
+    @merchants.merchants_with_pending_invoices
+  end
 end

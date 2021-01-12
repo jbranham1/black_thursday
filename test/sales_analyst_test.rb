@@ -122,7 +122,6 @@ class SalesAnalystTest < Minitest::Test
   def test_merchants_with_pending_invoices
     result = @analyst.merchants_with_pending_invoices
 
-    assert_equal false, result.empty?
     assert_equal 467, result.length
     assert_equal true, (result.all? { |object| object.is_a? Merchant })
   end
