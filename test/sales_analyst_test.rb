@@ -120,4 +120,18 @@ class SalesAnalystTest < Minitest::Test
 
     assert_equal 21_067.77, @analyst.total_revenue_by_date(date)
   end
+
+  def test_top_revenue_earners
+    expected = @analyst.top_revenue_earners(10)
+    first = expected.first
+    last = expected.last
+
+    assert_equal 10, expected.length
+
+    assert_instance_of Merchant, first
+    assert_equal 12334634, first.id
+
+    assert_instance_of Merchant, last
+    assert_equal 12335747, last.id
+  end
 end
