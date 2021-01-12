@@ -114,4 +114,8 @@ class SalesAnalystTest < Minitest::Test
   def test_invoice_total
     assert_equal 21_067.77, @analyst.invoice_total(1)
   end
+
+  def test_revenue_by_merchant
+    assert_instance_of BigDecimal, @analyst.revenue_by_merchant(12334194)
+  end
 end

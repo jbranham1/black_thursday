@@ -132,6 +132,17 @@ class SalesAnalyst
     calculate_invoice_total(invoice_id) if invoice_paid_in_full?(invoice_id)
   end
 
+  def revenue_by_merchant(merchant_id)
+    merchant_invoices = @engine.invoices_by_merchant_id(merchant_id)
+    successful_transactions = @engine.transactions_with_result(:success)
+    invoice_ids = overlapping_invoice_ids(merchant_invoices, successful_transactions)
+    invoice_info = @engine.invoice_info_for(invoice_ids)
+
+    invoice_info.sum do |invoice_item|
+      invoice_item.unit_price * invoice_item.quantity
+    end
+  end
+
   private
 
   def calculate_invoice_total(invoice_id)
@@ -160,6 +171,13 @@ class SalesAnalyst
 
   def items_for(merchant)
     items_by_merchant[merchant]
+  end
+
+  def overlapping_invoice_ids(merchant_invoices, successful_transactions)
+    merchant_invoice_ids = merchant_invoices.map(&:id)
+    transaction_invoice_ids = successful_transactions.map(&:invoice_id)
+
+    merchant_invoice_ids & transaction_invoice_ids
   end
 
   # === MATH METHODS ===
