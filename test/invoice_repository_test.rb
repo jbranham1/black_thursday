@@ -117,4 +117,13 @@ class InvoiceRepositoryTest < Minitest::Test
     assert_equal 2, @repo.all.count
     assert_nil @repo.find_by_id(1)
   end
+
+  def test_transactions_for_invoice
+    invoice_id = 1
+    @engine
+      .expects(:transactions_for_invoice)
+      .with(invoice_id)
+
+    @repo.transactions_for_invoice(invoice_id)
+  end
 end
