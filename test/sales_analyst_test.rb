@@ -134,4 +134,17 @@ class SalesAnalystTest < Minitest::Test
     assert_instance_of Merchant, last
     assert_equal 12_335_747, last.id
   end
+
+  def test_merchants_with_revenue
+    assert_instance_of Merchant, @analyst.merchants_with_revenue.keys
+    assert_instance_of BigDecimal, @analyst.merchants_with_revenue.values
+  end
+
+  def test_merchants_sorted_by_revenue
+    expected = @analyst.merchants_sorted_by_revenue
+    first = expected.first
+
+    assert_instance_of Merchant, first
+    assert_equal 12_334_634, first.id
+  end
 end

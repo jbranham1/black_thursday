@@ -139,16 +139,19 @@ class SalesAnalyst
   end
 
   def top_revenue_earners(num_of_merchants = 20)
-    hash = {}
-    invoices_by_merchant.each do |merchant, _|
-      hash[merchant] = revenue_by_merchant(merchant.id)
+    merchants_sorted_by_revenue.keys.first(num_of_merchants)
+  end
+
+  def merchants_with_revenue
+    invoices_by_merchant.each_with_object({}) do |merchant_invoices, hash|
+      hash[merchant_invoices[0]] = revenue_by_merchant(merchant_invoices[0].id)
     end
+  end
 
-    sorted = hash.sort_by do |_, revenue|
-      revenue
-    end.reverse.to_h
-
-    sorted.keys.first(num_of_merchants)
+  def merchants_sorted_by_revenue
+    merchants_with_revenue.sort_by do |_, revenue|
+      -revenue
+    end.to_h
   end
 
   private
@@ -179,13 +182,6 @@ class SalesAnalyst
 
   def items_for(merchant)
     items_by_merchant[merchant]
-  end
-
-  def overlapping_invoice_ids(merchant_invoices, successful_transactions)
-    merchant_invoice_ids = merchant_invoices.map(&:id)
-    transaction_invoice_ids = successful_transactions.map(&:invoice_id)
-
-    merchant_invoice_ids & transaction_invoice_ids
   end
 
   # === MATH METHODS ===
