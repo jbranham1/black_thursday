@@ -79,7 +79,7 @@ class SalesEngineTest < Minitest::Test
     result = @engine.transactions_with_result(:success)
 
     assert_equal false, result.empty?
-    assert_equal true, (result.all? { |transaction| transaction.result == :success })
+    assert_equal true, (result.all? { |transact| transact.result == :success })
   end
 
   def test_invoice_info_for
@@ -89,9 +89,20 @@ class SalesEngineTest < Minitest::Test
     assert_equal [21, 22, 54, 55], sort_ids(result)
   end
 
-# id,item_id,invoice_id,quantity,unit_price,created_at,updated_at
-# 21,263566314,4,2,42203,2012-03-27 14:54:10 UTC,2012-03-27 14:54:10 UTC
-# 22,263546142,4,3,37333,2012-03-27 14:54:10 UTC,2012-03-27 14:54:10 UTC
-# 54,263535944,11,7,62086,2012-03-27 14:54:10 UTC,2012-03-27 14:54:10 UTC
-# 55,263397059,11,2,40187,2012-03-27 14:54:10 UTC,2012-03-27 14:54:10 UTC
+  def test_invoices_with_status
+    result = @engine.invoices_with_status(:pending)
+
+    assert_equal false, result.empty?
+    assert_equal 1473, result.length
+    assert_equal true, (result.all? { |object| object.is_a? Invoice })
+  end
+
+  def test_merchants_with_ids
+    expected_ids = [12_334_753, 12_335_938]
+    result = @engine.merchants_with_ids(expected_ids)
+
+    assert_equal false, result.empty?
+    assert_equal 2, result.length
+    assert_equal expected_ids, sort_ids(result)
+  end
 end

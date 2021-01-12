@@ -58,4 +58,12 @@ class SalesEngine
   def invoice_info_for(invoice_ids)
     @invoice_items.find_all_by_invoice_ids(invoice_ids)
   end
+
+  def invoices_with_status(status)
+    @invoices.find_all_by_status(status)
+  end
+
+  def merchants_with_ids(ids)
+    @merchants.merchants_with_ids(ids)
+  end
 end
