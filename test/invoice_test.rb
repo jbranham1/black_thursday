@@ -37,4 +37,22 @@ class InvoiceTest < Minitest::Test
     assert_equal 'sold', @invoice.status
     assert_equal false, (original_updated_at == @invoice.updated_at)
   end
+
+  def test_can_find_transactions
+    @repository
+      .expects(:transactions_for_invoice)
+      .with(@invoice.id)
+
+    @invoice.transactions
+  end
+
+  # def test_paid_in_full
+  # TODO: how do we test this?
+  #   @repository
+  #     .expects(:transactions_for_invoice)
+  #     .with(@invoice.id)
+  #     .returns([t1, t2])
+
+  #   assert_equal ___, @invoice.paid_in_full?
+  # end
 end
