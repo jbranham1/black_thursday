@@ -81,6 +81,10 @@ class ItemRepository
     all.delete(find_by_id(id))
   end
 
+  def invoice_items_by_item(item_id)
+    @engine.invoice_items_by_item(item_id)
+  end
+
   private
 
   def max_item_id
