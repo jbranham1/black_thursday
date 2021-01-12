@@ -121,7 +121,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_merchants_with_only_one_item_registered_in_month
-    merch = @analyst.merchants_with_only_one_item_registered_in_month("March")
+    merch = @analyst.merchants_with_only_one_item_registered_in_month('March')
     assert_equal Array, merch.class
     assert_equal 21, merch.count
   end

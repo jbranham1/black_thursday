@@ -23,7 +23,7 @@ class Merchant
     @invoices ||= @repository.invoices_by_merchant_id(@id)
   end
 
-  def has_one_item?
-    items.count ==1
+  def one_item?
+    items.count == 1
   end
 end

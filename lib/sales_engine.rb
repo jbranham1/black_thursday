@@ -49,12 +49,12 @@ class SalesEngine
   end
 
   def merchants_with_one_item
-    @merchants.all.select(&:has_one_item?)
+    @merchants.all.select(&:one_item?)
   end
 
   def merchants_with_one_item_in_month(month)
     merchants_with_one_item.select do |merchant|
-      merchant.created_at.strftime("%B") == month
+      merchant.created_at.strftime('%B') == month
     end
   end
 

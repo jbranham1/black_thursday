@@ -12,7 +12,8 @@ class MerchantTest < Minitest::Test
         id: 5,
         name: 'Turing School',
         created_at: Time.new(2021, 1, 1, 8, 0, 0)
-      }, @repository)
+      }, @repository
+    )
   end
 
   def create_item
@@ -90,6 +91,6 @@ class MerchantTest < Minitest::Test
       .with(@merchant.id)
       .returns([item])
 
-    assert_equal true, @merchant.has_one_item?
+    assert_equal true, @merchant.one_item?
   end
 end

@@ -74,8 +74,8 @@ class SalesEngineTest < Minitest::Test
     assert_equal 243, @engine.merchants_with_one_item.count
   end
 
-  def test_merchants_with_one_item
-    merchants = @engine.merchants_with_one_item_in_month("March")
+  def test_merchants_with_one_item_in_month
+    merchants = @engine.merchants_with_one_item_in_month('March')
     assert_equal Array, merchants.class
     assert_equal 21, merchants.count
   end
