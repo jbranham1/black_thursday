@@ -138,17 +138,17 @@ class SalesAnalyst
     end
   end
 
-  def top_revenue_earners(x=20)
+  def top_revenue_earners(num_of_merchants = 20)
     hash = {}
-    invoices_by_merchant.each do |merchant, invoices|
+    invoices_by_merchant.each do |merchant, _|
       hash[merchant] = revenue_by_merchant(merchant.id)
     end
 
-    sorted = hash.sort_by do |merchant, revenue|
+    sorted = hash.sort_by do |_, revenue|
       revenue
     end.reverse.to_h
 
-    sorted.keys.first(x)
+    sorted.keys.first(num_of_merchants)
   end
 
   private

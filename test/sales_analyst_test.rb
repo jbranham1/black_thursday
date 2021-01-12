@@ -129,9 +129,9 @@ class SalesAnalystTest < Minitest::Test
     assert_equal 10, expected.length
 
     assert_instance_of Merchant, first
-    assert_equal 12334634, first.id
+    assert_equal 12_334_634, first.id
 
     assert_instance_of Merchant, last
-    assert_equal 12335747, last.id
+    assert_equal 12_335_747, last.id
   end
 end
