@@ -72,6 +72,12 @@ class MerchantRepository
     @merchant_ids ||= all.map(&:id).sort
   end
 
+  def merchants_with_ids(ids)
+    all.select do |merchant|
+      ids.include?(merchant.id)
+    end
+  end
+
   private
 
   def max_merchant_id

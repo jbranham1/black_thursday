@@ -56,7 +56,7 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_build_merchants
-    assert_equal 2, @repo.all.count
+    assert_equal 3, @repo.all.count
   end
 
   def test_can_return_all_items
@@ -98,8 +98,8 @@ class MerchantRepositoryTest < Minitest::Test
     @repo.create(attributes)
 
     assert_instance_of Merchant, @repo.all.last
-    assert_equal 3, @repo.all.count
-    assert_equal 12_334_113, @repo.all.last.id
+    assert_equal 4, @repo.all.count
+    assert_equal 12_345_679, @repo.all.last.id
   end
 
   def test_can_update_merchant
@@ -113,7 +113,7 @@ class MerchantRepositoryTest < Minitest::Test
   def test_can_delete_merchant
     @repo.delete(12_334_105)
 
-    assert_equal 1, @repo.all.count
+    assert_equal 2, @repo.all.count
     assert_nil @repo.find_by_id(12_334_105)
   end
 
@@ -140,8 +140,16 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_can_return_merchant_ids
-    expected = [12_334_105, 12_334_112].sort
+    expected = [12_334_105, 12_334_112, 12_345_678]
 
     assert_equal expected, @repo.merchant_ids
+  end
+
+  def test_merchants_with_ids
+    expected_ids = [12_334_105, 12_334_112]
+    result = @repo.merchants_with_ids(expected_ids)
+
+    assert_equal 2, result.length
+    assert_equal expected_ids, sorted_actual_ids(result)
   end
 end
