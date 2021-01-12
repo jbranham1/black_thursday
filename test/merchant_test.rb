@@ -7,7 +7,12 @@ require './lib/invoice'
 class MerchantTest < Minitest::Test
   def setup
     @repository = mock
-    @merchant = Merchant.new({ id: 5, name: 'Turing School' }, @repository)
+    @merchant = Merchant.new(
+      {
+        id: 5,
+        name: 'Turing School',
+        created_at: Time.new(2021, 1, 1, 8, 0, 0)
+      }, @repository)
   end
 
   def create_item
@@ -49,6 +54,7 @@ class MerchantTest < Minitest::Test
     assert_equal 5, @merchant.id
     assert_equal 'Turing School', @merchant.name
     assert_equal @repository, @merchant.repository
+    assert_instance_of Time, @merchant.created_at
   end
 
   def test_update
@@ -75,5 +81,15 @@ class MerchantTest < Minitest::Test
       .returns([invoice])
 
     assert_equal [invoice], @merchant.invoices
+  end
+
+  def test_has_one_item
+    item = create_item
+    @repository
+      .expects(:items_by_merchant_id)
+      .with(@merchant.id)
+      .returns([item])
+
+    assert_equal true, @merchant.has_one_item?
   end
 end

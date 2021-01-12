@@ -68,4 +68,15 @@ class SalesEngineTest < Minitest::Test
     assert_equal Hash, @engine.invoices_by_day.class
     assert_equal 7, @engine.invoices_by_day.count
   end
+
+  def test_merchants_with_one_item
+    assert_equal Array, @engine.merchants_with_one_item.class
+    assert_equal 243, @engine.merchants_with_one_item.count
+  end
+
+  def test_merchants_with_one_item
+    merchants = @engine.merchants_with_one_item_in_month("March")
+    assert_equal Array, merchants.class
+    assert_equal 21, merchants.count
+  end
 end
