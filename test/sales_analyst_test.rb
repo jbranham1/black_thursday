@@ -147,4 +147,15 @@ class SalesAnalystTest < Minitest::Test
     assert_instance_of Merchant, first
     assert_equal 12_334_634, first.id
   end
+
+  def test_merchants_with_only_one_item
+    assert_equal Array, @analyst.merchants_with_only_one_item.class
+    assert_equal 243, @analyst.merchants_with_only_one_item.count
+  end
+
+  def test_merchants_with_only_one_item_registered_in_month
+    merch = @analyst.merchants_with_only_one_item_registered_in_month('March')
+    assert_equal Array, merch.class
+    assert_equal 21, merch.count
+  end
 end
