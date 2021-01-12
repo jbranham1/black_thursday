@@ -50,4 +50,12 @@ class SalesEngine
   def analyst
     SalesAnalyst.new(self)
   end
+
+  def transactions_with_result(result)
+    @transactions.find_all_by_result(result)
+  end
+
+  def invoice_info_for(invoice_ids)
+    @invoice_items.find_all_by_invoice_ids(invoice_ids)
+  end
 end
