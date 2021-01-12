@@ -16,9 +16,7 @@ class SalesEngineTest < Minitest::Test
   end
 
   def sort_ids(objects_with_ids)
-    objects_with_ids.map do |object|
-      object.id
-    end.sort
+    objects_with_ids.map(&:id).sort
   end
 
   def test_is_created_from_csv_files

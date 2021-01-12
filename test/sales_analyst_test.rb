@@ -116,7 +116,7 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_revenue_by_merchant
-    assert_instance_of BigDecimal, @analyst.revenue_by_merchant(12334194)
+    assert_instance_of BigDecimal, @analyst.revenue_by_merchant(12_334_194)
   end
 
   def test_merchants_with_pending_invoices
