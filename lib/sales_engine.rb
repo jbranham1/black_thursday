@@ -47,6 +47,10 @@ class SalesEngine
     @invoices.group_by_day
   end
 
+  def invoices_on(date)
+    @invoices.find_by_date(date)
+  end
+
   def analyst
     SalesAnalyst.new(self)
   end

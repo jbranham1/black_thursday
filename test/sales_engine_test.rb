@@ -68,4 +68,11 @@ class SalesEngineTest < Minitest::Test
     assert_equal Hash, @engine.invoices_by_day.class
     assert_equal 7, @engine.invoices_by_day.count
   end
+
+  def test_invoices_on
+    date = Time.parse('2009-02-07')
+    invoices = @engine.invoices_on(date)
+
+    assert_equal 1, invoices.length
+  end
 end

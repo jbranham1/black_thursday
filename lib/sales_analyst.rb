@@ -132,6 +132,12 @@ class SalesAnalyst
     calculate_invoice_total(invoice_id) if invoice_paid_in_full?(invoice_id)
   end
 
+  def total_revenue_by_date(date)
+    @engine.invoices_on(date).sum do |invoice|
+      invoice_total(invoice.id)
+    end
+  end
+
   private
 
   def calculate_invoice_total(invoice_id)

@@ -114,4 +114,10 @@ class SalesAnalystTest < Minitest::Test
   def test_invoice_total
     assert_equal 21_067.77, @analyst.invoice_total(1)
   end
+
+  def test_total_revenue_by_date
+    date = Time.parse('2009-02-07')
+
+    assert_equal 21_067.77, @analyst.total_revenue_by_date(date)
+  end
 end
