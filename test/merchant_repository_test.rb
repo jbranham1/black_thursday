@@ -152,4 +152,8 @@ class MerchantRepositoryTest < Minitest::Test
     assert_equal 2, result.length
     assert_equal expected_ids, sorted_actual_ids(result)
   end
+
+  def test_merchants_with_pending_invoices
+    # TODO
+  end
 end

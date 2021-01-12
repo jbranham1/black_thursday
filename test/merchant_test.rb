@@ -76,4 +76,8 @@ class MerchantTest < Minitest::Test
 
     assert_equal [invoice], @merchant.invoices
   end
+
+  def test_pending_invoices
+    # TODO
+  end
 end

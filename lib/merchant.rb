@@ -20,4 +20,10 @@ class Merchant
   def invoices
     @invoices ||= @repository.invoices_by_merchant_id(@id)
   end
+
+  def pending_invoices
+    invoices.select do |invoice|
+      !invoice.paid_in_full?
+    end
+  end
 end

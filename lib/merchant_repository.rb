@@ -78,6 +78,12 @@ class MerchantRepository
     end
   end
 
+  def merchants_with_pending_invoices
+    all.select do |merchant|
+      merchant.pending_invoices.length > 0
+    end
+  end
+
   private
 
   def max_merchant_id
