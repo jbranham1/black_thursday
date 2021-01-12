@@ -118,4 +118,12 @@ class SalesAnalystTest < Minitest::Test
   def test_revenue_by_merchant
     assert_instance_of BigDecimal, @analyst.revenue_by_merchant(12334194)
   end
+
+  def test_merchants_with_pending_invoices
+    result = @analyst.merchants_with_pending_invoices
+
+    assert_equal false, result.empty?
+    assert_equal 467, result.length
+    assert_equal true, (result.all? { |object| object.is_a? Merchant })
+  end
 end

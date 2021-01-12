@@ -143,7 +143,18 @@ class SalesAnalyst
     end
   end
 
+  def merchants_with_pending_invoices
+    pending_invoices = @engine.invoices_with_status(:pending)
+    merchant_ids = merchant_ids_from(pending_invoices)
+
+    @engine.merchants_with_ids(merchant_ids)
+  end
+
   private
+
+  def merchant_ids_from(pending_invoices)
+    pending_invoices.map(&:merchant_id).uniq
+  end
 
   def calculate_invoice_total(invoice_id)
     @invoice_item_repo.invoice_total(invoice_id)
