@@ -49,6 +49,12 @@ class InvoiceItemRepository
     end
   end
 
+  def find_all_by_invoice_ids(invoice_ids)
+    all.select do |record|
+      invoice_ids.include?(record.invoice_id)
+    end
+  end
+
   def invoice_total(invoice_id)
     invoice_items = find_all_by_invoice_id(invoice_id)
 
