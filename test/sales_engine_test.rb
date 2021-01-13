@@ -111,6 +111,6 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_merchants_with_pending_invoices
-    # TODO
+    # TODO: How do we test this?
   end
 end

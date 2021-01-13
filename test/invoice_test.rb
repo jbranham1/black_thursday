@@ -16,6 +16,20 @@ class InvoiceTest < Minitest::Test
     )
   end
 
+  def mock_successful_transaction
+    successful_transaction = mock
+    successful_transaction.stubs(:result).returns(:success)
+
+    successful_transaction
+  end
+
+  def mock_failed_transaction
+    failed_transaction = mock
+    failed_transaction.stubs(:result).returns(:failed)
+
+    failed_transaction
+  end
+
   def test_it_exists
     assert_instance_of Invoice, @invoice
   end
@@ -46,13 +60,27 @@ class InvoiceTest < Minitest::Test
     @invoice.transactions
   end
 
-  # def test_paid_in_full
-  # TODO: how do we test this?
-  #   @repository
-  #     .expects(:transactions_for_invoice)
-  #     .with(@invoice.id)
-  #     .returns([t1, t2])
+  def test_is_paid_in_full
+    transactions = [mock_successful_transaction, mock_failed_transaction]
+    transactions.each do |thing|
+    end
 
-  #   assert_equal ___, @invoice.paid_in_full?
-  # end
+    @repository
+      .expects(:transactions_for_invoice)
+      .with(@invoice.id)
+      .returns(transactions)
+
+    assert_equal true, @invoice.paid_in_full?
+  end
+
+  def test_is_not_paid_in_full
+    transactions = [mock_failed_transaction]
+
+    @repository
+      .expects(:transactions_for_invoice)
+      .with(@invoice.id)
+      .returns(transactions)
+
+    assert_equal false, @invoice.paid_in_full?
+  end
 end
