@@ -169,9 +169,9 @@ class SalesEngineTest < Minitest::Test
       .merchants
       .expects(:most_sold_item_for_merchant)
       .with(merchant_id)
-      .returns(item)
+      .returns([item])
 
-    assert_equal item, @engine.most_sold_item_for_merchant(merchant_id)
+    assert_equal [item], @engine.most_sold_item_for_merchant(merchant_id)
   end
 
   def test_best_item_for_merchant
