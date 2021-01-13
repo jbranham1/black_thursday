@@ -54,7 +54,8 @@ class SalesAnalyst
   end
 
   def average_invoices_per_merchant
-    (@engine.invoices_by_merchant.values.sum(&:count) / merchants.count.to_f).round(2)
+    invoices_count = @engine.invoices_by_merchant.values.sum(&:count)
+    (invoices_count / merchants.count.to_f).round(2)
   end
 
   def average_invoices_per_merchant_standard_deviation
@@ -124,7 +125,8 @@ class SalesAnalyst
   end
 
   def merchants_with_revenue
-    @engine.invoices_by_merchant.each_with_object({}) do |merchant_invoices, hash|
+    invoices = @engine.invoices_by_merchant
+    invoices.each_with_object({}) do |merchant_invoices, hash|
       merchant = merchant_invoices[0]
       hash[merchant] = BigDecimal(revenue_by_merchant(merchant.id), 6)
     end
