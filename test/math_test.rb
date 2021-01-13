@@ -37,6 +37,6 @@ class MathTest < Minitest::Test
     total_sum = 50.00
     length = 7.00
 
-    assert_equal 7.14, @repo.average_by(total_sum, length)
+    assert_equal 7.14, @repo.average_by(total_sum, length, 2)
   end
 end
