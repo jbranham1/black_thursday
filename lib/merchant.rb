@@ -36,12 +36,13 @@ class Merchant
   end
 
   def most_sold_item
+    max = max_quantity
     @most_sold_item ||= items.select do |item|
-      item.quantity == max_quantity
+      item.quantity == max
     end
   end
 
   def max_quantity
-    @max_quantity ||= items.max_by(&:quantity)
+    @max_quantity ||= items.map(&:quantity).max
   end
 end
