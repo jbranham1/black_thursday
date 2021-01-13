@@ -144,10 +144,8 @@ class ItemRepositoryTest < Minitest::Test
 
   def test_invoice_items_by_item
     item_id = 1
-     @engine
-       .expects(:invoice_items_by_item)
-       .with(item_id)
+    @engine.expects(:invoice_items_by_item).with(item_id)
 
-     @repo.invoice_items_by_item(item_id)
+    @repo.invoice_items_by_item(item_id)
   end
 end
