@@ -35,13 +35,6 @@ class SalesAnalystTest < Minitest::Test
     assert_equal true, (result.all? { |object| object.is_a? Merchant })
   end
 
-  def test_can_group_items_by_merchant
-    result = @analyst.items_by_merchant
-
-    assert_equal true, (result.keys.all? { |object| object.is_a? Merchant })
-    assert_equal true, (result.values.all? { |object| object.is_a? Array })
-  end
-
   def test_can_find_average_price_for_merchant
     result = @analyst.average_item_price_for_merchant(12_334_105)
 
