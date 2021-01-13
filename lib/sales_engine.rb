@@ -32,6 +32,10 @@ class SalesEngine
     repository.new(file_name, self)
   end
 
+  def analyst
+    SalesAnalyst.new(self)
+  end
+
   def items_by_merchant_id(merchant_id)
     @items.find_all_by_merchant_id(merchant_id)
   end
@@ -44,6 +48,22 @@ class SalesEngine
     @invoices.find_all_by_status(status).count
   end
 
+  def invoices_by_day
+    @invoices.group_by_day
+  end
+
+  def invoices_with_status(status)
+    @invoices.find_all_by_status(status)
+  end
+
+  def invoice_items_by_item(item_id)
+    @invoice_items.find_all_by_item_id(item_id)
+  end
+
+  def invoice_info_for(invoice_ids)
+    @invoice_items.find_all_by_invoice_ids(invoice_ids)
+  end
+
   def merchants_with_one_item
     @merchants.all.select(&:one_item?)
   end
@@ -54,43 +74,27 @@ class SalesEngine
     end
   end
 
-  def invoices_by_day
-    @invoices.group_by_day
-  end
-
   def most_sold_item_for_merchant(merchant_id)
     @merchants.most_sold_item_for_merchant(merchant_id)
   end
 
-  def invoice_items_by_item(item_id)
-    @invoice_items.find_all_by_item_id(item_id)
-  end
-
-  def analyst
-    SalesAnalyst.new(self)
-  end
-
-  def transactions_with_result(result)
-    @transactions.find_all_by_result(result)
-  end
-
-  def invoice_info_for(invoice_ids)
-    @invoice_items.find_all_by_invoice_ids(invoice_ids)
-  end
-
-  def invoices_with_status(status)
-    @invoices.find_all_by_status(status)
+  def best_item_for_merchant(merchant_id)
+    @merchants.best_item_for_merchant(merchant_id)
   end
 
   def merchants_with_ids(ids)
     @merchants.merchants_with_ids(ids)
   end
 
-  def transactions_for_invoice(invoice_id)
-    @transactions.find_all_by_invoice_id(invoice_id)
-  end
-
   def merchants_with_pending_invoices
     @merchants.merchants_with_pending_invoices
+  end
+
+  def transactions_with_result(result)
+    @transactions.find_all_by_result(result)
+  end
+
+  def transactions_for_invoice(invoice_id)
+    @transactions.find_all_by_invoice_id(invoice_id)
   end
 end

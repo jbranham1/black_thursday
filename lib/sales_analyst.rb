@@ -159,6 +159,10 @@ class SalesAnalyst
     @engine.most_sold_item_for_merchant(merchant_id)
   end
 
+  def best_item_for_merchant(merchant_id)
+    @engine.best_item_for_merchant(merchant_id)
+  end
+
   private
 
   def merchant_ids_from(pending_invoices)

@@ -148,4 +148,16 @@ class SalesEngineTest < Minitest::Test
 
     assert_equal item, @engine.most_sold_item_for_merchant(merchant_id)
   end
+
+  def test_best_item_for_merchant
+    merchant_id = 1
+    item = mock
+    @engine
+      .merchants
+      .expects(:best_item_for_merchant)
+      .with(merchant_id)
+      .returns(item)
+
+    assert_equal item, @engine.best_item_for_merchant(merchant_id)
+  end
 end
