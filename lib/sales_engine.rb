@@ -40,8 +40,30 @@ class SalesEngine
     @items.find_all_by_merchant_id(merchant_id)
   end
 
+  def items_by_merchant
+    @merchants.all.each_with_object({}) do |merchant, hash|
+      hash[merchant] = items_by_merchant_id(merchant.id)
+    end
+  end
+
+  def total_items_for_merchants
+    @merchants.all.sum do |merchant|
+      count_of_items_by_merchant_id(merchant.id)
+    end
+  end
+
+  def count_of_items_by_merchant_id(id)
+    items_by_merchant_id(id).count
+  end
+
   def invoices_by_merchant_id(merchant_id)
     @invoices.find_all_by_merchant_id(merchant_id)
+  end
+
+  def invoices_by_merchant
+    merchants.all.each_with_object({}) do |merchant, hash|
+      hash[merchant] = invoices_by_merchant_id(merchant.id)
+    end
   end
 
   def invoice_count_by_status(status)

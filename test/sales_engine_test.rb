@@ -48,6 +48,17 @@ class SalesEngineTest < Minitest::Test
     assert_equal true, result.empty?
   end
 
+  def test_total_items_for_merchants
+    assert_equal 1367, @engine.total_items_for_merchants
+  end
+
+  def test_can_group_items_by_merchant
+    result = @engine.items_by_merchant
+
+    assert_equal true, (result.keys.all? { |object| object.is_a? Merchant })
+    assert_equal true, (result.values.all? { |object| object.is_a? Array })
+  end
+
   def test_can_find_invoices_by_merchant_id
     merchant_id = 12_334_159
 

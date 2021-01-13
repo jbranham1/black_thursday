@@ -9,23 +9,19 @@ class SalesAnalyst
   end
 
   def average_items_per_merchant
-    total_items = items_by_merchant.values.sum(&:length)
-    (total_items.to_f / merchants.length).round(2)
+    (@engine.total_items_for_merchants.to_f / merchants.length).round(2)
   end
 
   def average_items_per_merchant_standard_deviation
-    mean = average_items_per_merchant
-    items_per_merchant = items_by_merchant.values.map(&:length)
-
-    standard_deviation(items_per_merchant, mean)
+    items_per_merchant = @engine.items_by_merchant.values.map(&:length)
+    standard_deviation(items_per_merchant, average_items_per_merchant)
   end
 
   def merchants_with_high_item_count
-    mean = average_items_per_merchant
     std_dev = average_items_per_merchant_standard_deviation
-    high_item_count = mean + std_dev
+    high_item_count = average_items_per_merchant + std_dev
 
-    items_by_merchant.map do |merchant, items|
+    @engine.items_by_merchant.map do |merchant, items|
       merchant if items.length.to_f > high_item_count
     end.compact
   end
@@ -36,18 +32,11 @@ class SalesAnalyst
   end
 
   def average_average_price_per_merchant
-    # TODO: MUST optimize this, it's very slow.
     average_prices = merchant_ids.map do |id|
       average_item_price_for_merchant(id)
     end
 
     average(average_prices, 2)
-  end
-
-  def items_by_merchant
-    merchants.each_with_object({}) do |merchant, hash|
-      hash[merchant] = @engine.items_by_merchant_id(merchant.id)
-    end
   end
 
   def golden_items
@@ -65,17 +54,11 @@ class SalesAnalyst
   end
 
   def average_invoices_per_merchant
-    (invoices_by_merchant.values.sum(&:count) / merchants.count.to_f).round(2)
-  end
-
-  def invoices_by_merchant
-    merchants.each_with_object({}) do |merchant, hash|
-      hash[merchant] = @engine.invoices_by_merchant_id(merchant.id)
-    end
+    (@engine.invoices_by_merchant.values.sum(&:count) / merchants.count.to_f).round(2)
   end
 
   def average_invoices_per_merchant_standard_deviation
-    invoices_per_merchant = invoices_by_merchant.values.map(&:length)
+    invoices_per_merchant = @engine.invoices_by_merchant.values.map(&:length)
 
     standard_deviation(invoices_per_merchant, average_invoices_per_merchant)
   end
@@ -84,7 +67,7 @@ class SalesAnalyst
     std_dev = average_invoices_per_merchant_standard_deviation
     high_invoice_count = average_invoices_per_merchant + (std_dev * 2)
 
-    invoices_by_merchant.map do |merchant, invoice|
+    @engine.invoices_by_merchant.map do |merchant, invoice|
       merchant if invoice.length.to_f > high_invoice_count
     end.compact
   end
@@ -93,7 +76,7 @@ class SalesAnalyst
     std_dev = average_invoices_per_merchant_standard_deviation
     low_invoice_count = average_invoices_per_merchant - (std_dev * 2)
 
-    invoices_by_merchant.map do |merchant, invoices|
+    @engine.invoices_by_merchant.map do |merchant, invoices|
       merchant if invoices.length.to_f < low_invoice_count
     end.compact
   end
@@ -141,7 +124,7 @@ class SalesAnalyst
   end
 
   def merchants_with_revenue
-    invoices_by_merchant.each_with_object({}) do |merchant_invoices, hash|
+    @engine.invoices_by_merchant.each_with_object({}) do |merchant_invoices, hash|
       merchant = merchant_invoices[0]
       hash[merchant] = BigDecimal(revenue_by_merchant(merchant.id), 6)
     end
@@ -190,10 +173,6 @@ class SalesAnalyst
     @item_repo.all
   end
 
-  def items_for(merchant)
-    items_by_merchant[merchant]
-  end
-
   def invoices
     @invoice_repo.all
   end
@@ -215,14 +194,6 @@ class SalesAnalyst
 
   def merchant_ids
     @merchant_repo.merchant_ids
-  end
-
-  def merchant_with_id(id)
-    @merchant_repo.find_by_id(id)
-  end
-
-  def merchant_ids_from(pending_invoices)
-    pending_invoices.map(&:merchant_id).uniq
   end
 
   # === MATH METHODS ===
