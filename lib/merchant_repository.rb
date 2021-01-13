@@ -72,6 +72,18 @@ class MerchantRepository
     @merchant_ids ||= all.map(&:id).sort
   end
 
+  def merchants_with_ids(ids)
+    all.select do |merchant|
+      ids.include?(merchant.id)
+    end
+  end
+
+  def merchants_with_pending_invoices
+    all.reject do |merchant|
+      merchant.pending_invoices.empty?
+    end
+  end
+
   def most_sold_item_for_merchant(merchant_id)
     find_by_id(merchant_id).most_sold_item
   end

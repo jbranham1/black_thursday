@@ -140,11 +140,30 @@ class SalesAnalyst
     @engine.merchants_with_one_item_in_month(month)
   end
 
+  def revenue_by_merchant(merchant_id)
+    merchant_invoices = @engine.invoices_by_merchant_id(merchant_id)
+    successful_transactions = @engine.transactions_with_result(:success)
+    invoice_ids = overlapping_invoice_ids(merchant_invoices, successful_transactions)
+    invoice_info = @engine.invoice_info_for(invoice_ids)
+
+    invoice_info.sum do |invoice_item|
+      invoice_item.unit_price * invoice_item.quantity
+    end
+  end
+
+  def merchants_with_pending_invoices
+    @engine.merchants_with_pending_invoices
+  end
+
   def most_sold_item_for_merchant(merchant_id)
     @engine.most_sold_item_for_merchant(merchant_id)
   end
 
   private
+
+  def merchant_ids_from(pending_invoices)
+    pending_invoices.map(&:merchant_id).uniq
+  end
 
   def calculate_invoice_total(invoice_id)
     @invoice_item_repo.invoice_total(invoice_id)
@@ -172,6 +191,13 @@ class SalesAnalyst
 
   def items_for(merchant)
     items_by_merchant[merchant]
+  end
+
+  def overlapping_invoice_ids(merchant_invoices, successful_transactions)
+    merchant_invoice_ids = merchant_invoices.map(&:id)
+    transaction_invoice_ids = successful_transactions.map(&:invoice_id)
+
+    merchant_invoice_ids & transaction_invoice_ids
   end
 
   # === MATH METHODS ===

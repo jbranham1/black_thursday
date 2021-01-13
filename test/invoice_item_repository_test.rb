@@ -35,7 +35,7 @@ class InvoiceItemRepositoryTest < Minitest::Test
   end
 
   def test_build_invoice_items
-    assert_equal 2, @repo.all.count
+    assert_equal 5, @repo.all.count
   end
 
   def test_invoice_item_from
@@ -53,18 +53,18 @@ class InvoiceItemRepositoryTest < Minitest::Test
     invoice_item = @repo.find_by_id(1)
 
     assert_equal 1, invoice_item.id
-    assert_nil @repo.find_by_id(99)
+    assert_nil @repo.find_by_id(-1)
   end
 
   def test_can_find_all_by_item_id
-    expected_ids = [1]
+    expected_ids = [1, 3]
 
     actual_returned_records = @repo.find_all_by_item_id(263_519_844)
     assert_equal expected_ids, sorted_actual_ids(actual_returned_records)
   end
 
   def test_can_find_nothing_when_searching_all_by_item_id
-    assert_equal [], @repo.find_all_by_item_id(2)
+    assert_equal [], @repo.find_all_by_item_id(-1)
   end
 
   def test_can_find_all_by_invoice_id
@@ -75,15 +75,22 @@ class InvoiceItemRepositoryTest < Minitest::Test
   end
 
   def test_can_find_nothing_when_searching_all_by_invoice_id
-    assert_equal [], @repo.find_all_by_invoice_id(2)
+    assert_equal [], @repo.find_all_by_invoice_id(-1)
+  end
+
+  def test_find_all_by_invoice_ids
+    expected_ids = [3, 4, 5]
+
+    actual_returned_records = @repo.find_all_by_invoice_ids([2, 3])
+    assert_equal expected_ids, sorted_actual_ids(actual_returned_records)
   end
 
   def test_create_invoice_item
     @repo.create(attributes)
 
-    assert_equal 3, @repo.all.count
+    assert_equal 6, @repo.all.count
     assert_instance_of InvoiceItem, @repo.all.last
-    assert_equal 3, @repo.all.last.id
+    assert_equal 6, @repo.all.last.id
   end
 
   def test_can_update_an_invoice_item
@@ -102,7 +109,7 @@ class InvoiceItemRepositoryTest < Minitest::Test
   def test_can_delete_invoice
     @repo.delete(1)
 
-    assert_equal 1, @repo.all.count
+    assert_equal 4, @repo.all.count
     assert_nil @repo.find_by_id(1)
   end
 
