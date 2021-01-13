@@ -39,4 +39,8 @@ class Item
       invoice_item.quantity * invoice_item.unit_price
     end
   end
+
+  def quantity
+    invoice_items.sum(&:quantity)
+  end
 end

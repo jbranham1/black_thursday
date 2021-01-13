@@ -159,7 +159,26 @@ class MerchantRepositoryTest < Minitest::Test
   end
 
   def test_merchants_with_pending_invoices
-    # TODO: How do we test this?
+    merchant = 'my merchant'
+    invoice = mock
+    @repo
+      .expects(:all)
+      .returns([merchant])
+
+    merchant.expects(:pending_invoices).returns([invoice])
+    assert_equal [merchant], @repo.merchants_with_pending_invoices
+  end
+
+  def test_best_item_for_merchant
+    merchant_id = 12_335_938
+    merchant = 'my merchant'
+    @repo
+      .expects(:find_by_id)
+      .with(merchant_id)
+      .returns(merchant)
+
+    merchant.expects(:best_item).returns('my item')
+    assert_equal 'my item', @repo.best_item_for_merchant(merchant_id)
   end
 
   def test_most_sold_item_for_merchant

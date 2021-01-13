@@ -84,6 +84,10 @@ class MerchantRepository
     end
   end
 
+  def best_item_for_merchant(merchant_id)
+    find_by_id(merchant_id).best_item
+  end
+
   def most_sold_item_for_merchant(merchant_id)
     find_by_id(merchant_id).most_sold_item
   end

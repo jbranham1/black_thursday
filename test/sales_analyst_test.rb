@@ -177,4 +177,10 @@ class SalesAnalystTest < Minitest::Test
     assert_instance_of Item, result
     assert_equal 263_396_209, result.id
   end
+
+  def test_best_item_for_merchant
+    result = @analyst.best_item_for_merchant(12_334_105)
+    assert_instance_of Item, result
+    assert_equal 263_396_209, result.id
+  end
 end

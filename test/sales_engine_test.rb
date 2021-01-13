@@ -128,7 +128,14 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_merchants_with_pending_invoices
-    # TODO: How do we test this?
+    merchant = mock
+
+    @engine
+      .merchants
+      .expects(:merchants_with_pending_invoices)
+      .returns(merchant)
+
+    assert_equal merchant, @engine.merchants_with_pending_invoices
   end
 
   def test_invoice_items_by_item
@@ -154,5 +161,17 @@ class SalesEngineTest < Minitest::Test
       .returns(item)
 
     assert_equal item, @engine.most_sold_item_for_merchant(merchant_id)
+  end
+
+  def test_best_item_for_merchant
+    merchant_id = 1
+    item = mock
+    @engine
+      .merchants
+      .expects(:best_item_for_merchant)
+      .with(merchant_id)
+      .returns(item)
+
+    assert_equal item, @engine.best_item_for_merchant(merchant_id)
   end
 end

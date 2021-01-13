@@ -73,4 +73,17 @@ class ItemTest < Minitest::Test
 
     assert_equal 10, @item.revenue
   end
+
+  def test_quantity
+    invoice_item1 = mock
+    invoice_item1.stubs(:quantity).returns(2)
+    invoice_item2 = mock
+    invoice_item2.stubs(:quantity).returns(5)
+
+    @item
+      .expects(:invoice_items)
+      .returns([invoice_item1, invoice_item2])
+
+    assert_equal 7, @item.quantity
+  end
 end
