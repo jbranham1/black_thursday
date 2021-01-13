@@ -44,6 +44,10 @@ class SalesEngine
     @invoices.find_all_by_status(status).count
   end
 
+  def invoices_on(date)
+    @invoices.find_by_date(date)
+  end
+
   def merchants_with_one_item
     @merchants.all.select(&:one_item?)
   end

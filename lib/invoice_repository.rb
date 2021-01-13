@@ -73,6 +73,12 @@ class InvoiceRepository
     all.delete(find_by_id(id))
   end
 
+  def find_by_date(date)
+    all.select do |record|
+      record.created_at == date
+    end
+  end
+
   def transactions_for_invoice(invoice_id)
     @engine.transactions_for_invoice(invoice_id)
   end

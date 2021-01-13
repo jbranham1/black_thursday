@@ -73,6 +73,13 @@ class SalesEngineTest < Minitest::Test
     assert_equal 7, @engine.invoices_by_day.count
   end
 
+  def test_invoices_on
+    date = Time.parse('2009-02-07')
+    invoices = @engine.invoices_on(date)
+
+    assert_equal 1, invoices.length
+  end
+
   def test_merchants_with_one_item
     assert_equal Array, @engine.merchants_with_one_item.class
     assert_equal 243, @engine.merchants_with_one_item.count
