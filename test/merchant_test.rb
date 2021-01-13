@@ -128,17 +128,6 @@ class MerchantTest < Minitest::Test
     assert_equal true, @merchant.one_item?
   end
 
-  def test_revenue
-    item1 = mock
-    item1.stubs(:revenue).returns(20)
-    item2 = mock
-    item2.stubs(:revenue).returns(50)
-
-    @merchant.expects(:items).returns([item1, item2])
-
-    assert_equal 70, @merchant.revenue
-  end
-
   def test_best_item
     item1 = mock
     item1.stubs(:revenue).returns(20)

@@ -31,10 +31,6 @@ class Merchant
     @pending_invoices ||= invoices.reject(&:paid_in_full?)
   end
 
-  def revenue
-    @revenue ||= items.sum(&:revenue)
-  end
-
   def best_item
     @best_item ||= items.max_by(&:revenue)
   end
