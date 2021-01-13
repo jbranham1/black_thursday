@@ -23,4 +23,14 @@ class Invoice
     attributes[:status] && @status = attributes[:status]
     @updated_at = Time.now
   end
+
+  def transactions
+    @transactions ||= @repository.transactions_for_invoice(@id)
+  end
+
+  def paid_in_full?
+    transactions.any? do |transaction|
+      transaction.result == :success
+    end
+  end
 end

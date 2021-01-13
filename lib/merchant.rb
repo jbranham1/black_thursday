@@ -26,4 +26,8 @@ class Merchant
   def one_item?
     items.count == 1
   end
+
+  def pending_invoices
+    invoices.reject(&:paid_in_full?)
+  end
 end

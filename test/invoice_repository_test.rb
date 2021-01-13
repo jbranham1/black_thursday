@@ -33,7 +33,7 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_build_invoices
-    assert_equal 2, @repo.all.count
+    assert_equal 3, @repo.all.count
   end
 
   def test_invoice_from
@@ -62,25 +62,23 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_can_find_nothing_when_searching_all_by_customer_id
-    assert_equal [], @repo.find_all_by_customer_id(2)
+    assert_equal [], @repo.find_all_by_customer_id(-1)
   end
 
   def test_can_find_all_by_merchant_id
-    expected_ids = [1]
+    expected_ids = [1, 3]
 
     actual_returned_records = @repo.find_all_by_merchant_id(12_335_938)
     assert_equal expected_ids, sorted_actual_ids(actual_returned_records)
   end
 
   def test_can_find_nothing_when_searching_all_by_merchant_id
-    assert_equal [], @repo.find_all_by_merchant_id(1)
+    assert_equal [], @repo.find_all_by_merchant_id(-1)
   end
 
   def test_can_find_all_by_status
-    expected_ids = [1]
-
-    actual_returned_records = @repo.find_all_by_status(:pending)
-    assert_equal expected_ids, sorted_actual_ids(actual_returned_records)
+    result = @repo.find_all_by_status(:pending)
+    assert_equal [1, 3], sorted_actual_ids(result)
   end
 
   def test_can_find_nothing_when_searching_all_by_status
@@ -88,17 +86,19 @@ class InvoiceRepositoryTest < Minitest::Test
   end
 
   def test_can_group_by_day
-    assert_equal Hash, @repo.group_by_day.class
-    assert_equal 2, @repo.group_by_day.count
-    assert_equal %w[Saturday Friday], @repo.group_by_day.keys
+    result = @repo.group_by_day
+
+    assert_equal Hash, result.class
+    assert_equal 3, result.size
+    assert_equal %w[Saturday Friday Sunday], result.keys
   end
 
   def test_create_invoice
     @repo.create(attributes)
 
-    assert_equal 3, @repo.all.count
+    assert_equal 4, @repo.all.count
     assert_instance_of Invoice, @repo.all.last
-    assert_equal 3, @repo.all.last.id
+    assert_equal 4, @repo.all.last.id
   end
 
   def test_can_update_an_invoice
@@ -114,7 +114,7 @@ class InvoiceRepositoryTest < Minitest::Test
   def test_can_delete_invoice
     @repo.delete(1)
 
-    assert_equal 1, @repo.all.count
+    assert_equal 2, @repo.all.count
     assert_nil @repo.find_by_id(1)
   end
 
@@ -123,5 +123,15 @@ class InvoiceRepositoryTest < Minitest::Test
 
     assert_equal 1, invoices.length
     assert_equal [1], sorted_actual_ids(invoices)
+  end
+
+  def test_transactions_for_invoice
+    invoice_id = 1
+    @engine
+      .expects(:transactions_for_invoice)
+      .with(invoice_id)
+
+    @repo.transactions_for_invoice(invoice_id)
+
   end
 end

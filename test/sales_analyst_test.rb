@@ -158,4 +158,15 @@ class SalesAnalystTest < Minitest::Test
     assert_equal Array, merch.class
     assert_equal 21, merch.count
   end
+
+  def test_revenue_by_merchant
+    assert_instance_of BigDecimal, @analyst.revenue_by_merchant(12_334_194)
+  end
+
+  def test_merchants_with_pending_invoices
+    result = @analyst.merchants_with_pending_invoices
+
+    assert_equal 467, result.length
+    assert_equal true, (result.all? { |object| object.is_a? Merchant })
+  end
 end

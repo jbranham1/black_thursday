@@ -79,6 +79,10 @@ class InvoiceRepository
     end
   end
 
+  def transactions_for_invoice(invoice_id)
+    @engine.transactions_for_invoice(invoice_id)
+  end
+
   private
 
   def max_invoice_id
