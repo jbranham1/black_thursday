@@ -132,6 +132,5 @@ class InvoiceRepositoryTest < Minitest::Test
       .with(invoice_id)
 
     @repo.transactions_for_invoice(invoice_id)
-
   end
 end
