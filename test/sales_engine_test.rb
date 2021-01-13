@@ -15,6 +15,10 @@ class SalesEngineTest < Minitest::Test
     @engine = SalesEngine.from_csv(files)
   end
 
+  def sort_ids(objects_with_ids)
+    objects_with_ids.map(&:id).sort
+  end
+
   def test_is_created_from_csv_files
     assert_instance_of ItemRepository, @engine.items
     assert_instance_of MerchantRepository, @engine.merchants
@@ -78,5 +82,46 @@ class SalesEngineTest < Minitest::Test
     merchants = @engine.merchants_with_one_item_in_month('March')
     assert_equal Array, merchants.class
     assert_equal 21, merchants.count
+  end
+
+  def test_successful_transactions
+    result = @engine.transactions_with_result(:success)
+
+    assert_equal false, result.empty?
+    assert_equal true, (result.all? { |transact| transact.result == :success })
+  end
+
+  def test_invoice_info_for
+    result = @engine.invoice_info_for([4, 11])
+
+    assert_equal 4, result.length
+    assert_equal [21, 22, 54, 55], sort_ids(result)
+  end
+
+  def test_invoices_with_status
+    result = @engine.invoices_with_status(:pending)
+
+    assert_equal 1473, result.length
+    assert_equal true, (result.all? { |object| object.is_a? Invoice })
+  end
+
+  def test_merchants_with_ids
+    expected_ids = [12_334_753, 12_335_938]
+    result = @engine.merchants_with_ids(expected_ids)
+
+    assert_equal 2, result.length
+    assert_equal expected_ids, sort_ids(result)
+  end
+
+  def test_transactions_for_invoice
+    expected_ids = [2, 1370]
+    result = @engine.transactions_for_invoice(46)
+
+    assert_equal 2, result.length
+    assert_equal expected_ids, sort_ids(result)
+  end
+
+  def test_merchants_with_pending_invoices
+    # TODO: How do we test this?
   end
 end

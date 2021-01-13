@@ -61,4 +61,28 @@ class SalesEngine
   def analyst
     SalesAnalyst.new(self)
   end
+
+  def transactions_with_result(result)
+    @transactions.find_all_by_result(result)
+  end
+
+  def invoice_info_for(invoice_ids)
+    @invoice_items.find_all_by_invoice_ids(invoice_ids)
+  end
+
+  def invoices_with_status(status)
+    @invoices.find_all_by_status(status)
+  end
+
+  def merchants_with_ids(ids)
+    @merchants.merchants_with_ids(ids)
+  end
+
+  def transactions_for_invoice(invoice_id)
+    @transactions.find_all_by_invoice_id(invoice_id)
+  end
+
+  def merchants_with_pending_invoices
+    @merchants.merchants_with_pending_invoices
+  end
 end
