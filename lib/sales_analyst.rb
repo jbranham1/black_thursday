@@ -14,7 +14,7 @@ class SalesAnalyst
 
   def average_items_per_merchant
     total_items = items_by_merchant.values.sum(&:length)
-    (total_items.to_f / merchants.length).round(2)
+    average_by(total_items, merchants.length, 2)
   end
 
   def average_items_per_merchant_standard_deviation
@@ -71,7 +71,7 @@ class SalesAnalyst
   end
 
   def average_invoices_per_merchant
-    (invoices_by_merchant.values.sum(&:count) / merchants.count.to_f).round(2)
+    average_by(invoices_by_merchant_sum, merchants.length, 2)
   end
 
   def invoices_by_merchant
@@ -105,7 +105,7 @@ class SalesAnalyst
   end
 
   def average_invoices_per_day
-    (@engine.invoices_by_day.values.sum(&:count) / 7).round(2)
+    average_by(invoices_by_day_sum, 7, 2)
   end
 
   def average_invoices_per_day_standard_deviation
@@ -125,7 +125,7 @@ class SalesAnalyst
 
   def invoice_status(status)
     invoice_count = @engine.invoice_count_by_status(status)
-    ((invoice_count.to_f / invoices.count) * 100).round(2)
+    (average_by(invoice_count, invoices.count, 4) * 100).round(2)
   end
 
   def invoice_paid_in_full?(invoice_id)
@@ -229,5 +229,13 @@ class SalesAnalyst
 
   def merchant_ids_from(pending_invoices)
     pending_invoices.map(&:merchant_id).uniq
+  end
+
+  def invoices_by_merchant_sum
+    invoices_by_merchant.values.sum(&:count)
+  end
+
+  def invoices_by_day_sum
+    @engine.invoices_by_day.values.sum(&:count)
   end
 end

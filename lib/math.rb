@@ -1,10 +1,14 @@
 module Math
-  def average(set, round_precision)
-    (sum(set) / set.length).round(round_precision)
+  def average(array, round_precision)
+    (sum(array) / array.length).round(round_precision)
   end
 
-  def sum(set)
-    set.reduce(:+)
+  def average_by(total_sum, total_length, round_precision)
+    (total_sum.to_f / total_length).round(round_precision)
+  end
+
+  def sum(array)
+    array.reduce(:+)
   end
 
   def standard_deviation(set, mean)
