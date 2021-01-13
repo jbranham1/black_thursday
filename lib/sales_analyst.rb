@@ -1,7 +1,7 @@
-require_relative 'math'
+require_relative 'mathable'
 
 class SalesAnalyst
-  include Math
+  include Mathable
 
   def initialize(engine)
     @engine = engine
@@ -13,8 +13,8 @@ class SalesAnalyst
   end
 
   def average_items_per_merchant
-    total_items = items_by_merchant.values.sum(&:length)
-    average_by(total_items, merchants.length, 2)
+    total_items = items_by_merchant.values.map(&:length)
+    average(total_items)
   end
 
   def average_items_per_merchant_standard_deviation
@@ -36,9 +36,9 @@ class SalesAnalyst
 
   def average_item_price_for_merchant(merchant_id)
     # TODO: Memoize a method `average_item_price` on Merchant?
-    # And make this method fwd that msg to MerchantRepo which fwds to Merchant?
+    # And make this method fwd that msg to average_item_price_for_merchantMerchantRepo which fwds to Merchant?
     item_prices = items_for(merchant_with_id(merchant_id)).map(&:unit_price)
-    average(item_prices, 2)
+    BigDecimal(average(item_prices), 6)
   end
 
   def average_average_price_per_merchant
@@ -46,8 +46,7 @@ class SalesAnalyst
     average_prices = merchant_ids.map do |id|
       average_item_price_for_merchant(id)
     end
-
-    average(average_prices, 2)
+    BigDecimal(average(average_prices), 6)
   end
 
   def items_by_merchant
@@ -59,7 +58,7 @@ class SalesAnalyst
   def golden_items
     # Find the average item price
     item_prices = items.map(&:unit_price)
-    average_item_price = average(item_prices, 2)
+    average_item_price = average(item_prices)
 
     # Find standard deviation in item prices
     item_price_std_dev = standard_deviation(item_prices, average_item_price)
@@ -71,7 +70,8 @@ class SalesAnalyst
   end
 
   def average_invoices_per_merchant
-    average_by(invoices_by_merchant_sum, merchants.length, 2)
+    total_invoices = invoices_by_merchant.values.map(&:length)
+    average(total_invoices)
   end
 
   def invoices_by_merchant
@@ -105,11 +105,12 @@ class SalesAnalyst
   end
 
   def average_invoices_per_day
-    average_by(invoices_by_day_sum, 7, 2)
+    total_per_day = @engine.invoices_by_day.values.map(&:length)
+    average(total_per_day)
   end
 
   def average_invoices_per_day_standard_deviation
-    invoices_per_day = @engine.invoices_by_day.values.map(&:count)
+    invoices_per_day = @engine.invoices_by_day.values.map(&:length)
 
     standard_deviation(invoices_per_day, average_invoices_per_day)
   end
@@ -125,7 +126,7 @@ class SalesAnalyst
 
   def invoice_status(status)
     invoice_count = @engine.invoice_count_by_status(status)
-    (average_by(invoice_count, invoices.count, 4) * 100).round(2)
+    percentage(invoice_count, invoices.count)
   end
 
   def invoice_paid_in_full?(invoice_id)
@@ -229,13 +230,5 @@ class SalesAnalyst
 
   def merchant_ids_from(pending_invoices)
     pending_invoices.map(&:merchant_id).uniq
-  end
-
-  def invoices_by_merchant_sum
-    invoices_by_merchant.values.sum(&:count)
-  end
-
-  def invoices_by_day_sum
-    @engine.invoices_by_day.values.sum(&:count)
   end
 end
