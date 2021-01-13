@@ -88,6 +88,7 @@ class SalesAnalystTest < Minitest::Test
 
   def test_top_days_by_invoice_count
     result = @analyst.top_days_by_invoice_count
+
     assert_equal ['Wednesday'], result
     assert_equal 1, result.length
   end
@@ -150,6 +151,7 @@ class SalesAnalystTest < Minitest::Test
 
   def test_merchants_with_only_one_item_registered_in_month
     merch = @analyst.merchants_with_only_one_item_registered_in_month('March')
+
     assert_equal Array, merch.class
     assert_equal 21, merch.count
   end
@@ -167,12 +169,14 @@ class SalesAnalystTest < Minitest::Test
 
   def test_most_sold_item_for_merchant
     result = @analyst.most_sold_item_for_merchant(12_334_105)
-    assert_instance_of Item, result
-    assert_equal 263_396_209, result.id
+
+    assert_equal true, (result.all? { |object| object.is_a? Item })
+    assert_equal 263_396_209, result.first.id
   end
 
   def test_best_item_for_merchant
     result = @analyst.best_item_for_merchant(12_334_105)
+
     assert_instance_of Item, result
     assert_equal 263_396_209, result.id
   end
