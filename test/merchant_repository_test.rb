@@ -190,6 +190,6 @@ class MerchantRepositoryTest < Minitest::Test
       .returns(merchant)
 
     merchant.expects(:most_sold_item).returns('my item')
-    assert_equal 'my item', @repo.most_sold_item_for_merchant(merchant_id)
+    assert_equal ['my item'], @repo.most_sold_item_for_merchant(merchant_id)
   end
 end

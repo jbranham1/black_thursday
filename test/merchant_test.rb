@@ -146,7 +146,28 @@ class MerchantTest < Minitest::Test
     item2.stubs(:quantity).returns(50)
 
     @merchant.expects(:items).returns([item1, item2])
+    @merchant.expects(:max_quantity).returns(20)
+    assert_equal [item2], @merchant.most_sold_item
+  end
 
-    assert_equal item2, @merchant.most_sold_item
+  def test_most_sold_item_tie
+    item1 = mock
+    # item1.stubs(:quantity).returns(20)
+    item2 = mock
+    # item2.stubs(:quantity).returns(20)
+    @merchant.expects(:max_quantity).returns(20)
+    @merchant.expects(:items).returns([item1, item2])
+    assert_equal [item1, item2], @merchant.most_sold_item
+  end
+
+  def test_max_quantity
+    item1 = mock
+    item1.stubs(:quantity).returns(20)
+    item2 = mock
+    item2.stubs(:quantity).returns(50)
+
+    @merchant.expects(:items).returns([item1, item2])
+
+    assert_equal item2, @merchant.max_quantity
   end
 end
