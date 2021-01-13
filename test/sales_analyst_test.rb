@@ -125,7 +125,7 @@ class SalesAnalystTest < Minitest::Test
     assert_equal Array, merch.class
     assert_equal 21, merch.count
   end
-  
+
   def test_revenue_by_merchant
     assert_instance_of BigDecimal, @analyst.revenue_by_merchant(12_334_194)
   end
