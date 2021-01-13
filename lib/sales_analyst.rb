@@ -144,7 +144,8 @@ class SalesAnalyst
 
   def merchants_with_revenue
     invoices_by_merchant.each_with_object({}) do |merchant_invoices, hash|
-      hash[merchant_invoices[0]] = revenue_by_merchant(merchant_invoices[0].id)
+      merchant = merchant_invoices[0]
+      hash[merchant] = BigDecimal(revenue_by_merchant(merchant.id), 6)
     end
   end
 

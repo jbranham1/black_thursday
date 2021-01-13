@@ -136,13 +136,15 @@ class SalesAnalystTest < Minitest::Test
   end
 
   def test_merchants_with_revenue
-    assert_instance_of Merchant, @analyst.merchants_with_revenue.keys
-    assert_instance_of BigDecimal, @analyst.merchants_with_revenue.values
+    result = @analyst.merchants_with_revenue
+
+    assert_equal true, (result.keys.all? { |object| object.is_a? Merchant })
+    assert_equal true, (result.values.all? { |object| object.is_a? BigDecimal })
   end
 
   def test_merchants_sorted_by_revenue
     expected = @analyst.merchants_sorted_by_revenue
-    first = expected.first
+    first = expected.first[0]
 
     assert_instance_of Merchant, first
     assert_equal 12_334_634, first.id
