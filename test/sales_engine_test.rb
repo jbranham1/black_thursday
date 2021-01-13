@@ -128,7 +128,14 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_merchants_with_pending_invoices
-    # TODO: How do we test this?
+    merchant = mock
+
+    @engine
+      .merchants
+      .expects(:merchants_with_pending_invoices)
+      .returns(merchant)
+
+    assert_equal merchant, @engine.merchants_with_pending_invoices
   end
 
   def test_invoice_items_by_item

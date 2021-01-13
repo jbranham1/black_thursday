@@ -188,36 +188,20 @@ class SalesAnalyst
 
   private
 
-  def merchant_ids_from(pending_invoices)
-    pending_invoices.map(&:merchant_id).uniq
-  end
-
-  def calculate_invoice_total(invoice_id)
-    @invoice_item_repo.invoice_total(invoice_id)
-  end
-
-  def merchant_ids
-    @merchant_repo.merchant_ids
-  end
-
-  def merchants
-    @merchant_repo.all
-  end
-
   def items
     @item_repo.all
+  end
+
+  def items_for(merchant)
+    items_by_merchant[merchant]
   end
 
   def invoices
     @invoice_repo.all
   end
 
-  def merchant_with_id(id)
-    @merchant_repo.find_by_id(id)
-  end
-
-  def items_for(merchant)
-    items_by_merchant[merchant]
+  def calculate_invoice_total(invoice_id)
+    @invoice_item_repo.invoice_total(invoice_id)
   end
 
   def overlapping_invoice_ids(merchant_invoices, successful_transactions)
@@ -225,6 +209,22 @@ class SalesAnalyst
     transaction_invoice_ids = successful_transactions.map(&:invoice_id)
 
     merchant_invoice_ids & transaction_invoice_ids
+  end
+
+  def merchants
+    @merchant_repo.all
+  end
+
+  def merchant_ids
+    @merchant_repo.merchant_ids
+  end
+
+  def merchant_with_id(id)
+    @merchant_repo.find_by_id(id)
+  end
+
+  def merchant_ids_from(pending_invoices)
+    pending_invoices.map(&:merchant_id).uniq
   end
 
   # === MATH METHODS ===
