@@ -132,6 +132,10 @@ class SalesAnalyst
     calculate_invoice_total(invoice_id) if invoice_paid_in_full?(invoice_id)
   end
 
+  def most_sold_item_for_merchant(merchant_id)
+    @engine.most_sold_item_for_merchant(merchant_id)
+  end
+
   private
 
   def calculate_invoice_total(invoice_id)

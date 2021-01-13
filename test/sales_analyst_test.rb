@@ -114,4 +114,10 @@ class SalesAnalystTest < Minitest::Test
   def test_invoice_total
     assert_equal 21_067.77, @analyst.invoice_total(1)
   end
+
+  def test_most_sold_item_for_merchant
+    result = @analyst.most_sold_item_for_merchant(12_334_105)
+    assert_instance_of Item, result
+    assert_equal 263_396_209, result.id
+  end
 end

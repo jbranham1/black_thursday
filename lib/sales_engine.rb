@@ -47,6 +47,14 @@ class SalesEngine
     @invoices.group_by_day
   end
 
+  def most_sold_item_for_merchant(merchant_id)
+    @merchants.most_sold_item_for_merchant(merchant_id)
+  end
+
+  def invoice_items_by_item(item_id)
+    @invoice_items.find_all_by_item_id(item_id)
+  end
+
   def analyst
     SalesAnalyst.new(self)
   end

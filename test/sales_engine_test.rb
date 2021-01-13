@@ -68,4 +68,29 @@ class SalesEngineTest < Minitest::Test
     assert_equal Hash, @engine.invoices_by_day.class
     assert_equal 7, @engine.invoices_by_day.count
   end
+
+  def test_invoice_items_by_item
+    item_id = 1
+    invoice_item = mock
+
+    @engine
+      .invoice_items
+      .expects(:find_all_by_item_id)
+      .with(item_id)
+      .returns(invoice_item)
+
+    assert_equal invoice_item, @engine.invoice_items_by_item(1)
+  end
+
+  def test_most_sold_item_for_merchant
+    merchant_id = 1
+    item = mock
+    @engine
+      .merchants
+      .expects(:most_sold_item_for_merchant)
+      .with(merchant_id)
+      .returns(item)
+
+    assert_equal item, @engine.most_sold_item_for_merchant(merchant_id)
+  end
 end
