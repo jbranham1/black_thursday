@@ -4,6 +4,7 @@ require 'bigdecimal'
 require './lib/merchant_repository'
 require './lib/item'
 require './lib/invoice'
+require './lib/merchant'
 
 class MerchantRepositoryTest < Minitest::Test
   def setup
@@ -18,6 +19,10 @@ class MerchantRepositoryTest < Minitest::Test
 
   def create_invoice
     Invoice.new(invoice_data, mock)
+  end
+
+  def create_merchant
+    Merchant.new(merchant_data, mock)
   end
 
   def item_data
@@ -143,5 +148,17 @@ class MerchantRepositoryTest < Minitest::Test
     expected = [12_334_105, 12_334_112].sort
 
     assert_equal expected, @repo.merchant_ids
+  end
+
+  def test_most_sold_item_for_merchant
+    merchant_id = 12_335_938
+    merchant = "my merchant"
+    @repo
+      .expects(:find_by_id)
+      .with(merchant_id)
+      .returns(merchant)
+
+    merchant.expects(:most_sold_item).returns("my item")
+    assert_equal "my item", @repo.most_sold_item_for_merchant(merchant_id)
   end
 end

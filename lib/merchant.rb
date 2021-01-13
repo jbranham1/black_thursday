@@ -20,4 +20,8 @@ class Merchant
   def invoices
     @invoices ||= @repository.invoices_by_merchant_id(@id)
   end
+
+  def most_sold_item
+    @most_sold ||= items.max_by(&:revenue)
+  end
 end
