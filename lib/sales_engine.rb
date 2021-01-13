@@ -48,6 +48,10 @@ class SalesEngine
     @invoices.find_all_by_status(status).count
   end
 
+  def invoices_on(date)
+    @invoices.find_by_date(date)
+  end
+
   def invoices_by_day
     @invoices.group_by_day
   end

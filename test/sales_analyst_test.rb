@@ -115,6 +115,41 @@ class SalesAnalystTest < Minitest::Test
     assert_equal 21_067.77, @analyst.invoice_total(1)
   end
 
+  def test_total_revenue_by_date
+    date = Time.parse('2009-02-07')
+
+    assert_equal 21_067.77, @analyst.total_revenue_by_date(date)
+  end
+
+  def test_top_revenue_earners
+    expected = @analyst.top_revenue_earners(10)
+    first = expected.first
+    last = expected.last
+
+    assert_equal 10, expected.length
+
+    assert_instance_of Merchant, first
+    assert_equal 12_334_634, first.id
+
+    assert_instance_of Merchant, last
+    assert_equal 12_335_747, last.id
+  end
+
+  def test_merchants_with_revenue
+    result = @analyst.merchants_with_revenue
+
+    assert_equal true, (result.keys.all? { |object| object.is_a? Merchant })
+    assert_equal true, (result.values.all? { |object| object.is_a? BigDecimal })
+  end
+
+  def test_merchants_sorted_by_revenue
+    expected = @analyst.merchants_sorted_by_revenue
+    first = expected.first[0]
+
+    assert_instance_of Merchant, first
+    assert_equal 12_334_634, first.id
+  end
+
   def test_merchants_with_only_one_item
     assert_equal Array, @analyst.merchants_with_only_one_item.class
     assert_equal 243, @analyst.merchants_with_only_one_item.count

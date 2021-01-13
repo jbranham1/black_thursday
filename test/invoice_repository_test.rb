@@ -118,6 +118,13 @@ class InvoiceRepositoryTest < Minitest::Test
     assert_nil @repo.find_by_id(1)
   end
 
+  def test_find_by_date
+    invoices = @repo.find_by_date(Time.parse('2009-02-07'))
+
+    assert_equal 1, invoices.length
+    assert_equal [1], sorted_actual_ids(invoices)
+  end
+
   def test_transactions_for_invoice
     invoice_id = 1
     @engine

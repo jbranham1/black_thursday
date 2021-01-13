@@ -132,6 +132,29 @@ class SalesAnalyst
     calculate_invoice_total(invoice_id) if invoice_paid_in_full?(invoice_id)
   end
 
+  def total_revenue_by_date(date)
+    @engine.invoices_on(date).sum do |invoice|
+      invoice_total(invoice.id)
+    end
+  end
+
+  def top_revenue_earners(num_of_merchants = 20)
+    merchants_sorted_by_revenue.keys.first(num_of_merchants)
+  end
+
+  def merchants_with_revenue
+    invoices_by_merchant.each_with_object({}) do |merchant_invoices, hash|
+      merchant = merchant_invoices[0]
+      hash[merchant] = BigDecimal(revenue_by_merchant(merchant.id), 6)
+    end
+  end
+
+  def merchants_sorted_by_revenue
+    merchants_with_revenue.sort_by do |_, revenue|
+      -revenue
+    end.to_h
+  end
+
   def merchants_with_only_one_item
     @engine.merchants_with_one_item
   end
