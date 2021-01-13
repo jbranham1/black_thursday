@@ -14,8 +14,8 @@ class MerchantTest < Minitest::Test
     Item.new(item_data, mock)
   end
 
-  def create_invoice
-    Invoice.new(invoice_data, mock)
+  def create_invoice(data)
+    Invoice.new(data, mock)
   end
 
   def item_data
@@ -30,7 +30,7 @@ class MerchantTest < Minitest::Test
     }
   end
 
-  def invoice_data
+  def pending_invoice_data
     {
       id: 1,
       customer_id: 2,
@@ -39,6 +39,31 @@ class MerchantTest < Minitest::Test
       created_at: Time.new(2021, 1, 1, 8, 0, 0),
       updated_at: Time.new(2021, 1, 1, 8, 0, 0)
     }
+  end
+
+  def shipped_invoice_data
+    {
+      id: 1,
+      customer_id: 2,
+      merchant_id: 3,
+      status: 'shipped',
+      created_at: Time.new(2021, 1, 1, 8, 0, 0),
+      updated_at: Time.new(2021, 1, 1, 8, 0, 0)
+    }
+  end
+
+  def mock_pending_invoice
+    pending_invoice = mock
+    pending_invoice.stubs(:paid_in_full?).returns(false)
+
+    pending_invoice
+  end
+
+  def mock_shipped_invoice
+    shipped_invoice = mock
+    shipped_invoice.stubs(:paid_in_full?).returns(true)
+
+    shipped_invoice
   end
 
   def test_it_exists
@@ -68,16 +93,24 @@ class MerchantTest < Minitest::Test
   end
 
   def test_can_retrieve_invoices
-    invoice = create_invoice
+    pending_invoice = create_invoice(pending_invoice_data)
+    shipped_invoice = create_invoice(shipped_invoice_data)
     @repository
       .expects(:invoices_by_merchant_id)
       .with(@merchant.id)
-      .returns([invoice])
+      .returns([pending_invoice, shipped_invoice])
 
-    assert_equal [invoice], @merchant.invoices
+    assert_equal [pending_invoice, shipped_invoice], @merchant.invoices
   end
 
   def test_pending_invoices
-    # TODO
+    pending_invoice = mock_pending_invoice
+    shipped_invoice = mock_shipped_invoice
+    @repository
+      .expects(:invoices_by_merchant_id)
+      .with(@merchant.id)
+      .returns([pending_invoice, shipped_invoice])
+
+    assert_equal [pending_invoice], @merchant.pending_invoices
   end
 end
