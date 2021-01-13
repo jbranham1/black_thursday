@@ -31,9 +31,7 @@ class SalesAnalyst
   end
 
   def average_item_price_for_merchant(merchant_id)
-    # TODO: Memoize a method `average_item_price` on Merchant?
-    # And make this method fwd that msg to MerchantRepo which fwds to Merchant?
-    item_prices = items_for(merchant_with_id(merchant_id)).map(&:unit_price)
+    item_prices = @engine.items_by_merchant_id(merchant_id).map(&:unit_price)
     average(item_prices, 2)
   end
 
