@@ -49,7 +49,7 @@ class SalesEngineTest < Minitest::Test
   end
 
   def test_total_items_for_merchants
-    assert_equal 1367, @engine.total_items_for_merchants
+    assert_equal 475, @engine.total_items_for_merchants.length
   end
 
   def test_can_group_items_by_merchant

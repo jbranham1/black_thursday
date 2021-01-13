@@ -47,7 +47,7 @@ class SalesEngine
   end
 
   def total_items_for_merchants
-    @merchants.all.sum do |merchant|
+    @merchants.all.map do |merchant|
       count_of_items_by_merchant_id(merchant.id)
     end
   end
