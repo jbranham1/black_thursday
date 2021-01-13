@@ -35,12 +35,12 @@ class Item
   end
 
   def revenue
-    invoice_items.sum do |invoice_item|
+    @revenue ||= invoice_items.sum do |invoice_item|
       invoice_item.quantity * invoice_item.unit_price
     end
   end
 
   def quantity
-    invoice_items.sum(&:quantity)
+    @quantity ||= invoice_items.sum(&:quantity)
   end
 end

@@ -24,11 +24,15 @@ class Merchant
   end
 
   def one_item?
-    items.count == 1
+    @one_item ||= items.count == 1
   end
 
   def pending_invoices
-    invoices.reject(&:paid_in_full?)
+    @pending_invoices ||= invoices.reject(&:paid_in_full?)
+  end
+
+  def revenue
+    @revenue ||= items.sum(&:revenue)
   end
 
   def best_item

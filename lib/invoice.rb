@@ -29,7 +29,7 @@ class Invoice
   end
 
   def paid_in_full?
-    transactions.any? do |transaction|
+    @paid_in_full ||= transactions.any? do |transaction|
       transaction.result == :success
     end
   end
