@@ -5,6 +5,7 @@ require_relative 'invoice_item_repository'
 require_relative 'transaction_repository'
 require_relative 'customer_repository'
 require_relative 'sales_analyst'
+require 'time'
 
 class SalesEngine
   attr_reader :merchants,
@@ -41,6 +42,16 @@ class SalesEngine
 
   def invoice_count_by_status(status)
     @invoices.find_all_by_status(status).count
+  end
+
+  def merchants_with_one_item
+    @merchants.all.select(&:one_item?)
+  end
+
+  def merchants_with_one_item_in_month(month)
+    merchants_with_one_item.select do |merchant|
+      merchant.created_at.strftime('%B') == month
+    end
   end
 
   def invoices_by_day

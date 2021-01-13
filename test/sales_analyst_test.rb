@@ -115,6 +115,17 @@ class SalesAnalystTest < Minitest::Test
     assert_equal 21_067.77, @analyst.invoice_total(1)
   end
 
+  def test_merchants_with_only_one_item
+    assert_equal Array, @analyst.merchants_with_only_one_item.class
+    assert_equal 243, @analyst.merchants_with_only_one_item.count
+  end
+
+  def test_merchants_with_only_one_item_registered_in_month
+    merch = @analyst.merchants_with_only_one_item_registered_in_month('March')
+    assert_equal Array, merch.class
+    assert_equal 21, merch.count
+  end
+
   def test_most_sold_item_for_merchant
     result = @analyst.most_sold_item_for_merchant(12_334_105)
     assert_instance_of Item, result

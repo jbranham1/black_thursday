@@ -132,6 +132,14 @@ class SalesAnalyst
     calculate_invoice_total(invoice_id) if invoice_paid_in_full?(invoice_id)
   end
 
+  def merchants_with_only_one_item
+    @engine.merchants_with_one_item
+  end
+
+  def merchants_with_only_one_item_registered_in_month(month)
+    @engine.merchants_with_one_item_in_month(month)
+  end
+  
   def most_sold_item_for_merchant(merchant_id)
     @engine.most_sold_item_for_merchant(merchant_id)
   end

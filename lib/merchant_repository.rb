@@ -85,7 +85,8 @@ class MerchantRepository
   def get_info(row)
     {
       id: row[:id].to_i,
-      name: row[:name]
+      name: row[:name],
+      created_at: Time.parse(row[:created_at])
     }
   end
 
