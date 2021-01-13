@@ -44,10 +44,6 @@ class SalesEngine
     @invoices.find_all_by_status(status).count
   end
 
-  def invoices_by_day
-    @invoices.group_by_day
-  end
-
   def merchants_with_one_item
     @merchants.all.select(&:one_item?)
   end
@@ -56,6 +52,18 @@ class SalesEngine
     merchants_with_one_item.select do |merchant|
       merchant.created_at.strftime('%B') == month
     end
+  end
+
+  def invoices_by_day
+    @invoices.group_by_day
+  end
+
+  def most_sold_item_for_merchant(merchant_id)
+    @merchants.most_sold_item_for_merchant(merchant_id)
+  end
+
+  def invoice_items_by_item(item_id)
+    @invoice_items.find_all_by_item_id(item_id)
   end
 
   def analyst

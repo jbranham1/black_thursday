@@ -141,4 +141,11 @@ class ItemRepositoryTest < Minitest::Test
     assert_equal 1, @repo.all.count
     assert_nil @repo.find_by_id(2)
   end
+
+  def test_invoice_items_by_item
+    item_id = 1
+    @engine.expects(:invoice_items_by_item).with(item_id)
+
+    @repo.invoice_items_by_item(item_id)
+  end
 end

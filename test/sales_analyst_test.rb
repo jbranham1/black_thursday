@@ -136,4 +136,10 @@ class SalesAnalystTest < Minitest::Test
     assert_equal 467, result.length
     assert_equal true, (result.all? { |object| object.is_a? Merchant })
   end
+
+  def test_most_sold_item_for_merchant
+    result = @analyst.most_sold_item_for_merchant(12_334_105)
+    assert_instance_of Item, result
+    assert_equal 263_396_209, result.id
+  end
 end

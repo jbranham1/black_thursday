@@ -30,4 +30,8 @@ class Merchant
   def pending_invoices
     invoices.reject(&:paid_in_full?)
   end
+
+  def most_sold_item
+    @most_sold_item ||= items.max_by(&:revenue)
+  end
 end
