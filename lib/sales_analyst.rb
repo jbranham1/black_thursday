@@ -132,6 +132,14 @@ class SalesAnalyst
     calculate_invoice_total(invoice_id) if invoice_paid_in_full?(invoice_id)
   end
 
+  def merchants_with_only_one_item
+    @engine.merchants_with_one_item
+  end
+
+  def merchants_with_only_one_item_registered_in_month(month)
+    @engine.merchants_with_one_item_in_month(month)
+  end
+
   def revenue_by_merchant(merchant_id)
     merchant_invoices = @engine.invoices_by_merchant_id(merchant_id)
     successful_transactions = @engine.transactions_with_result(:success)
