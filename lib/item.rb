@@ -29,4 +29,14 @@ class Item
   def unit_price_to_dollars
     @unit_price.to_f
   end
+
+  def invoice_items
+    @invoice_items ||= @repository.invoice_items_by_item(@id)
+  end
+
+  def revenue
+    invoice_items.sum do |invoice_item|
+      invoice_item.quantity * invoice_item.unit_price
+    end
+  end
 end

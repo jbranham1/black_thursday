@@ -178,6 +178,10 @@ class SalesAnalyst
     @engine.merchants_with_pending_invoices
   end
 
+  def most_sold_item_for_merchant(merchant_id)
+    @engine.most_sold_item_for_merchant(merchant_id)
+  end
+
   private
 
   def merchant_ids_from(pending_invoices)

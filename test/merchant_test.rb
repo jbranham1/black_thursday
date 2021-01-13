@@ -122,12 +122,20 @@ class MerchantTest < Minitest::Test
   end
 
   def test_has_one_item
-    item = create_item
-    @repository
-      .expects(:items_by_merchant_id)
-      .with(@merchant.id)
-      .returns([item])
+    itm = create_item
+    @repository.expects(:items_by_merchant_id).with(@merchant.id).returns([itm])
 
     assert_equal true, @merchant.one_item?
+  end
+
+  def test_most_sold_item
+    item1 = mock
+    item1.stubs(:revenue).returns(20)
+    item2 = mock
+    item2.stubs(:revenue).returns(50)
+
+    @merchant.expects(:items).returns([item1, item2])
+
+    assert_equal item2, @merchant.most_sold_item
   end
 end
