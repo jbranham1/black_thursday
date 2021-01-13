@@ -54,11 +54,9 @@ class ItemTest < Minitest::Test
   end
 
   def test_can_find_invoice_items
-    @repository
-      .expects(:invoice_items_by_item)
-      .with(@item.id)
+    @repository.expects(:invoice_items_by_item).with(@item.id)
 
-      @item.invoice_items
+    @item.invoice_items
   end
 
   def test_revenue
