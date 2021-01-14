@@ -45,4 +45,8 @@ class InvoiceItemTest < Minitest::Test
   def test_can_convert_price_to_float
     assert_equal 1099.00, @invoice_item.unit_price_to_dollars
   end
+
+  def test_can_calculate_revenue
+    assert_equal 1099.00, @invoice_item.revenue
+  end
 end

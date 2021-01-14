@@ -34,10 +34,8 @@ class Item
     @invoice_items ||= @repository.invoice_items_by_item(@id)
   end
 
-  def revenue
-    @revenue ||= invoice_items.sum do |invoice_item|
-      invoice_item.quantity * invoice_item.unit_price
-    end
+  def total_revenue
+    @total_revenue ||= invoice_items.sum(&:revenue)
   end
 
   def quantity

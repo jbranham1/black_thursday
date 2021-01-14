@@ -28,4 +28,8 @@ class InvoiceItem
   def unit_price_to_dollars
     @unit_price.to_f
   end
+
+  def revenue
+    @quantity * @unit_price
+  end
 end

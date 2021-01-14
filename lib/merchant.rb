@@ -32,7 +32,7 @@ class Merchant
   end
 
   def best_item
-    @best_item ||= items.max_by(&:revenue)
+    @best_item ||= items.max_by(&:total_revenue)
   end
 
   def most_sold_item
