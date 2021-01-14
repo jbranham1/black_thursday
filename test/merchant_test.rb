@@ -130,9 +130,9 @@ class MerchantTest < Minitest::Test
 
   def test_best_item
     item1 = mock
-    item1.stubs(:revenue).returns(20)
+    item1.stubs(:total_revenue).returns(20)
     item2 = mock
-    item2.stubs(:revenue).returns(50)
+    item2.stubs(:total_revenue).returns(50)
 
     @merchant.expects(:items).returns([item1, item2])
 

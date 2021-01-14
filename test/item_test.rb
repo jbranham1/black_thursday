@@ -59,19 +59,17 @@ class ItemTest < Minitest::Test
     @item.invoice_items
   end
 
-  def test_revenue
+  def test_total_revenue
     invoice_item1 = mock
-    invoice_item1.stubs(:quantity).returns(2)
-    invoice_item1.stubs(:unit_price).returns(2.5)
+    invoice_item1.stubs(:revenue).returns(5)
     invoice_item2 = mock
-    invoice_item2.stubs(:quantity).returns(5)
-    invoice_item2.stubs(:unit_price).returns(1)
+    invoice_item2.stubs(:revenue).returns(5)
 
     @item
       .expects(:invoice_items)
       .returns([invoice_item1, invoice_item2])
 
-    assert_equal 10, @item.revenue
+    assert_equal 10, @item.total_revenue
   end
 
   def test_quantity
