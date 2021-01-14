@@ -23,7 +23,7 @@ The `Item` now has a list of `InvoiceItems` and it searches through those record
 Now, the Item knows how many of itself have been sold.
 
 ### Piece #2b - Item Revenue
-The Item also can calculate the revenue gained from all of its sales. The path to find this information is the exact same as above, depending on the `InvoiceItem`s list. The only difference is that the `InvoiceItem`'s `quanity` and `unit_price` are multiplied together to get revenue for that line item.
+The Item also can calculate the revenue gained from all of its sales. The path to find this information is the exact same as above, depending on the `InvoiceItem`s list. The only difference is that the `InvoiceItem`'s `quantity` and `unit_price` are multiplied together to get revenue for that line item.
 
 Thus, the Item knows how much money it generated for all of its sales.
 
@@ -35,4 +35,4 @@ The `Merchant` iterates through all of its `Item`s, finding the largest value fo
 The result is returned, filtering back up to `SalesAnalyst`.
 
 ### Final Thoughts
-We realized that `InvoiceItem` should have a method to calculate it's own revenue. So, one change we might make is to move that calculation from `Item` to `InvoiceItem`. We also began considering which object should be responsible for summing quantity sold and revenue for a merchant's items, and want to pursue that thought and see if that logic could live somewhere other than `Item`.
+We began considering which object should be responsible for summing quantity sold and revenue for a merchant's items. It is functioning as the code stands, with Item handling the logic. However, we want to consider if any other object in our model is better suited to calculate those values.
